@@ -1,11 +1,13 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { SearchResult } from '../../components/search'
 
 export const Search = () => {
-  let infor = []
+  const [infor, setInfo] = useState([])
+  const SearchTest = () => infor.map((index, value) => <SearchResult key={value.create} create={value.create} name={value.name} tag={value.tag} />)
+
   useEffect(() => {
-    infor = [{
+    setInfo([{
       create: 'testd',
       name: 'ty',
       tag: [122, 123, 111],
@@ -17,16 +19,15 @@ export const Search = () => {
       create: 'test33',
       name: 'ty3',
       tag: [122, 123, 111],
-    }]
-    console.log(infor)
-  }, [])
+    }])
 
-  const searchRes = infor.map((value) => <SearchResult create={value.create} name={value.name} tag={value.tag}/>)
+    console.log(infor)
+  }, [SearchTest])
 
   return (
     <div>
       <p>testt</p>
-      {searchRes}
+      {SearchTest}
     </div>
   )
 }

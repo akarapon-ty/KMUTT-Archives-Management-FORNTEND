@@ -3,13 +3,14 @@ import PropTypes from 'prop-types'
 
 export const SearchResult = (props) => {
   const { create, name, tag } = props
-  const loginFail = create ? 'test' : 'no noo no'
 
   return (
     <div>
       <p>
         Login
-        {loginFail}
+        {create}
+        {name}
+        {tag}
       </p>
     </div>
   )
@@ -17,10 +18,15 @@ export const SearchResult = (props) => {
 
 export default { }
 
-ContainerLogin.defaultProps = {
-  login2222: false,
+SearchResult.defaultProps = {
+  create: 'ceate default',
+  name: 'name default',
+  tag: [],
+
 }
 
-ContainerLogin.propTypes = {
-  login2222: PropTypes.bool,
+SearchResult.propTypes = {
+  create: PropTypes.string,
+  name: PropTypes.string,
+  tag: PropTypes.arrayOf(PropTypes.number),
 }
