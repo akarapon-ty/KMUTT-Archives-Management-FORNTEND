@@ -1,11 +1,10 @@
 import React, { useContext, useEffect } from 'react'
 
 import { AuthInContext } from './store/actions/auth'
-import { Search } from './pages/search/index'
+import Router from './routing'
 
 function App() {
   const { loggedIn, auth } = useContext(AuthInContext)
-
   useEffect(() => {
     if (localStorage.getItem('token')) {
       auth(localStorage.getItem('token'))
@@ -13,9 +12,7 @@ function App() {
   }, [loggedIn])
 
   return (
-    <div className="App">
-      <Search />
-    </div>
+    <Router />
   )
 }
 

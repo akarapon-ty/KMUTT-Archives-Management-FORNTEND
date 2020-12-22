@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 
-export const Search = () => {
+const Search = () => {
   let infor = []
   useEffect(() => {
     infor = [{
@@ -19,14 +19,11 @@ export const Search = () => {
     console.log(infor)
   }, [])
 
-  const temp = infor.map((value) => <TempImp create={value.create} />)
-
   return (
     <div>
       <p>testt</p>
-      {temp}
     </div>
   )
 }
 
-export default { }
+export default Search
