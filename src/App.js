@@ -1,25 +1,22 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useContext, useEffect } from 'react'
+
+import { AuthInContext } from './store/actions/auth'
+import { Search } from './pages/search/index'
 
 function App() {
+  const { loggedIn, auth } = useContext(AuthInContext)
+
+  useEffect(() => {
+    if (localStorage.getItem('token')) {
+      auth(localStorage.getItem('token'))
+    }
+  }, [loggedIn])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Search />
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
