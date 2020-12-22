@@ -23,6 +23,8 @@
         "react/prop-types": "off",         
         "quotes": ["error", "single"],
         "semi": ["error","never"],
-        "linebreak-style": [0, "error", "windows"]
+        "linebreak-style": [0, "error", "windows"],
+        "no-unused-vars": [1],
+        "max-len": [1, 250]
     }   
 }

@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react'
 
+import { SearchResult } from '../../components/search'
+
 export const Search = () => {
   let infor = []
   useEffect(() => {
@@ -19,12 +21,12 @@ export const Search = () => {
     console.log(infor)
   }, [])
 
-  const temp = infor.map((value) => <TempImp create={value.create} />)
+  const searchRes = infor.map((value) => <SearchResult create={value.create} name={value.name} tag={value.tag}/>)
 
   return (
     <div>
       <p>testt</p>
-      {temp}
+      {searchRes}
     </div>
   )
 }
