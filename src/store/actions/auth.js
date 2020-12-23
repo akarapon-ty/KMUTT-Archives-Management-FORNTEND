@@ -13,10 +13,10 @@ export const AuthProvider = ({ children }) => {
 
   const { loggedIn, token } = loggedInState
 
-  const loginSuccess = payload => loggedInDispatch({ type: actionTypes.AUTH_SUCCESS, payload })
-  const loginFail = payload => loggedInDispatch({ type: actionTypes.AUTH_FAIL, payload })
-  const logout = payload => loggedInDispatch({ type: actionTypes.AUTH_LOGOUT, payload })
-  const auth = payload => loggedInDispatch({ type: actionTypes.AUTH_TOKEN, payload })
+  const loginSuccess = (payload) => loggedInDispatch({ type: actionTypes.AUTH_SUCCESS, payload })
+  const loginFail = (payload) => loggedInDispatch({ type: actionTypes.AUTH_FAIL, payload })
+  const logout = (payload) => loggedInDispatch({ type: actionTypes.AUTH_LOGOUT, payload })
+  const auth = (payload) => loggedInDispatch({ type: actionTypes.AUTH_TOKEN, payload })
 
   return (
     <AuthInContext.Provider value={{

@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
 
-import { SearchResult } from '../../components/search'
+import { SearchResult, SearchFormat } from '../../components/search'
+import DefaultLayoutStyle from '../../components/util/LayoutStyle'
 
 export const Search = () => {
   const [infor, setInfo] = useState([])
-  const SearchTest = () => infor.map((index, value) => <SearchResult key={value.create} create={value.create} name={value.name} tag={value.tag} />)
 
   useEffect(() => {
-    setInfo([{
+    const qResult = [{
       create: 'testd',
       name: 'ty',
       tag: [122, 123, 111],
@@ -19,16 +19,21 @@ export const Search = () => {
       create: 'test33',
       name: 'ty3',
       tag: [122, 123, 111],
-    }])
+    }]
+    setInfo([...qResult])
 
-    console.log(infor)
-  }, [SearchTest])
+    window.console.log(infor)
+  }, [])
+
+  useEffect(() => {
+    window.console.log(infor)
+  }, [infor])
 
   return (
-    <div>
-      <p>testt</p>
-      {SearchTest}
-    </div>
+    <DefaultLayoutStyle>
+      <SearchFormat searchFill="KMUTT" searchTotal={infor.length} />
+      {infor.map((value) => <SearchResult key={value.create} create={value.create} name={value.name} tag={value.tag} />)}
+    </DefaultLayoutStyle>
   )
 }
 
