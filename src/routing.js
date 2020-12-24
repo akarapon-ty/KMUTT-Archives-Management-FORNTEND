@@ -1,4 +1,4 @@
-import React, { Suspense, useContext } from 'react'
+import React, { Suspense } from 'react'
 import {
   Route, BrowserRouter, Switch, Redirect,
 } from 'react-router-dom'
