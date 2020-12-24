@@ -4,8 +4,10 @@ import {
 } from 'react-router-dom'
 
 import { AuthInContext } from './store/actions/auth'
+import NavigationsItems from './components/navigationItems/NavigationsItems'
 
 const Login = React.lazy(() => import('./pages/login'))
+const Homepage = React.lazy(() => import('./pages/homepage'))
 
 const Router = () => {
   const { loggedIn } = useContext(AuthInContext)
@@ -13,9 +15,11 @@ const Router = () => {
   return (
     <BrowserRouter>
       <Suspense fallback={<span>Loading....</span>}>
+        <NavigationsItems />
         <Switch>
+          <Route path="/homepage" component={Homepage} />
           <Route path="/login" component={Login} />
-          <Route path="/homepage" component={Login} />
+          <Redirect to="/homepage" />
         </Switch>
         {loggedIn ? null : <Redirect to="/login" />}
       </Suspense>

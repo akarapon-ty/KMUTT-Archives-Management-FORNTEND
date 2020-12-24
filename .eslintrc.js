@@ -27,5 +27,6 @@ module.exports = {
     'linebreak-style': [0, 'windows'],
     'no-unused-vars': [1],
     'max-len': [1, 250],
+    'consistent-return': [0],
   },
 }
