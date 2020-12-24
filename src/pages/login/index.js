@@ -1,6 +1,5 @@
 import React, { useState, useContext } from 'react'
 import { useForm, FormProvider } from 'react-hook-form'
-import { useHistory } from 'react-router-dom'
 import axios from 'axios'
 
 import { ContainerLogin } from '../../components/login/index'
@@ -10,7 +9,6 @@ import { FormLogin } from './style'
 const Login = () => {
   const { loginSuccess, loginFail } = useContext(AuthInContext)
   const [login, setLogin] = useState(false)
-  const history = useHistory()
 
   const {
     register, handleSubmit, setValue, getValues,
@@ -24,7 +22,7 @@ const Login = () => {
     }).then((response) => {
       setLogin(false)
       loginSuccess(response.data)
-      history.replace('/homepage')
+      window.location.replace('/homepage')
     }).catch((error) => {
       loginFail()
       if (error.response.data.message === 'incorrect username password') {
