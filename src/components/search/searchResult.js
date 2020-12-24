@@ -7,7 +7,7 @@ import {
 
 export const SearchResult = (props) => {
   const {
-    create, name, tag,
+    title, creator, coverageTemporal, tag,
   } = props
 
   return (
@@ -16,17 +16,17 @@ export const SearchResult = (props) => {
         <Image />
 
         <Content>
-          <TitleBook>ชื่อหนังสือตัวใหญ่มาก</TitleBook>
+          <TitleBook>{title}</TitleBook>
           <Line />
           <ConP>
             Creator :
             {' '}
-            {create}
+            {creator}
           </ConP>
           <ConP>
             Coverage temporal :
             {' '}
-            {name}
+            {coverageTemporal}
           </ConP>
           <TagBook>
             <div>Tag : </div>
@@ -49,14 +49,17 @@ export const SearchResult = (props) => {
 export default { }
 
 SearchResult.defaultProps = {
-  create: 'ceate default',
-  name: 'name default',
+  title: 'title default',
+  creator: 'creator default',
+  coverageTemporal: 'coverageTemporal default',
   tag: [],
 
 }
 
 SearchResult.propTypes = {
-  create: PropTypes.string,
-  name: PropTypes.string,
-  tag: PropTypes.arrayOf(PropTypes.number),
+  title: PropTypes.string,
+  creator: PropTypes.string,
+  coverageTemporal: PropTypes.number,
+  tag: PropTypes.arrayOf(PropTypes.string),
+
 }

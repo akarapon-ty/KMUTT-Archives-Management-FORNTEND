@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { useQuery, gql } from '@apollo/client'
 
 import { SearchResult, SearchFormat } from '../../components/search'
 import DefaultLayoutStyle from '../../components/util/LayoutStyle'
 
 export const Search = () => {
-  // const [infor, setInfo] = useState([])
   const querySearch = gql`
     query {
       documents {
@@ -14,23 +13,21 @@ export const Search = () => {
           id,
           DC_title,
           DC_coverage_temporal,
+          creator,
         }
       }
     }
   `
-  const qtest = null
 
   const { data, loading } = useQuery(querySearch)
   if (loading) {
     return null
   }
-  if (!loading) {
-    console.log(data)
-  }
+
   return (
     <DefaultLayoutStyle>
-      {/* <SearchFormat searchFill="KMUTT" searchTotal={data.length} /> */}
-      {/* {data.map((value) => <SearchResult key={value.id} create={value.id} name={value.DC_title} tag={value.DC_coverage_temporal} />)} */}
+      <SearchFormat searchFill="KMUTT" searchTotal={data.documents.documents.length} />
+      { data.documents.documents.map((value) => <SearchResult key={value.id} title={value.DC_title} creator={value.creator} coverageTemporal={value.DC_coverage_temporal} tag={[]} />)}
     </DefaultLayoutStyle>
   )
 }
