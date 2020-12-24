@@ -16,15 +16,14 @@ const Login = () => {
     register, handleSubmit, setValue, getValues,
   } = useForm()
 
-  const loginHandler = () => {
-    const username = getValues('username')
-    const password = getValues('password')
+  const loginHandler = (data) => {
+    const { username, password } = data
     axios.post(`${process.env.REACT_APP_API_ENDPOINT}login`, {
       username,
       password,
     }).then((response) => {
       setLogin(false)
-      loginSuccess(response.data.token)
+      loginSuccess(response.data)
       history.replace('/homepage')
     }).catch((error) => {
       loginFail()
