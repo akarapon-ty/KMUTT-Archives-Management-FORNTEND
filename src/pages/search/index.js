@@ -1,38 +1,36 @@
 import React, { useEffect, useState } from 'react'
+import { useQuery, gql } from '@apollo/client'
 
 import { SearchResult, SearchFormat } from '../../components/search'
 import DefaultLayoutStyle from '../../components/util/LayoutStyle'
 
 export const Search = () => {
-  const [infor, setInfo] = useState([])
+  // const [infor, setInfo] = useState([])
+  const querySearch = gql`
+    query {
+      documents {
+        statusQuery
+        documents {
+          id,
+          DC_title,
+          DC_coverage_temporal,
+        }
+      }
+    }
+  `
+  const qtest = null
 
-  useEffect(() => {
-    const qResult = [{
-      create: 'testd',
-      name: 'ty',
-      tag: [122, 123, 111],
-    }, {
-      create: 'test2',
-      name: 'ty2',
-      tag: [122, 123, 111],
-    }, {
-      create: 'test33',
-      name: 'ty3',
-      tag: [122, 123, 111],
-    }]
-    setInfo([...qResult])
-
-    window.console.log(infor)
-  }, [])
-
-  useEffect(() => {
-    window.console.log(infor)
-  }, [infor])
-
+  const { data, loading } = useQuery(querySearch)
+  if (loading) {
+    return null
+  }
+  if (!loading) {
+    console.log(data)
+  }
   return (
     <DefaultLayoutStyle>
-      <SearchFormat searchFill="KMUTT" searchTotal={infor.length} />
-      {infor.map((value) => <SearchResult key={value.create} create={value.create} name={value.name} tag={value.tag} />)}
+      {/* <SearchFormat searchFill="KMUTT" searchTotal={data.length} /> */}
+      {/* {data.map((value) => <SearchResult key={value.id} create={value.id} name={value.DC_title} tag={value.DC_coverage_temporal} />)} */}
     </DefaultLayoutStyle>
   )
 }

@@ -1,8 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import bgWall from '../../assets/BG/Wallpaper.png'
-
 const LayoutGridStyle = styled.div`
     font-family: 'Kanit', sans-serif;
     font-weight:200;
@@ -22,12 +20,10 @@ export const Bg = styled.div`
 `
 
 const DefaultLayoutStyle = ({ children }) => (
-  <Bg bg={bgWall}>
-    <LayoutGridStyle>
-      <GridContentStyle>
-        {children}
-      </GridContentStyle>
-    </LayoutGridStyle>
-  </Bg>
+  <LayoutGridStyle>
+    <GridContentStyle>
+      {children}
+    </GridContentStyle>
+  </LayoutGridStyle>
 )
 export default DefaultLayoutStyle
