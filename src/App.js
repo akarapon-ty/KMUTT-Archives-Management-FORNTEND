@@ -14,9 +14,7 @@ function App() {
   }, [loggedIn])
 
   return (
-    <div className="App">
-      <Search />
-    </div>
+    <Search />
   )
 }
 
