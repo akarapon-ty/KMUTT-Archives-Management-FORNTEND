@@ -72,5 +72,4 @@ export const addDocument = gql`
                     }
                 }
 `
-
 export default {}

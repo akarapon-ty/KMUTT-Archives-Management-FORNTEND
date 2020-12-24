@@ -1,28 +1,34 @@
-import React, { useEffect } from 'react'
+import React from 'react'
+import { useQuery, gql } from '@apollo/client'
 
-const Search = () => {
-  let infor = []
-  useEffect(() => {
-    infor = [{
-      create: 'testd',
-      name: 'ty',
-      tag: [122, 123, 111],
-    }, {
-      create: 'test2',
-      name: 'ty2',
-      tag: [122, 123, 111],
-    }, {
-      create: 'test33',
-      name: 'ty3',
-      tag: [122, 123, 111],
-    }]
-    console.log(infor)
-  }, [])
+import { SearchResult, SearchFormat } from '../../components/search'
+import DefaultLayoutStyle from '../../components/util/LayoutStyle'
+
+export const Search = () => {
+  const querySearch = gql`
+    query {
+      documents {
+        statusQuery
+        documents {
+          id,
+          DC_title,
+          DC_coverage_temporal,
+          creator,
+        }
+      }
+    }
+  `
+
+  const { data, loading } = useQuery(querySearch)
+  if (loading) {
+    return null
+  }
 
   return (
-    <div>
-      <p>testt</p>
-    </div>
+    <DefaultLayoutStyle>
+      <SearchFormat searchFill="KMUTT" searchTotal={data.documents.documents.length} />
+      { data.documents.documents.map((value) => <SearchResult key={value.id} title={value.DC_title} creator={value.creator} coverageTemporal={value.DC_coverage_temporal} tag={[]} />)}
+    </DefaultLayoutStyle>
   )
 }
 
