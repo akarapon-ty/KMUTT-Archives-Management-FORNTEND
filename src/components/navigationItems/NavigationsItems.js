@@ -36,7 +36,7 @@ const NavigationsItems = () => {
     if (isLogin && !loading) {
       setlistItem([
         {
-          name: 'SEARCH', link: '/test', exact: false,
+          name: 'SEARCH', link: '/search', exact: false,
         },
         {
           name: 'MANAGEBOOK', link: '/manage', exact: false,

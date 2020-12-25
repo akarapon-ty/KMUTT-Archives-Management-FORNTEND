@@ -8,6 +8,7 @@ import Test from './pages/test'
 
 const Login = React.lazy(() => import('./pages/login'))
 const Homepage = React.lazy(() => import('./pages/homepage'))
+const Search = React.lazy(() => import('./pages/search'))
 
 const Router = () => (
   <BrowserRouter>
@@ -16,6 +17,7 @@ const Router = () => (
       <Switch>
         <Route path="/homepage" component={Homepage} />
         <Route path="/test" component={Test} />
+        <Route path="/search" component={Search} />
         <Route path="/login" component={Login} />
         <Redirect to="/homepage" />
       </Switch>

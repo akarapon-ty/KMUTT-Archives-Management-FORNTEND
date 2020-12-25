@@ -5,6 +5,7 @@ import axios from 'axios'
 import { ContainerLogin } from '../../components/login/index'
 import { AuthInContext } from '../../store/actions/auth'
 import { FormLogin } from './style'
+import DefaultLayoutStyle from '../../components/util/LayoutStyle'
 
 const Login = () => {
   const { loginSuccess, loginFail } = useContext(AuthInContext)
@@ -32,11 +33,14 @@ const Login = () => {
   }
 
   return (
-    <FormProvider register={register} handleSubmit={handleSubmit} setValue={setValue} getValues={getValues}>
-      <FormLogin onSubmit={handleSubmit(loginHandler)}>
-        <ContainerLogin login={login} />
-      </FormLogin>
-    </FormProvider>
+    <DefaultLayoutStyle activate="true">
+      <FormProvider register={register} handleSubmit={handleSubmit} setValue={setValue} getValues={getValues}>
+        <FormLogin onSubmit={handleSubmit(loginHandler)}>
+          <ContainerLogin login={login} />
+        </FormLogin>
+      </FormProvider>
+    </DefaultLayoutStyle>
+
   )
 }
 
