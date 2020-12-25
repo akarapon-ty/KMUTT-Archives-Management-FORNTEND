@@ -9,6 +9,7 @@ export const SearchFormat = (props) => {
 
   return (
     <div>
+      <h3>Search KMUTT Archives</h3>
       <SearchInputStyle onChange={(e) => setStateCurrentFill(e.target.value)} bg={bgInput} placeholder={searchFill} value={stateCurrentFill} />
       <SearchText>
         {searchTotal}

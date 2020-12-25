@@ -51,7 +51,7 @@ export default { }
 SearchResult.defaultProps = {
   title: 'title default',
   creator: 'creator default',
-  coverageTemporal: 'coverageTemporal default',
+  coverageTemporal: '0',
   tag: [],
 
 }
@@ -59,7 +59,7 @@ SearchResult.defaultProps = {
 SearchResult.propTypes = {
   title: PropTypes.string,
   creator: PropTypes.string,
-  coverageTemporal: PropTypes.number,
+  coverageTemporal: PropTypes.string,
   tag: PropTypes.arrayOf(PropTypes.string),
 
 }

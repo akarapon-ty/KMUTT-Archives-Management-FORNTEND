@@ -27,7 +27,7 @@ export const DropdownDiv = styled.div`
   min-width: 126px;
   box-shadow: 0 8px 16px 0 rgba(0,0,0,.2);
   z-index: 200;
-  right: 0;
+  right: 25px;
   border-radius: 5px;
   display: flex;
 `
@@ -36,6 +36,7 @@ export const Logout = styled.div`
   color: #10A0A2;
   display: flex;
   align-items: center;
+  background-color:white;
   justify-content: center;
   min-width: 126px;
   min-height: 33px;

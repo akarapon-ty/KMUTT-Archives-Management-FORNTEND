@@ -60,7 +60,7 @@ const NavigationsItems = () => {
       </UlNavigationitems>
       <Backdrop clicked={profileHandler} show={profileShow}>
         <DropdownDiv show={profileShow}>
-          <Logout onClick={logoutHandler}>logout</Logout>
+          <Logout onClick={logoutHandler}>LOGOUT</Logout>
         </DropdownDiv>
       </Backdrop>
     </>

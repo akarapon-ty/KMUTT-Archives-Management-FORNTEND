@@ -2,11 +2,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { useFormContext } from 'react-hook-form'
 
-import { InputLogin, FormLabel } from './style'
+import {
+  InputLogin, FormLabel, LoginButton, ErrorMessage,
+} from './style'
 
 export const ContainerLogin = (props) => {
   const { login } = props
-  const loginFail = login ? (<p>incorrect username password</p>) : null
+  const loginFail = login ? (<ErrorMessage>* incorrect username password</ErrorMessage>) : null
 
   const LoginForm = ({ children }) => {
     const methods = useFormContext()
@@ -16,12 +18,13 @@ export const ContainerLogin = (props) => {
     <LoginForm>
       {({ register }) => (
         <>
-          {loginFail}
+          <h4>Login</h4>
           <FormLabel> Username </FormLabel>
           <InputLogin ref={register} name="username" />
           <FormLabel> Password </FormLabel>
-          <InputLogin ref={register} name="password" />
-          <button type="submit">Login</button>
+          <InputLogin ref={register} name="password" type="password" />
+          {loginFail}
+          <LoginButton type="submit">Login</LoginButton>
         </>
       )}
     </LoginForm>
