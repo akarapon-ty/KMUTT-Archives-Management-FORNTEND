@@ -3,11 +3,13 @@ import styled from 'styled-components'
 export const UlNavigationitems = styled.ul`
     margin: 0px;
     padding: 0px;
-    list-style: none;
-    display: flex;
+    display:-webkit-flex;
+    display:flex;
+    list-style-type:none;
+    padding:0;
+    justify-content:flex-end;
     max-height: 56;
     align-items: center;
-    justify-content: flex-end;
     height: 100%;
 
     @media(min-width: 500px){
@@ -16,6 +18,22 @@ export const UlNavigationitems = styled.ul`
         list-style: none;
         display: flex;
         align-items: center;
+        height: 100%;
+    }
+`
+export const Logo = styled.li`
+    padding: 0px;
+    max-height: 56;
+    margin-right:auto;
+    align-items: center;
+    height: 100%;
+    color:white;
+    text-transform: uppercase;
+    text-shadow: 1px 1px 10px #10A0A2;
+    cursor: pointer;
+
+    @media(min-width: 500px){
+        padding: 20px;
         height: 100%;
     }
 `
@@ -33,6 +51,7 @@ export const DropdownDiv = styled.div`
 `
 
 export const Logout = styled.div`
+  cursor: pointer;
   color: #10A0A2;
   display: flex;
   align-items: center;

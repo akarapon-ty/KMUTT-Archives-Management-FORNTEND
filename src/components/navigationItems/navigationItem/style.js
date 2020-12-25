@@ -6,7 +6,7 @@ export const Li = styled.li`
     box-sizing: border-box;
     display: block;
     width: 100%;
-
+    margin-left:auto;
     @media (min-width: 500px) {
         margin: 0;
         display: flex;
@@ -42,6 +42,7 @@ export const NavLinkStyle = styled(NavLink)`
 `
 
 export const ProfileText = styled.div`
+    cursor: pointer;
     text-decoration: none;
     width: 100%;
     box-sizing: border-box;

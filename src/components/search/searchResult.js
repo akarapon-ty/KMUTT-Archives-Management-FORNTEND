@@ -2,12 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import {
-  DivideBox, ResultStyle, Image, Content, TitleBook, TagBook, Tag, ConP, Line,
+  DivideBox, ResultStyle, Image, Content, TitleBook, TagBook, Tag, ConP, Line, DeleteButton, ManageButton,
 } from './style'
 
 export const SearchResult = (props) => {
   const {
-    title, creator, coverageTemporal, tag,
+    title, creator, coverageTemporal, tag, manage,
   } = props
 
   return (
@@ -16,8 +16,13 @@ export const SearchResult = (props) => {
         <Image />
 
         <Content>
-          <TitleBook>{title}</TitleBook>
+          {manage ? <DeleteButton type="button">Delete</DeleteButton> : null}
+          <TitleBook>
+            {title}
+            {' '}
+          </TitleBook>
           <Line />
+          {manage ? <ManageButton type="button">Edit</ManageButton> : null}
           <ConP>
             Creator :
             {' '}
