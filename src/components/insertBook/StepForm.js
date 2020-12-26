@@ -5,6 +5,7 @@ import { Stepper, Step, StepLabel } from '@material-ui/core'
 import SelectFile from './SelectFile'
 import { StepFormDiv, FormDiv, FormInsert } from './styleStepForm'
 import ControlStep from './ControlStep'
+import StepThree from './StepThree'
 
 const StepForm = () => {
   const getSteps = () => ['Select file', 'Fill the data', 'Optional data', 'Waiting for upload', 'Correction', 'Edit tag']
@@ -71,7 +72,7 @@ const StepForm = () => {
       case 1:
         return null
       case 2:
-        return null
+        return <StepThree />
       case 3:
         return null
       case 4:
