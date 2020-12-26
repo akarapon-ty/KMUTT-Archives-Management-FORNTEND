@@ -39,9 +39,9 @@ const StepThree = (props) => {
       <InputFormat inputDefault={degreeGrantor} inputLabel="Degree Grantor" inputName="degreeGrantor" />
 
       <h5>Type</h5>
-      <SelectorFormat key="type" inputDefault={type} inputLabel="Type" inputName="type" options={selectType} />
+      <SelectorFormat inputDefault={type} inputLabel="Type" inputName="type" options={selectType} />
       <h5>Language</h5>
-      <SelectorFormat inputDefault={type} inputLabel="Language" inputName="language" options={selectLan} />
+      <SelectorFormat inputDefault={language} inputLabel="Language" inputName="language" options={selectLan} />
       <Space />
     </>
 
