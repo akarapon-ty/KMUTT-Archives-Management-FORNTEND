@@ -56,12 +56,12 @@ const StepForm = () => {
     setStartPage(pageValue)
   }
 
-  const handlerStep = (action) => {
-    if (action === 'back') {
-      setActiveStep((prevState) => prevState - 1)
-    } else {
-      setActiveStep((prevState) => prevState + 1)
-    }
+  const handlerBackStep = () => {
+    setActiveStep((prevState) => prevState - 1)
+  }
+
+  const handlerNextStep = () => {
+    setActiveStep((prevState) => prevState + 1)
   }
 
   const handlerActiveStep = (stepIndex) => {
@@ -84,9 +84,13 @@ const StepForm = () => {
   }
 
   const handlerOnSubmit = (data) => {
+    if (activeStep === 0) {
+      setInformationForm({ ...informationForm, startPage })
+    }
     console.log(data)
+    console.log('test')
+    handlerNextStep()
   }
-
   const steps = getSteps()
 
   return (
@@ -102,7 +106,7 @@ const StepForm = () => {
         <FormProvider register={register} handleSubmit={handleSubmit} setValue={setValue} getValues={getValues}>
           <FormInsert onSubmit={handleSubmit(handlerOnSubmit)}>
             {handlerActiveStep(activeStep)}
-            <ControlStep handlerStep={handlerStep} active={!(activeStep >= 5)} />
+            <ControlStep handlerStep={handlerBackStep} active={!(activeStep >= 5)} disableBack={activeStep === 0} />
           </FormInsert>
         </FormProvider>
       </FormDiv>

@@ -8,9 +8,9 @@ const BackButtonStyle = styled.button`
 `
 
 const BackButton = (props) => {
-  const { onClickHandler } = props
+  const { onClickHandler, disableBack } = props
   return (
-    <BackButtonStyle onClick={() => onClickHandler('back')}>Back</BackButtonStyle>
+    <BackButtonStyle disabled={disableBack} onClick={() => onClickHandler()}>Back</BackButtonStyle>
   )
 }
 
