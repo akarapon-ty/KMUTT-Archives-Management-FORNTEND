@@ -1,7 +1,9 @@
 import styled from 'styled-components'
 
 export const StepFormDiv = styled.div`
-    padding: 30px 0px 0px 0px;
+    padding: 30px 20px 20px 20px;
+    border-radius:4px;
+    background-color:white;
 `
 export const FormDiv = styled.div`
     width: 100%;

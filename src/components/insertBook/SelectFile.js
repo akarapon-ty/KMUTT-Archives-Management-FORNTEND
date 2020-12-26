@@ -4,7 +4,7 @@ import DragAndDrop from './DragAndDrop'
 import { DefaultOcrPage, InputPageStart } from './styleDragAndDrop'
 
 const SelectFile = (props) => {
-  const { handlerStartPage } = props
+  const { handlerStartPage, startPage } = props
 
   return (
     <>
@@ -12,7 +12,7 @@ const SelectFile = (props) => {
       <DragAndDrop />
       <DefaultOcrPage>
         <p>Start OCR at page :</p>
-        <InputPageStart type="number" name="startPage" min="1" defaultValue="1" onChange={(e) => handlerStartPage(e)} />
+        <InputPageStart type="number" name="startPage" min="1" defaultValue={startPage} onChange={(e) => handlerStartPage(e)} />
       </DefaultOcrPage>
     </>
   )

@@ -35,7 +35,7 @@ const StepForm = () => {
       identifierUrl: '',
       identifierIsbn: '',
       source: '',
-      relation: [],
+      relation: {},
       degreeName: '',
       degreeLevel: '',
       degreeDicipline: '',
@@ -52,6 +52,7 @@ const StepForm = () => {
   const [startPage, setStartPage] = useState(1)
   const [activeStep, setActiveStep] = useState(0)
   const [informationForm, setInformationForm] = useState(fieldForm)
+  // const [relation, setRelation] = useState({})
 
   const handlerStartPage = (e) => {
     const pageValue = e.target.value && e.target.value > 0 ? parseInt(e.target.value, 10) : 1
@@ -65,15 +66,20 @@ const StepForm = () => {
   const handlerNextStep = () => {
     setActiveStep((prevState) => prevState + 1)
   }
+  // const handlerSetRelation = (e) => {
+  //   console.log(relation)
+  //   const tempRelation = { [e.target.name]: e.target.value }
+  //   setRelation({ ...relation, tempRelation })
+  // }
 
   const handlerActiveStep = (stepIndex) => {
     switch (stepIndex) {
       case 0:
-        return <SelectFile handlerStartPage={handlerStartPage} />
+        return <SelectFile handlerStartPage={handlerStartPage} startPage={startPage} />
       case 1:
         return <StepTwo value={informationForm} />
       case 2:
-        return <StepThree />
+        return <StepThree value={informationForm} />
       case 3:
         return null
       case 4:
@@ -86,6 +92,7 @@ const StepForm = () => {
   }
 
   const handlerOnSubmit = (data) => {
+    window.console.log(data)
     if (activeStep === 0) {
       setInformationForm({ ...informationForm, startPage })
     } else {
