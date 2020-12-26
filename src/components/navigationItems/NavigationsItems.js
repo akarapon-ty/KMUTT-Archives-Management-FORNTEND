@@ -39,6 +39,9 @@ const NavigationsItems = () => {
           name: 'SEARCH', link: '/test', exact: false,
         },
         {
+          name: 'INSERT BOOK', link: '/insertbook', exact: false,
+        },
+        {
           name: 'MANAGEBOOK', link: '/manage', exact: false,
         },
         {

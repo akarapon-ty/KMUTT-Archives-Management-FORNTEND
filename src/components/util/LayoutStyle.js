@@ -8,7 +8,7 @@ const LayoutGridStyle = styled.div`
     font-weight:200;
     display:grid;
     grid-template-columns: auto 900px auto;
-    
+
 `
 const GridContentStyle = styled.div`
     grid-column-start: 2;
