@@ -3,6 +3,7 @@ import { useForm, FormProvider } from 'react-hook-form'
 import { Stepper, Step, StepLabel } from '@material-ui/core'
 
 import SelectFile from './SelectFile'
+import StepTwo from './StepTwo'
 import { StepFormDiv, FormDiv, FormInsert } from './styleStepForm'
 import ControlStep from './ControlStep'
 import StepThree from './StepThree'
@@ -70,7 +71,7 @@ const StepForm = () => {
       case 0:
         return <SelectFile handlerStartPage={handlerStartPage} />
       case 1:
-        return null
+        return <StepTwo value={informationForm} />
       case 2:
         return <StepThree />
       case 3:
@@ -87,11 +88,12 @@ const StepForm = () => {
   const handlerOnSubmit = (data) => {
     if (activeStep === 0) {
       setInformationForm({ ...informationForm, startPage })
+    } else {
+      setInformationForm({ ...informationForm, ...data })
     }
-    console.log(data)
-    console.log('test')
     handlerNextStep()
   }
+
   const steps = getSteps()
 
   return (
