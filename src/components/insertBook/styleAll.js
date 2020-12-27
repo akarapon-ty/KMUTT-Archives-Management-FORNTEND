@@ -1,0 +1,36 @@
+import styled from 'styled-components'
+
+export const InputField = styled.input`
+    ${(props) => (props.shorts ? 'margin-left:10px; width:60px;' : null)}
+    ${(props) => (props.type ? null : 'width:97.7%;')}
+    border-radius:4px;
+    border:1px solid #e5e5e5;
+    padding:10px;
+    font-size:16px;
+`
+export const InputArea = styled.textarea`
+    width:97.7%;
+    border-radius:4px;
+    border:1px solid #e5e5e5;
+    padding:10px;
+    font-size:16px;
+    resize: none;
+
+`
+export const InputLabel = styled.div`
+    font-size:16px;
+    font-weight:400;
+    color:#10A0A2;
+    margin-top:20px;
+    margin-bottom:10px;
+`
+export const InputSelector = styled.select`
+    border-radius:4px;
+    border:1px solid #e5e5e5;
+    padding:10px;
+    font-size:16px;
+`
+export const Space = styled.div`
+    height:20px;
+`
+export default { }

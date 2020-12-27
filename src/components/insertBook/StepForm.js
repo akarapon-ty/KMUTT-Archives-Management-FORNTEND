@@ -8,6 +8,8 @@ import { StepFormDiv, FormDiv, FormInsert } from './styleStepForm'
 import ControlStep from './ControlStep'
 import Test from './test'
 
+import StepThree from './StepThree'
+
 const StepForm = () => {
   const getSteps = () => ['Select file', 'Fill the data', 'Optional data', 'Waiting for upload', 'Correction', 'Edit tag']
 
@@ -62,6 +64,11 @@ const StepForm = () => {
   const handlerNextStep = () => {
     setActiveStep((prevState) => prevState + 1)
   }
+  // const handlerSetRelation = (e) => {
+  //   console.log(relation)
+  //   const tempRelation = { [e.target.name]: e.target.value }
+  //   setRelation({ ...relation, tempRelation })
+  // }
 
   const handlerRemoveRelation = (e) => {
     const tempRelation = relation
