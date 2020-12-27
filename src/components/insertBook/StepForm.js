@@ -6,13 +6,14 @@ import SelectFile from './SelectFile'
 import StepTwo from './StepTwo'
 import { StepFormDiv, FormDiv, FormInsert } from './styleStepForm'
 import ControlStep from './ControlStep'
+import Test from './test'
 
 const StepForm = () => {
   const getSteps = () => ['Select file', 'Fill the data', 'Optional data', 'Waiting for upload', 'Correction', 'Edit tag']
 
   const fieldForm = () => (
     {
-      startPage: '',
+      startPage: 1,
       title: '',
       titleAlernative: '',
       creatorName: '',
@@ -34,7 +35,7 @@ const StepForm = () => {
       identifierUrl: '',
       identifierIsbn: '',
       source: '',
-      relation: [],
+      relation: {},
       degreeName: '',
       degreeLevel: '',
       degreeDicipline: '',
@@ -45,34 +46,55 @@ const StepForm = () => {
   )
 
   const {
-    register, handleSubmit, setValue, getValues,
+    register, handleSubmit, setValue, getValues, control, errors,
   } = useForm()
 
-  const [startPage, setStartPage] = useState(1)
   const [activeStep, setActiveStep] = useState(0)
   const [informationForm, setInformationForm] = useState(fieldForm)
-
-  const handlerStartPage = (e) => {
-    const pageValue = e.target.value && e.target.value > 0 ? parseInt(e.target.value, 10) : 1
-    setStartPage(pageValue)
-  }
+  const [relation, setRelation] = useState({ 1: 'gsdg', 2: 'sdf' })
 
   const handlerBackStep = () => {
     setActiveStep((prevState) => prevState - 1)
+    const value = getValues()
+    setInformationForm({ ...informationForm, ...value })
   }
 
   const handlerNextStep = () => {
     setActiveStep((prevState) => prevState + 1)
   }
 
+  const handlerRemoveRelation = (e) => {
+    const tempRelation = relation
+    const keyRelation = e.target.value
+    delete tempRelation[keyRelation]
+    setRelation({ ...tempRelation })
+  }
+
+  const handlerAddRelation = () => {
+    if (Object.keys(relation).length === 0) {
+      const newData = { 1: '', 2: '' }
+      setRelation({ ...relation, ...newData })
+    } else {
+      const tempRelation = Object.keys(relation).length > 0 ? Object.keys(relation).sort() : ['1']
+      const counter = parseInt(tempRelation[tempRelation.length - 1], 10) + 1
+      const newData = { [counter]: '' }
+      setRelation({ ...relation, ...newData })
+    }
+  }
+
+  const handlerOnChangeRelation = (e) => {
+    const temp = { [e.target.name]: e.target.value }
+    setRelation({ ...relation, ...temp })
+  }
+
   const handlerActiveStep = (stepIndex) => {
     switch (stepIndex) {
       case 0:
-        return <SelectFile handlerStartPage={handlerStartPage} />
+        return <SelectFile value={informationForm} />
       case 1:
         return <StepTwo value={informationForm} />
       case 2:
-        return null
+        return <Test handlerAddRelation={handlerAddRelation} handlerOnChangeRelation={handlerOnChangeRelation} value={relation} handlerRemoveRelation={handlerRemoveRelation} />
       case 3:
         return null
       case 4:
@@ -85,11 +107,7 @@ const StepForm = () => {
   }
 
   const handlerOnSubmit = (data) => {
-    if (activeStep === 0) {
-      setInformationForm({ ...informationForm, startPage })
-    } else {
-      setInformationForm({ ...informationForm, ...data })
-    }
+    setInformationForm({ ...informationForm, ...data })
     handlerNextStep()
   }
 
@@ -105,10 +123,10 @@ const StepForm = () => {
         ))}
       </Stepper>
       <FormDiv>
-        <FormProvider register={register} handleSubmit={handleSubmit} setValue={setValue} getValues={getValues}>
+        <FormProvider register={register} handleSubmit={handleSubmit} setValue={setValue} getValues={getValues} control={control} errors={errors}>
           <FormInsert onSubmit={handleSubmit(handlerOnSubmit)}>
             {handlerActiveStep(activeStep)}
-            <ControlStep handlerStep={handlerBackStep} active={!(activeStep >= 5)} disableBack={activeStep === 0} />
+            <ControlStep handlerBackStep={handlerBackStep} handlerNextStep={handlerNextStep} active={!(activeStep >= 5)} disableBack={activeStep === 0} />
           </FormInsert>
         </FormProvider>
       </FormDiv>

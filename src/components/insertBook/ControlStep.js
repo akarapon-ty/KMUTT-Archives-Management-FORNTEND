@@ -1,29 +1,22 @@
 import React from 'react'
-import { useFormContext } from 'react-hook-form'
 
-import { ControlStepDiv, LineControlStepDiv, NextButtonStyle } from './styleStepForm'
+import { ControlStepDiv, LineControlStepDiv } from './styleStepForm'
+import NextButton from '../util/button/NextButton'
 import BackButton from '../util/button/BackButton'
 
 const ControlStep = (props) => {
-  const { handlerStep, active, disableBack } = props
-
-  const ControlStepForm = ({ children }) => {
-    const methods = useFormContext()
-    return children({ ...methods })
-  }
+  const {
+    active, disableBack, handlerBackStep,
+  } = props
 
   return (
-    <ControlStepForm>
-      {({ register }) => (
-        <>
-          <LineControlStepDiv />
-          <ControlStepDiv>
-            <BackButton onClickHandler={handlerStep} disableBack={disableBack} />
-            {active ? <NextButtonStyle name="submitForm" ref={register} type="submit">Next</NextButtonStyle> : null}
-          </ControlStepDiv>
-        </>
-      )}
-    </ControlStepForm>
+    <>
+      <LineControlStepDiv />
+      <ControlStepDiv>
+        <BackButton disableBack={disableBack} onClick={handlerBackStep} />
+        <NextButton active={active} />
+      </ControlStepDiv>
+    </>
   )
 }
 

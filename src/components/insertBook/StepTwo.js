@@ -6,22 +6,13 @@ const StepTwo = (props) => {
   const { value } = props
   const { title } = value
 
-  const StepTwoForm = ({ children }) => {
-    const methods = useFormContext()
-    return children({ ...methods })
-  }
+  const { register } = useFormContext()
 
   return (
     <>
       <h4>2. Fill the data</h4>
-      <StepTwoForm>
-        {({ register }) => (
-          <>
-            <p>test</p>
-            <input ref={register} name="title" placeholder="Title" defaultValue={title} />
-          </>
-        )}
-      </StepTwoForm>
+      <p>test</p>
+      <input ref={register} name="title" placeholder="Title" defaultValue={title} />
     </>
   )
 }

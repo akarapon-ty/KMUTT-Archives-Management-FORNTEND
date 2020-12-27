@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { useFormContext } from 'react-hook-form'
 
 const BackButtonStyle = styled.button`
     border: none;
@@ -8,9 +9,12 @@ const BackButtonStyle = styled.button`
 `
 
 const BackButton = (props) => {
-  const { onClickHandler, disableBack } = props
+  const { disableBack, onClick } = props
+
+  const { register } = useFormContext()
+
   return (
-    <BackButtonStyle disabled={disableBack} onClick={() => onClickHandler()}>Back</BackButtonStyle>
+    <BackButtonStyle name="submitBackForm" onClick={() => onClick()} disabled={disableBack} ref={register} type="button">Back</BackButtonStyle>
   )
 }
 

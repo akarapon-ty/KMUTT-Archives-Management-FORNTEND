@@ -20,10 +20,4 @@ export const LineControlStepDiv = styled.div`
 export const FormInsert = styled.form`
 `
 
-export const NextButtonStyle = styled.button`
-    border: none;
-    background-color: white;
-    font-size: 19px;
-`
-
 export default { }
