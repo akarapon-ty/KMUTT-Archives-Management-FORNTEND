@@ -1,12 +1,13 @@
 import React from 'react'
-
 import { useFormContext } from 'react-hook-form'
 
 const Test = (props) => {
   const {
     value, handlerOnChangeRelation, handlerAddRelation, handlerRemoveRelation,
   } = props
-  const valueTest = Object.keys(value).length > 0 ? value : { init: '' }
+
+  const { relation } = value
+  const valueTest = Object.keys(relation).length > 0 ? relation : { 1: '' }
   const { register } = useFormContext()
 
   return (

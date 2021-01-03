@@ -1,8 +1,12 @@
-import { ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client'
+import { ApolloClient, InMemoryCache } from '@apollo/client'
+import { createUploadLink } from 'apollo-upload-client'
 import { setContext } from '@apollo/client/link/context'
 
-const httpLink = createHttpLink({
+const httpLink = createUploadLink({
   uri: 'http://127.0.0.1:3251/graphql',
+  headers: {
+    'keep-alive': 'true',
+  },
 })
 
 const authLink = setContext((_, { headers }) => {

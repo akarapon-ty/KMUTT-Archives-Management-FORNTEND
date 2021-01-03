@@ -6,24 +6,18 @@ import { InputField, InputLabel } from './styleAll'
 
 export const InputFormat = (props) => {
   const {
-    inputName, inputLabel, inputDefault, conts, types,
+    inputName, inputLabel, inputDefault, conts, types, onChange,
   } = props
 
-  const StepThreeForm = ({ children }) => {
-    const methods = useFormContext()
-    return children({ ...methods })
-  }
+  const { register } = useFormContext()
+
+  const funcOnChange = onChange ? (e) => onChange(e) : null
 
   return (
-    <StepThreeForm>
-      {({ register }) => (
-        <>
-          <InputLabel>{inputLabel}</InputLabel>
-          <InputField type={types} cont={conts} name={inputName} ref={register} defaultValue={inputDefault} placeholder={inputLabel} />
-        </>
-      )}
-    </StepThreeForm>
-
+    <>
+      <InputLabel>{inputLabel}</InputLabel>
+      <InputField type={types} cont={conts} name={inputName} ref={register} defaultValue={inputDefault} placeholder={inputLabel} onChange={funcOnChange} />
+    </>
   )
 }
 
@@ -32,7 +26,7 @@ export default { }
 InputFormat.defaultProps = {
   inputLabel: 'titleAlernative',
   inputName: 'titleAlernative',
-  inputDefault: null,
+  inputDefault: 'null',
   conts: null,
   types: null,
 }

@@ -1,10 +1,15 @@
 import React, { useRef, useEffect, useState } from 'react'
-import { DropDiv, MessageDrop } from './styleDragAndDrop'
+
+import {
+  DropDiv, MessageDrop, InputUpload, ImgTrash, ImgPdf,
+} from './styleDragAndDrop'
+import trashIcon from '../../assets/icon/trash-icon.png'
+import pdfIcon from '../../assets/icon/pdf.png'
 
 const DragAndDrop = (props) => {
   const dropRef = useRef(null)
 
-  const { children } = props
+  const { handleUploadFile, handlerDeleteUploadFile, file } = props
 
   const [dragging, setDragging] = useState(false)
 
@@ -12,14 +17,12 @@ const DragAndDrop = (props) => {
     e.preventDefault()
     e.stopPropagation()
     if (e.dataTransfer.items && e.dataTransfer.items.length > 0) {
-      console.log('in')
       setDragging(true)
     }
   }
   const handleDragOut = (e) => {
     e.preventDefault()
     e.stopPropagation()
-    console.log('out')
     setDragging(false)
   }
   const handleDrag = (e) => {
@@ -30,8 +33,7 @@ const DragAndDrop = (props) => {
     e.stopPropagation()
     e.preventDefault()
     if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-      // this.props.handleDrop(e.dataTransfer.files)
-      console.log('Test')
+      handleUploadFile(e.dataTransfer.files[0])
       e.dataTransfer.clearData()
       setDragging(false)
     }
@@ -48,11 +50,30 @@ const DragAndDrop = (props) => {
     }
   }, [])
 
+  let message = <MessageDrop>Drag and drop or click here to upload</MessageDrop>
+  if (file) {
+    message = (
+      <>
+        <ImgPdf
+          src={pdfIcon}
+          className="img"
+          alt="trashIcon"
+        />
+        <MessageDrop>{file.name}</MessageDrop>
+        <ImgTrash
+          src={trashIcon}
+          className="img"
+          alt="trashIcon"
+          onClick={() => handlerDeleteUploadFile()}
+        />
+      </>
+    )
+  }
+
   return (
     <DropDiv ref={dropRef} active={dragging}>
-      <MessageDrop>
-        Drag and drop to upload
-      </MessageDrop>
+      {message}
+      <InputUpload type="file" accept="application/pdf" onChange={(e) => handleUploadFile(e.target.files[0])} />
     </DropDiv>
   )
 }

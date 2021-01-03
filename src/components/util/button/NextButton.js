@@ -9,13 +9,13 @@ const NextButtonStyle = styled.button`
 `
 
 const NextButton = (props) => {
-  const { active } = props
+  const { active, disable } = props
 
   const { register } = useFormContext()
 
   return (
     <>
-      {active ? <NextButtonStyle name="submitNextForm" value="test" ref={register} type="submit">Next</NextButtonStyle> : <NextButtonStyle name="submitNextForm" ref={register} type="submit">Finish</NextButtonStyle>}
+      {active ? <NextButtonStyle disabled={disable} name="submitNextForm" ref={register} type="submit">Next</NextButtonStyle> : <NextButtonStyle disabled={disable} name="submitNextForm" ref={register} type="submit">Finish</NextButtonStyle>}
     </>
 
   )

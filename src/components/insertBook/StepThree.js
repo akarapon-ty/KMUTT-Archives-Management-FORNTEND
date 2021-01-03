@@ -1,14 +1,20 @@
 import React from 'react'
+import { useFormContext } from 'react-hook-form'
 
 import { Space } from './styleAll'
 import { InputFormat } from './InputField'
 import { SelectorFormat } from './InputSelector'
 
 const StepThree = (props) => {
-  const { value } = props
+  const {
+    value, handlerAddRelation, handlerOnChangeRelation, handlerRemoveRelation,
+  } = props
   const {
     identifierUrl, identifierIsbn, source, relation, degreeName, degreeLevel, degreeDicipline, degreeGrantor, type, language,
   } = value
+
+  const relationValue = Object.keys(relation).length > 0 ? relation : { 1: '' }
+
   const selectLan = [{
     val: 'Thai',
     lab: 'Thai',
@@ -22,6 +28,9 @@ const StepThree = (props) => {
     lab: 'Text',
   },
   ]
+
+  const { register } = useFormContext()
+
   return (
     <>
       <h4>3. Optional data</h4>
@@ -30,8 +39,24 @@ const StepThree = (props) => {
       <InputFormat inputDefault={identifierIsbn} inputLabel="Identifier ISBN" inputName="identifierIsbn" />
       <h5>Source</h5>
       <InputFormat inputDefault={source} inputLabel="Source" inputName="source" />
-      <h5>Relation</h5>
-
+      <div>
+        <h5>Relation</h5>
+        <button type="button" name="addRelation" onClick={() => handlerAddRelation()}>add</button>
+      </div>
+      {Object.keys(relationValue).map((key) => (
+        <>
+          <input
+            onChange={handlerOnChangeRelation}
+            inputdefault={relationValue[key]}
+            value={relationValue[key]}
+            name={key}
+            ref={register}
+            key={`relation-${key}input`}
+            placeholder="relation"
+          />
+          <button key={`relation-${key}button`} value={key} onClick={(e) => handlerRemoveRelation(e)} type="button"> remove</button>
+        </>
+      ))}
       <h5>Thesis</h5>
       <InputFormat inputDefault={degreeName} inputLabel="Degree Name" inputName="degreeName" />
       <InputFormat inputDefault={degreeLevel} inputLabel="Degree Level" inputName="degreeLevel" />
