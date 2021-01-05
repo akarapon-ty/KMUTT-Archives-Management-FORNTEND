@@ -9,10 +9,14 @@ export const FormDiv = styled.div`
     width: 100%;
     padding: 15px 0px 0px 0px;
 `
-export const ControlStepDiv = styled.div`
+export const ButtonControlStepDiv = styled.div`
     display: flex;
     justify-content: space-between;
     padding: 15px 0px 0px 0px;
+`
+
+export const ControlStepDiv = styled.div`
+    display: ${(props) => (props.show ? 'block' : 'none')};
 `
 
 export const LineControlStepDiv = styled.div`

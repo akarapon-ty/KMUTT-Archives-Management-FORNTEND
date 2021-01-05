@@ -1,6 +1,5 @@
 import React from 'react'
 
-import { useFormContext } from 'react-hook-form'
 import { Space } from './styleAll'
 import { InputFormat } from './InputField'
 import { SelectorFormat } from './InputSelector'

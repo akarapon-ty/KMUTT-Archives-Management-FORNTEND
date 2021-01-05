@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { ControlStepDiv, LineControlStepDiv } from './styleStepForm'
+import { ButtonControlStepDiv, LineControlStepDiv, ControlStepDiv } from './styleStepForm'
 import NextButton from '../util/button/NextButton'
 import BackButton from '../util/button/BackButton'
 
@@ -10,13 +10,13 @@ const ControlStep = (props) => {
   } = props
 
   return (
-    <>
+    <ControlStepDiv show={active}>
       <LineControlStepDiv />
-      <ControlStepDiv>
+      <ButtonControlStepDiv>
         <BackButton disableBack={disableBack} onClick={handlerBackStep} />
         <NextButton active={active} disable={disableNext} />
-      </ControlStepDiv>
-    </>
+      </ButtonControlStepDiv>
+    </ControlStepDiv>
   )
 }
 

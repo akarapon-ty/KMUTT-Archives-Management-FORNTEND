@@ -15,7 +15,8 @@ const StepForm = () => {
       uploadDocument(file: $file) {
         filename,
         mimetype,
-        encoding
+        encoding,
+        pathFile,
       }
     }
   `
@@ -29,49 +30,8 @@ const StepForm = () => {
     }
   `
 
-  const INSERT = gql`
-  mutation {
-    addDocument(body: {
-      addVersion: true,
-      name: "A History of the Philippines2222",
-      path: "/A History of the Philippines222",
-      DC_relation: ["history", "philippines"],
-      DC_type: ["text", "picture"],
-      DC_title: "A History of the Philippines",
-      DC_title_alternative: "foo",
-      DC_description_table_of_contents: "foo",
-      DC_description_summary_or_abstract: "foo",
-      DC_description_note: "foo",
-      DC_format: "foo",
-      DC_format_extent: "foo",
-      DC_identifier_URL: "foo",
-      DC_identifier_ISBN: "foo",
-      DC_source: "foo",
-      DC_language: "foo",
-      DC_coverage_spatial: "foo",
-      DC_coverage_temporal: "foo",
-      DC_rights: "foo",
-      DC_rights_access: "foo",
-      thesis_degree_name: "foo",
-      thesis_degree_level: "foo",
-      thesis_degree_discipline: "foo",
-      thesis_degree_grantor: "foo",
-      DC_creator: "foo",
-      DC_creator_orgname: "foo",
-      DC_publisher: "foo",
-      DC_publisher_email: "foo",
-      DC_contributor: "foo",
-      DC_contributor_role: "foo",
-      DC_issued_date: "1999-03-15",
-    }) {
-      status,
-      message
-    }
-  }
-  `
-
   const [uploadFile] = useMutation(UPLOAD_FILE)
-  const [insertDocument, { error: mutationError }] = useMutation(INSERT_DOCUMENT)
+  const [insertDocument, { error: insertError }] = useMutation(INSERT_DOCUMENT)
 
   const getSteps = () => ['Select file', 'Fill the data', 'Optional data', 'Waiting for upload', 'Correction', 'Edit tag']
 
@@ -116,6 +76,14 @@ const StepForm = () => {
 
   const [activeStep, setActiveStep] = useState(0)
   const [informationForm, setInformationForm] = useState(fieldForm)
+
+  const params = new URLSearchParams(window.location.search)
+  const step = params.get('step')
+  const idDocument = params.get('id')
+
+  if (step === '3' && activeStep !== 3) {
+    setActiveStep(3)
+  }
 
   const handlerBackStep = () => {
     setActiveStep((prevState) => prevState - 1)
@@ -185,25 +153,64 @@ const StepForm = () => {
     }
   }
 
-  if (mutationError) {
-    console.log(mutationError)
+  const parseRelation = (relation) => {
+    const result = []
+    Object.keys(relation).map((value) => result.push(value))
+    return result
+  }
+
+  if (insertError) {
+    window.console.log('mutationError:', insertError)
   }
 
   const handlerOnSubmit = (data) => {
     const tempData = { ...informationForm, ...data }
     setInformationForm({ ...informationForm, ...data })
     handlerNextStep()
-    // api send to backend if activeStep = 2
-    if (activeStep === 2) {
-      uploadFile({ variables: { file: informationForm.file } })
-      insertDocument({
-        variables: {
-          body: {
-            DC_title: 'test',
-            name: 'tests',
+
+    if (activeStep === 2 && tempData.file) {
+      const tempRelation = parseRelation(informationForm.relation)
+      uploadFile({ variables: { file: informationForm.file } }).then((res) => {
+        insertDocument({
+          variables: {
+            body: {
+              startPage: tempData.startPage,
+              addVersion: false,
+              name: tempData.title,
+              path: res.data.uploadDocument.pathFile,
+              DC_relation: tempRelation,
+              DC_type: tempData.type,
+              DC_title: tempData.title,
+              DC_title_alternative: tempData.titleAlernative,
+              DC_description_table_of_contents: tempData.tableOfContents,
+              DC_description_summary_or_abstract: tempData.summary,
+              DC_description_note: tempData.note,
+              DC_format: 'pdf',
+              DC_format_extent: '',
+              DC_identifier_URL: tempData.identifierUrl,
+              DC_identifier_ISBN: tempData.identifierIsbn,
+              DC_source: tempData.source,
+              DC_language: tempData.language,
+              DC_coverage_spatial: tempData.coverageSpatial,
+              DC_coverage_temporal: tempData.coverageTemporalMonth,
+              DC_rights: tempData.rights,
+              DC_rights_access: tempData.rightsAccess,
+              thesis_degree_name: tempData.degreeName,
+              thesis_degree_level: tempData.degreeLevel,
+              thesis_degree_discipline: tempData.degreeDicipline,
+              thesis_degree_grantor: tempData.degreeGrantor,
+              DC_creator: tempData.creatorName,
+              DC_creator_orgname: tempData.creatorOrganizationName,
+              DC_publisher: tempData.publisher,
+              DC_publisher_email: tempData.publisherEmail,
+              DC_contributor: tempData.contributor,
+              DC_contributor_role: tempData.contributorRole,
+              DC_issued_date: tempData.issuedDate,
+            },
           },
-        },
-      }).then((res) => console.log(res)).catch((err) => console.log('error catch', err))
+        })
+      })
+        .catch((err) => window.console.log(err))
     }
   }
 
@@ -222,7 +229,7 @@ const StepForm = () => {
         <FormProvider register={register} handleSubmit={handleSubmit} setValue={setValue} getValues={getValues} control={control} errors={errors}>
           <FormInsert onSubmit={handleSubmit(handlerOnSubmit)}>
             {handlerActiveStep(activeStep)}
-            <ControlStep handlerBackStep={handlerBackStep} handlerNextStep={handlerNextStep} active={!(activeStep >= 5)} disableBack={activeStep === 0} disableNext={informationForm.file === null} />
+            <ControlStep handlerBackStep={handlerBackStep} handlerNextStep={handlerNextStep} active={!(activeStep >= 5 || activeStep === 3)} disableBack={activeStep === 0} disableNext={informationForm.file === null} />
           </FormInsert>
         </FormProvider>
       </FormDiv>
