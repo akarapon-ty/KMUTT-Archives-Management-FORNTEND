@@ -2,10 +2,13 @@ import React, { useState } from 'react'
 import { useForm, FormProvider } from 'react-hook-form'
 import { Stepper, Step, StepLabel } from '@material-ui/core'
 import { useMutation, gql } from '@apollo/client'
+import { ThemeProvider } from '@material-ui/core/styles'
 
 import SelectFile from './SelectFile'
 import StepTwo from './StepTwo'
-import { StepFormDiv, FormDiv, FormInsert } from './styleStepForm'
+import {
+  StepFormDiv, FormDiv, FormInsert, muiTheme,
+} from './styleStepForm'
 import ControlStep from './ControlStep'
 import StepThree from './StepThree'
 
@@ -95,9 +98,9 @@ const StepForm = () => {
     setActiveStep((prevState) => prevState + 1)
   }
 
-  const handlerRemoveRelation = (e) => {
+  const handlerRemoveRelation = (value) => {
     const tempRelation = informationForm.relation
-    const keyRelation = e.target.value
+    const keyRelation = value
     delete tempRelation[keyRelation]
     setInformationForm({ ...informationForm, relation: tempRelation })
   }
@@ -218,13 +221,16 @@ const StepForm = () => {
 
   return (
     <StepFormDiv>
-      <Stepper alternativeLabel activeStep={activeStep}>
-        {steps.map((label) => (
-          <Step key={label}>
-            <StepLabel>{label}</StepLabel>
-          </Step>
-        ))}
-      </Stepper>
+      <ThemeProvider theme={muiTheme}>
+        <Stepper alternativeLabel activeStep={activeStep}>
+          {steps.map((label) => (
+            <Step key={label}>
+              <StepLabel>{label}</StepLabel>
+            </Step>
+          ))}
+        </Stepper>
+      </ThemeProvider>
+
       <FormDiv>
         <FormProvider register={register} handleSubmit={handleSubmit} setValue={setValue} getValues={getValues} control={control} errors={errors}>
           <FormInsert onSubmit={handleSubmit(handlerOnSubmit)}>

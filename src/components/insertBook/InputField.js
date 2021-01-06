@@ -6,7 +6,7 @@ import { InputField, InputLabel } from './styleAll'
 
 export const InputFormat = (props) => {
   const {
-    inputName, inputLabel, inputDefault, conts, types, onChange,
+    inputName, inputLabel, inputDefault, conts, types, onChange, required,
   } = props
 
   const { register } = useFormContext()
@@ -16,7 +16,7 @@ export const InputFormat = (props) => {
   return (
     <>
       <InputLabel>{inputLabel}</InputLabel>
-      <InputField type={types} cont={conts} name={inputName} ref={register} defaultValue={inputDefault} placeholder={inputLabel} onChange={funcOnChange} />
+      <InputField required={required} type={types} cont={conts} name={inputName} ref={register} defaultValue={inputDefault} placeholder={inputLabel} onChange={funcOnChange} />
     </>
   )
 }

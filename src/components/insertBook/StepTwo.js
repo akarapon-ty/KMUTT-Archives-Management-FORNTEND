@@ -47,7 +47,7 @@ const StepTwo = (props) => {
     <>
       <h4>2. Fill the data</h4>
       <h5>Title</h5>
-      <InputFormat inputDefault={title} inputLabel="Title" inputName="title" />
+      <InputFormat inputDefault={title} inputLabel="Title *" inputName="title" required />
       <InputFormat inputDefault={titleAlernative} inputLabel="Title Alternative" inputName="titleAlernative" />
 
       <h5>Creator</h5>

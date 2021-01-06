@@ -3,6 +3,7 @@ import styled from 'styled-components'
 export const InputField = styled.input`
     ${(props) => (props.shorts ? 'margin-left:10px; width:60px;' : null)}
     ${(props) => (props.type ? null : 'width:97.7%;')}
+    ${(props) => (props.multi ? 'width:90%;' : null)}
     border-radius:4px;
     border:1px solid #e5e5e5;
     padding:10px;
@@ -33,4 +34,23 @@ export const InputSelector = styled.select`
 export const Space = styled.div`
     height:20px;
 `
+export const Inline = styled.div`
+    ${(props) => (props.long ? 'width:100%;' : null)}
+    display: inline-flex;
+    align-items: center; 
+`
+export const InsertButton = styled.button`
+    border:none;
+    color:#10A0A2;
+    background-color:white;
+    text-decoration: none;
+    font-weight:700;
+`
+
+export const LeftRightBox = styled.div`
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 0px 0px 0px;
+`
+
 export default { }

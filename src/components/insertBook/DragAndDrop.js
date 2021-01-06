@@ -1,10 +1,11 @@
 import React, { useRef, useEffect, useState } from 'react'
+import CloseIcon from '@material-ui/icons/Close'
+import AddCircleIcon from '@material-ui/icons/AddCircle'
+import PictureAsPdfIcon from '@material-ui/icons/PictureAsPdf'
 
 import {
   DropDiv, MessageDrop, InputUpload, ImgTrash, ImgPdf,
 } from './styleDragAndDrop'
-import trashIcon from '../../assets/icon/trash-icon.png'
-import pdfIcon from '../../assets/icon/pdf.png'
 
 const DragAndDrop = (props) => {
   const dropRef = useRef(null)
@@ -50,22 +51,22 @@ const DragAndDrop = (props) => {
     }
   }, [])
 
-  let message = <MessageDrop>Drag and drop or click here to upload</MessageDrop>
+  let message = (
+    <MessageDrop>
+      <AddCircleIcon style={{ marginRight: 10 }} />
+      Drag and drop or click here to upload
+    </MessageDrop>
+  )
   if (file) {
     message = (
       <>
-        <ImgPdf
-          src={pdfIcon}
-          className="img"
-          alt="trashIcon"
-        />
-        <MessageDrop>{file.name}</MessageDrop>
-        <ImgTrash
-          src={trashIcon}
-          className="img"
-          alt="trashIcon"
-          onClick={() => handlerDeleteUploadFile()}
-        />
+        <ImgPdf>
+          <PictureAsPdfIcon />
+        </ImgPdf>
+        <MessageDrop file>{file.name}</MessageDrop>
+        <ImgTrash onClick={() => handlerDeleteUploadFile()}>
+          <CloseIcon />
+        </ImgTrash>
       </>
     )
   }

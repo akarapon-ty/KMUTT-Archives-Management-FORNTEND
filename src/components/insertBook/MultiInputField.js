@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { useFormContext } from 'react-hook-form'
 
-import { InputField, InputLabel } from './styleAll'
+import { InputField } from './styleAll'
 
 export const MultiInputFormat = (props) => {
   const {
@@ -18,9 +18,6 @@ export const MultiInputFormat = (props) => {
     <StepThreeForm>
       {({ register }) => (
         <>
-          <button type="button">add</button>
-          <button type="button">remove</button>
-          <InputLabel>{inputLabel}</InputLabel>
           <InputField name={inputName} ref={register} defaultValue={inputDefault} placeholder={inputLabel} />
         </>
       )}
