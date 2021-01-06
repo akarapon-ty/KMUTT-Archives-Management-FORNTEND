@@ -13,8 +13,12 @@ export const DropDiv = styled.div`
 `
 
 export const MessageDrop = styled.p`
+    margin:0px 10px;
     display: flex;
     align-items: center;
+    font-weight:500;
+    ${(props) => (props.file ? null : ' color:#10A0A2; font-size:18px;')};
+   
 `
 
 export const InputUpload = styled.input`
@@ -33,20 +37,24 @@ export const DefaultOcrPage = styled.div`
 `
 export const InputPageStart = styled.input`
     max-height: 52px;
-    padding: 0px;
+    padding: 5px;
     margin: 16px;
-    max-width: 64px;
+    max-width: 40px;
     text-align: center;
+    border: solid #c4c4c4 1px;
+    border-radius:4px;
 `
 
-export const ImgTrash = styled.img`
+export const ImgTrash = styled.div`
   width: 24px;
   height: 24px;
   cursor: pointer;
   z-index: 3;
   align-self: center;
+  color:#FF0000;
 `
-export const ImgPdf = styled.img`
+export const ImgPdf = styled.div`
+  color:#FF0000;
   width: 24px;
   height: 24px;
   cursor: pointer;

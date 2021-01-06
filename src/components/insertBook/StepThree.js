@@ -1,9 +1,13 @@
 import React from 'react'
 import { useFormContext } from 'react-hook-form'
+import CloseIcon from '@material-ui/icons/Close'
 
-import { Space } from './styleAll'
+import {
+  Space, InsertButton, Inline, LeftRightBox,
+} from './styleAll'
 import { InputFormat } from './InputField'
 import { SelectorFormat } from './InputSelector'
+import { MultiInputFormat } from './MultiInputField'
 
 const StepThree = (props) => {
   const {
@@ -39,22 +43,27 @@ const StepThree = (props) => {
       <InputFormat inputDefault={identifierIsbn} inputLabel="Identifier ISBN" inputName="identifierIsbn" />
       <h5>Source</h5>
       <InputFormat inputDefault={source} inputLabel="Source" inputName="source" />
-      <div>
+      <LeftRightBox>
         <h5>Relation</h5>
-        <button type="button" name="addRelation" onClick={() => handlerAddRelation()}>add</button>
-      </div>
+        <InsertButton type="button" name="addRelation" onClick={() => handlerAddRelation()}>+ ADD</InsertButton>
+      </LeftRightBox>
       {Object.keys(relationValue).map((key) => (
         <>
-          <input
-            onChange={handlerOnChangeRelation}
-            inputdefault={relationValue[key]}
-            value={relationValue[key]}
-            name={key}
-            ref={register}
-            key={`relation-${key}input`}
-            placeholder="relation"
-          />
-          <button key={`relation-${key}button`} value={key} onClick={(e) => handlerRemoveRelation(e)} type="button"> remove</button>
+          <Inline long>
+            <MultiInputFormat
+              onChange={handlerOnChangeRelation}
+              inputdefault={relationValue[key]}
+              value={relationValue[key]}
+              name={key}
+              ref={register}
+              key={`relation-${key}input`}
+              inputLabel="Relation"
+            />
+            <InsertButton key={`relation-${key}button`} value={key} onClick={() => handlerRemoveRelation(key)} type="button">
+              <CloseIcon />
+            </InsertButton>
+          </Inline>
+          <Space />
         </>
       ))}
       <h5>Thesis</h5>
