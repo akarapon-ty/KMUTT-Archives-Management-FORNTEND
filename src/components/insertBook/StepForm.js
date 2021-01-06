@@ -3,11 +3,12 @@ import { useForm, FormProvider } from 'react-hook-form'
 import { Stepper, Step, StepLabel } from '@material-ui/core'
 import { useMutation, gql } from '@apollo/client'
 
+import { StepFormDiv, FormDiv, FormInsert } from './styleStepForm'
 import SelectFile from './SelectFile'
 import StepTwo from './StepTwo'
-import { StepFormDiv, FormDiv, FormInsert } from './styleStepForm'
 import ControlStep from './ControlStep'
 import StepThree from './StepThree'
+import StepFive from './StepFive'
 
 const StepForm = () => {
   const UPLOAD_FILE = gql`
@@ -39,34 +40,34 @@ const StepForm = () => {
     {
       startPage: 1,
       file: null,
-      title: '',
-      titleAlernative: '',
-      creatorName: '',
-      creatorOrganizationName: '',
-      tableOfContents: '',
-      summary: '',
-      abstract: '',
-      note: '',
-      publisher: '',
-      publisherEmail: '',
-      contributor: '',
-      contributorRole: '',
-      issuedDate: '',
-      coverageSpatial: '',
-      coverageTemporalMonth: '',
-      coverageTempooralYear: '',
-      rights: '',
-      rightsAccess: '',
-      identifierUrl: '',
-      identifierIsbn: '',
-      source: '',
+      title: null,
+      titleAlernative: null,
+      creatorName: null,
+      creatorOrganizationName: null,
+      tableOfContents: null,
+      summary: null,
+      abstract: null,
+      note: null,
+      publisher: null,
+      publisherEmail: null,
+      contributor: null,
+      contributorRole: null,
+      issuedDate: null,
+      coverageSpatial: null,
+      coverageTemporalMonth: null,
+      coverageTempooralYear: null,
+      rights: null,
+      rightsAccess: null,
+      identifierUrl: null,
+      identifierIsbn: null,
+      source: null,
       relation: {},
-      degreeName: '',
-      degreeLevel: '',
-      degreeDicipline: '',
-      degreeGrantor: '',
-      type: '',
-      language: '',
+      degreeName: null,
+      degreeLevel: null,
+      degreeDicipline: null,
+      degreeGrantor: null,
+      type: null,
+      language: null,
     }
   )
 
@@ -81,8 +82,8 @@ const StepForm = () => {
   const step = params.get('step')
   const idDocument = params.get('id')
 
-  if (step === '3' && activeStep !== 3) {
-    setActiveStep(3)
+  if (step === '4' && activeStep < 4) {
+    setActiveStep(4)
   }
 
   const handlerBackStep = () => {
@@ -145,7 +146,7 @@ const StepForm = () => {
       case 3:
         return null
       case 4:
-        return null
+        return <StepFive />
       case 5:
         return null
       default:
@@ -166,7 +167,6 @@ const StepForm = () => {
   const handlerOnSubmit = (data) => {
     const tempData = { ...informationForm, ...data }
     setInformationForm({ ...informationForm, ...data })
-    handlerNextStep()
 
     if (activeStep === 2 && tempData.file) {
       const tempRelation = parseRelation(informationForm.relation)
@@ -175,8 +175,8 @@ const StepForm = () => {
           variables: {
             body: {
               startPage: tempData.startPage,
-              addVersion: false,
-              name: tempData.title,
+              addVersion: true,
+              name: res.data.uploadDocument.filename,
               path: res.data.uploadDocument.pathFile,
               DC_relation: tempRelation,
               DC_type: tempData.type,
@@ -212,6 +212,7 @@ const StepForm = () => {
       })
         .catch((err) => window.console.log(err))
     }
+    handlerNextStep()
   }
 
   const steps = getSteps()
@@ -229,7 +230,7 @@ const StepForm = () => {
         <FormProvider register={register} handleSubmit={handleSubmit} setValue={setValue} getValues={getValues} control={control} errors={errors}>
           <FormInsert onSubmit={handleSubmit(handlerOnSubmit)}>
             {handlerActiveStep(activeStep)}
-            <ControlStep handlerBackStep={handlerBackStep} handlerNextStep={handlerNextStep} active={!(activeStep >= 5 || activeStep === 3)} disableBack={activeStep === 0} disableNext={informationForm.file === null} />
+            <ControlStep handlerBackStep={handlerBackStep} handlerNextStep={handlerNextStep} active={!(activeStep >= 5)} disableBack={activeStep === 0 || activeStep === 4} disableNext={informationForm.file === null && activeStep <= 3} />
           </FormInsert>
         </FormProvider>
       </FormDiv>

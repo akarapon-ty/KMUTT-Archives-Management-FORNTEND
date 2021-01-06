@@ -9,6 +9,7 @@ import Test from './pages/test'
 const Login = React.lazy(() => import('./pages/login'))
 const Homepage = React.lazy(() => import('./pages/homepage'))
 const InsertBook = React.lazy(() => import('./pages/insertBook'))
+const Status = React.lazy(() => import('./pages/status'))
 
 const Router = () => (
   <BrowserRouter>
@@ -19,6 +20,7 @@ const Router = () => (
         <Route path="/test" component={Test} />
         <Route path="/login" component={Login} />
         <Route path="/insertbook" component={InsertBook} />
+        <Route path="/status" component={Status} />
         <Redirect to="/homepage" />
       </Switch>
     </Suspense>
