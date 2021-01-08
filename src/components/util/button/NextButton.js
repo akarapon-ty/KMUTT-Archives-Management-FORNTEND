@@ -9,7 +9,8 @@ const NextButtonStyle = styled.button`
     border: none;
     background-color: white;
     font-size: 19px;
-    color:#10A0A2;
+    color: ${(props) => (props.disabled ? 'white;' : '#10A0A2;')}
+
 `
 
 const NextButton = (props) => {

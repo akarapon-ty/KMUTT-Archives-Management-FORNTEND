@@ -1,5 +1,4 @@
 import React from 'react'
-import { useFormContext } from 'react-hook-form'
 import CloseIcon from '@material-ui/icons/Close'
 
 import {
@@ -33,8 +32,6 @@ const StepThree = (props) => {
   },
   ]
 
-  const { register } = useFormContext()
-
   return (
     <>
       <h4>3. Optional data</h4>
@@ -55,7 +52,6 @@ const StepThree = (props) => {
               inputdefault={relationValue[key]}
               value={relationValue[key]}
               name={key}
-              ref={register}
               key={`relation-${key}input`}
               inputLabel="Relation"
             />

@@ -9,19 +9,11 @@ export const MultiInputFormat = (props) => {
     inputName, inputLabel, inputDefault,
   } = props
 
-  const StepThreeForm = ({ children }) => {
-    const methods = useFormContext()
-    return children({ ...methods })
-  }
+  const { register } = useFormContext()
 
   return (
-    <StepThreeForm>
-      {({ register }) => (
-        <>
-          <InputField name={inputName} ref={register} defaultValue={inputDefault} placeholder={inputLabel} />
-        </>
-      )}
-    </StepThreeForm>
+
+    <InputField name={inputName} ref={register} defaultValue={inputDefault} placeholder={inputLabel} />
 
   )
 }

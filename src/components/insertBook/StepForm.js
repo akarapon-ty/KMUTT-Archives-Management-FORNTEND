@@ -11,7 +11,9 @@ import SelectFile from './SelectFile'
 import StepTwo from './StepTwo'
 import ControlStep from './ControlStep'
 import StepThree from './StepThree'
+import StepFour from './StepFour'
 import StepFive from './StepFive'
+import StepSix from './StepSix'
 
 const StepForm = () => {
   const UPLOAD_FILE = gql`
@@ -147,11 +149,11 @@ const StepForm = () => {
       case 2:
         return <StepThree handlerAddRelation={handlerAddRelation} handlerOnChangeRelation={handlerOnChangeRelation} value={informationForm} handlerRemoveRelation={handlerRemoveRelation} />
       case 3:
-        return null
+        return <StepFour />
       case 4:
         return <StepFive />
       case 5:
-        return null
+        return <StepSix />
       default:
         return null
     }
@@ -236,7 +238,13 @@ const StepForm = () => {
         <FormProvider register={register} handleSubmit={handleSubmit} setValue={setValue} getValues={getValues} control={control} errors={errors}>
           <FormInsert onSubmit={handleSubmit(handlerOnSubmit)}>
             {handlerActiveStep(activeStep)}
-            <ControlStep handlerBackStep={handlerBackStep} handlerNextStep={handlerNextStep} active={!(activeStep >= 5)} disableBack={activeStep === 0 || activeStep === 4} disableNext={informationForm.file === null && activeStep <= 3} />
+            <ControlStep
+              handlerBackStep={handlerBackStep}
+              handlerNextStep={handlerNextStep}
+              active={!(activeStep >= 5) && !(activeStep === 3)}
+              disableBack={activeStep === 0 || activeStep === 4}
+              disableNext={informationForm.file === null && activeStep <= 3}
+            />
           </FormInsert>
         </FormProvider>
       </FormDiv>
