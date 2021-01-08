@@ -11,7 +11,9 @@ import SelectFile from './SelectFile'
 import StepTwo from './StepTwo'
 import ControlStep from './ControlStep'
 import StepThree from './StepThree'
+import StepFour from './StepFour'
 import StepFive from './StepFive'
+import StepSix from './StepSix'
 
 const StepForm = () => {
   const UPLOAD_FILE = gql`
@@ -74,6 +76,8 @@ const StepForm = () => {
   const params = new URLSearchParams(window.location.search)
   const step = params.get('step')
 
+  const [tagMockupData, setTagData] = useState({ 1: 'tag1', 2: 'tag2' })
+
   const [activeStep, setActiveStep] = useState(0)
   const [informationForm, setInformationForm] = useState(fieldForm)
   const [termAll, setTermAll] = useState({})
@@ -99,6 +103,39 @@ const StepForm = () => {
 
   const handlerNextStep = () => {
     setActiveStep((prevState) => prevState + 1)
+  }
+
+  const handlerAddTag = () => {
+    let newData = null
+    const tagAddValue = getValues('Tag / Keyword')
+    if (tagAddValue) {
+      const tempTag = Object.keys(tagMockupData).length > 0 ? Object.keys(tagMockupData).sort() : ['0']
+      const counter = parseInt(tempTag[tempTag.length - 1], 10) + 1
+      newData = { ...tagMockupData, [counter]: tagAddValue }
+      setValue('Tag / Keyword', '')
+
+      window.console.log('tag', tagMockupData)
+      window.console.log('tag mock::', tempTag)
+      window.console.log('tag mock2::', newData)
+
+      setTagData(newData)
+    }
+  }
+
+  const handlerRemoveTag = (key) => {
+    window.console.log('remove tag hello', key)
+
+    const tempTag = { ...tagMockupData }
+    const keyTag = key
+    delete tempTag[keyTag]
+
+    setTagData(tempTag)
+  }
+
+  const handlerOnChangeTag = (e) => {
+    const tempTag = tagMockupData
+    const temp = { ...tempTag, [e.target.name]: e.target.value }
+    setTagData({ ...tagMockupData, temp })
   }
 
   const handlerRemoveRelation = (value) => {
@@ -149,13 +186,13 @@ const StepForm = () => {
       case 2:
         return <StepThree handlerAddRelation={handlerAddRelation} handlerOnChangeRelation={handlerOnChangeRelation} value={informationForm} handlerRemoveRelation={handlerRemoveRelation} />
       case 3:
-        return null
+        return <StepFour />
       case 4:
         return <StepFive termAll={termAll} setTermAll={setTermAll} pageNumber={pageNumber} setPageNumber={setPageNumber} insertTermID={insertTermID} setinsertTermID={setinsertTermID} />
       case 5:
         return null
       case 6:
-        return null
+        return <StepSix handlerAddTag={handlerAddTag} handlerOnChangeTag={handlerOnChangeTag} value={tagMockupData} handlerRemoveTag={handlerRemoveTag} />
       default:
         return null
     }
@@ -240,7 +277,14 @@ const StepForm = () => {
         <FormProvider register={register} handleSubmit={handleSubmit} setValue={setValue} getValues={getValues} control={control} errors={errors}>
           <FormInsert onSubmit={handleSubmit(handlerOnSubmit)}>
             {handlerActiveStep(activeStep)}
-            <ControlStep handlerBackStep={handlerBackStep} handlerNextStep={handlerNextStep} active={!(activeStep >= 5)} disableBack={activeStep === 0 || activeStep === 4} disableNext={informationForm.file === null && activeStep <= 3} />
+            <ControlStep
+              handlerBackStep={handlerBackStep}
+              handlerNextStep={handlerNextStep}
+              active={!(activeStep >= 5)}
+              show={!(activeStep === 3)}
+              disableBack={activeStep === 0 || activeStep >= 4}
+              disableNext={informationForm.file === null && activeStep <= 3}
+            />
           </FormInsert>
         </FormProvider>
       </FormDiv>

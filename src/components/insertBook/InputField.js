@@ -6,7 +6,7 @@ import { InputField, InputLabel } from './styleAll'
 
 export const InputFormat = (props) => {
   const {
-    inputName, inputLabel, inputDefault, conts, types, onChange, required,
+    inputName, inputLabel, inputDefault, conts, types, onChange, required, short, numb,
   } = props
 
   const { register } = useFormContext()
@@ -16,7 +16,7 @@ export const InputFormat = (props) => {
   return (
     <>
       <InputLabel>{inputLabel}</InputLabel>
-      <InputField required={required} type={types} cont={conts} name={inputName} ref={register} defaultValue={inputDefault} placeholder={inputLabel} onChange={funcOnChange} />
+      <InputField required={required} type={types} numb={numb} shorts={short} cont={conts} name={inputName} ref={register} defaultValue={inputDefault} placeholder={inputLabel} onChange={funcOnChange} />
     </>
   )
 }
@@ -26,9 +26,11 @@ export default { }
 InputFormat.defaultProps = {
   inputLabel: 'titleAlernative',
   inputName: 'titleAlernative',
-  inputDefault: 'null',
+  inputDefault: null,
   conts: null,
   types: null,
+  short: null,
+  numb: null,
 }
 
 InputFormat.propTypes = {
@@ -37,5 +39,7 @@ InputFormat.propTypes = {
   inputName: PropTypes.string,
   conts: PropTypes.bool,
   types: PropTypes.string,
+  short: PropTypes.bool,
+  numb: PropTypes.bool,
 
 }
