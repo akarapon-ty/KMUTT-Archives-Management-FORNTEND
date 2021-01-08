@@ -46,7 +46,7 @@ const StepThree = (props) => {
       </LeftRightBox>
       {Object.keys(relationValue).map((key) => (
         <>
-          <Inline long>
+          <Inline key={`relation-${key}inline`} long>
             <MultiInputFormat
               onChange={handlerOnChangeRelation}
               inputdefault={relationValue[key]}
@@ -59,7 +59,7 @@ const StepThree = (props) => {
               <CloseIcon />
             </InsertButton>
           </Inline>
-          <Space />
+          <Space key={`space-${key}`} />
         </>
       ))}
       <h5>Thesis</h5>

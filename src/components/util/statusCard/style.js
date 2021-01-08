@@ -59,6 +59,9 @@ export const BoldText = styled.div`
     flex-flow: row wrap;
     height:24px;
     ${(props) => (props.link ? 'justify-content: flex-end; font-size:14px; text-transform: uppercase; margin-top:10px; cursor: pointer;' : 'font-size:16px; margin-top:15px;')}
+    &:hover{
+        ${(props) => (props.link ? 'color:#4DC8C5;' : null)}
+    }
 `
 export const Space = styled.div`
     height:20px;

@@ -6,11 +6,11 @@ import BackButton from '../util/button/BackButton'
 
 const ControlStep = (props) => {
   const {
-    active, disableBack, handlerBackStep, disableNext,
+    active, disableBack, handlerBackStep, disableNext, show,
   } = props
 
   return (
-    <ControlStepDiv show={active}>
+    <ControlStepDiv show={show}>
       <LineControlStepDiv />
       <ButtonControlStepDiv>
         <BackButton disableBack={disableBack} onClick={handlerBackStep} />

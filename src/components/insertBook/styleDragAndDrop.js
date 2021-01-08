@@ -10,6 +10,9 @@ export const DropDiv = styled.div`
     background-color: ${(props) => (props.active ? 'rgba(255,255,255,.8)' : 'white')};
     position: relative;  
     text-align: center;
+    &:hover{
+        border:dashed #10A0A2 2px;
+    }
 `
 
 export const MessageDrop = styled.p`

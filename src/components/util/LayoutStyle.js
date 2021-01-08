@@ -5,7 +5,7 @@ import bgTall from '../../assets/BG/TrueBG.png'
 
 const LayoutGridStyle = styled.div`
     font-family: 'Kanit', sans-serif;
-    font-weight:200;
+    font-weight:400;
     display:grid;
     grid-template-columns: auto 900px auto;
 

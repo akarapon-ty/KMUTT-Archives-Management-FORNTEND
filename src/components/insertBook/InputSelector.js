@@ -9,26 +9,18 @@ export const SelectorFormat = (props) => {
     inputName, inputLabel, inputDefault, options, inputName2, inputLabel2, inputDefault2,
   } = props
 
-  const StepThreeForm = ({ children }) => {
-    const methods = useFormContext()
-    return children({ ...methods })
-  }
+  const { register } = useFormContext()
 
   return (
-    <StepThreeForm>
-      {({ register }) => (
-        <>
-          <InputLabel>{inputLabel}</InputLabel>
-          <InputSelector name={inputName} ref={register} defaultValue={inputDefault} placeholder={inputLabel}>
-            {options.map((option) => (
-              <option key={option.val} value={option.val}>{option.lab}</option>
-            ))}
-          </InputSelector>
-          {inputName2 ? <InputField type="number" shorts name={inputName2} ref={register} defaultValue={inputDefault2} placeholder={inputLabel2} /> : null }
-        </>
-      )}
-    </StepThreeForm>
-
+    <>
+      <InputLabel>{inputLabel}</InputLabel>
+      <InputSelector name={inputName} ref={register} defaultValue={inputDefault} placeholder={inputLabel}>
+        {options.map((option) => (
+          <option key={option.val} value={option.val}>{option.lab}</option>
+        ))}
+      </InputSelector>
+      {inputName2 ? <InputField type="number" numb name={inputName2} ref={register} defaultValue={inputDefault2} placeholder={inputLabel2} /> : null }
+    </>
   )
 }
 
