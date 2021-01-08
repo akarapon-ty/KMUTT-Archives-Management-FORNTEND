@@ -34,10 +34,7 @@ const StepForm = () => {
     }
   `
 
-  const [uploadFile] = useMutation(UPLOAD_FILE)
-  const [insertDocument, { error: insertError }] = useMutation(INSERT_DOCUMENT)
-
-  const getSteps = () => ['Select file', 'Fill the data', 'Optional data', 'Waiting for upload', 'Correction', 'Edit tag']
+  const getSteps = () => ['Select file', 'Fill the data', 'Optional data', 'Waiting for upload', 'Correction', 'Waiting for tag', 'Edit tag']
 
   const fieldForm = () => (
     {
@@ -74,16 +71,21 @@ const StepForm = () => {
     }
   )
 
-  const {
-    register, handleSubmit, setValue, getValues, control, errors,
-  } = useForm()
+  const params = new URLSearchParams(window.location.search)
+  const step = params.get('step')
 
   const [activeStep, setActiveStep] = useState(0)
   const [informationForm, setInformationForm] = useState(fieldForm)
+  const [termAll, setTermAll] = useState({})
+  const [pageNumber, setPageNumber] = useState(1)
+  const [insertTermID, setinsertTermID] = useState(1)
 
-  const params = new URLSearchParams(window.location.search)
-  const step = params.get('step')
-  const idDocument = params.get('id')
+  const [uploadFile] = useMutation(UPLOAD_FILE)
+  const [insertDocument, { error: insertError }] = useMutation(INSERT_DOCUMENT)
+
+  const {
+    register, handleSubmit, setValue, getValues, control, errors,
+  } = useForm()
 
   if (step === '4' && activeStep < 4) {
     setActiveStep(4)
@@ -149,8 +151,10 @@ const StepForm = () => {
       case 3:
         return null
       case 4:
-        return <StepFive />
+        return <StepFive termAll={termAll} setTermAll={setTermAll} pageNumber={pageNumber} setPageNumber={setPageNumber} insertTermID={insertTermID} setinsertTermID={setinsertTermID} />
       case 5:
+        return null
+      case 6:
         return null
       default:
         return null
@@ -177,12 +181,12 @@ const StepForm = () => {
         insertDocument({
           variables: {
             body: {
-              startPage: tempData.startPage,
+              startPage: parseInt(tempData.startPage, 10),
               addVersion: true,
               name: res.data.uploadDocument.filename,
               path: res.data.uploadDocument.pathFile,
               DC_relation: tempRelation,
-              DC_type: tempData.type,
+              DC_type: [tempData.type],
               DC_title: tempData.title,
               DC_title_alternative: tempData.titleAlernative,
               DC_description_table_of_contents: tempData.tableOfContents,
@@ -211,7 +215,7 @@ const StepForm = () => {
               DC_issued_date: tempData.issuedDate,
             },
           },
-        })
+        }).catch((err) => window.console.log(err))
       })
         .catch((err) => window.console.log(err))
     }
