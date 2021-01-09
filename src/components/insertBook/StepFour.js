@@ -5,7 +5,7 @@ const StepFour = () => {
   const test = 'test'
   return (
     <>
-      <h4>4. Correction</h4>
+      <h4>4. Waiting for upload</h4>
       <StatusCard />
     </>
   )

@@ -49,6 +49,9 @@ export const InsertButton = styled.button`
     text-decoration: none;
     font-weight:700;
     cursor:pointer;
+    &:hover{
+        color:#4DC8C5;
+    }
 `
 
 export const LeftRightBox = styled.div`
