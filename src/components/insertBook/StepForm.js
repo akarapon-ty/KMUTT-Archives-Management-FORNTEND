@@ -208,54 +208,66 @@ const StepForm = () => {
     window.console.log('mutationError:', insertError)
   }
 
+  const handlerSubmitInsertDocument = (tempData, tempRelation) => {
+    uploadFile({ variables: { file: informationForm.file } }).then((res) => {
+      insertDocument({
+        variables: {
+          body: {
+            startPage: parseInt(tempData.startPage, 10),
+            addVersion: true,
+            name: res.data.uploadDocument.filename,
+            path: res.data.uploadDocument.pathFile,
+            DC_relation: tempRelation,
+            DC_type: [tempData.type],
+            DC_title: tempData.title,
+            DC_title_alternative: tempData.titleAlernative,
+            DC_description_table_of_contents: tempData.tableOfContents,
+            DC_description_summary_or_abstract: tempData.summary,
+            DC_description_note: tempData.note,
+            DC_format: 'pdf',
+            DC_format_extent: '',
+            DC_identifier_URL: tempData.identifierUrl,
+            DC_identifier_ISBN: tempData.identifierIsbn,
+            DC_source: tempData.source,
+            DC_language: tempData.language,
+            DC_coverage_spatial: tempData.coverageSpatial,
+            DC_coverage_temporal: tempData.coverageTemporalMonth,
+            DC_rights: tempData.rights,
+            DC_rights_access: tempData.rightsAccess,
+            thesis_degree_name: tempData.degreeName,
+            thesis_degree_level: tempData.degreeLevel,
+            thesis_degree_discipline: tempData.degreeDicipline,
+            thesis_degree_grantor: tempData.degreeGrantor,
+            DC_creator: tempData.creatorName,
+            DC_creator_orgname: tempData.creatorOrganizationName,
+            DC_publisher: tempData.publisher,
+            DC_publisher_email: tempData.publisherEmail,
+            DC_contributor: tempData.contributor,
+            DC_contributor_role: tempData.contributorRole,
+            DC_issued_date: tempData.issuedDate,
+          },
+        },
+      }).catch((err) => window.console.log(err))
+    })
+      .catch((err) => window.console.log(err))
+  }
+
+  const handlerSubmitUpdateTerm = () => {
+
+  }
+
   const handlerOnSubmit = (data) => {
     const tempData = { ...informationForm, ...data }
     setInformationForm({ ...informationForm, ...data })
 
     if (activeStep === 2 && tempData.file) {
       const tempRelation = parseRelation(informationForm.relation)
-      uploadFile({ variables: { file: informationForm.file } }).then((res) => {
-        insertDocument({
-          variables: {
-            body: {
-              startPage: parseInt(tempData.startPage, 10),
-              addVersion: true,
-              name: res.data.uploadDocument.filename,
-              path: res.data.uploadDocument.pathFile,
-              DC_relation: tempRelation,
-              DC_type: [tempData.type],
-              DC_title: tempData.title,
-              DC_title_alternative: tempData.titleAlernative,
-              DC_description_table_of_contents: tempData.tableOfContents,
-              DC_description_summary_or_abstract: tempData.summary,
-              DC_description_note: tempData.note,
-              DC_format: 'pdf',
-              DC_format_extent: '',
-              DC_identifier_URL: tempData.identifierUrl,
-              DC_identifier_ISBN: tempData.identifierIsbn,
-              DC_source: tempData.source,
-              DC_language: tempData.language,
-              DC_coverage_spatial: tempData.coverageSpatial,
-              DC_coverage_temporal: tempData.coverageTemporalMonth,
-              DC_rights: tempData.rights,
-              DC_rights_access: tempData.rightsAccess,
-              thesis_degree_name: tempData.degreeName,
-              thesis_degree_level: tempData.degreeLevel,
-              thesis_degree_discipline: tempData.degreeDicipline,
-              thesis_degree_grantor: tempData.degreeGrantor,
-              DC_creator: tempData.creatorName,
-              DC_creator_orgname: tempData.creatorOrganizationName,
-              DC_publisher: tempData.publisher,
-              DC_publisher_email: tempData.publisherEmail,
-              DC_contributor: tempData.contributor,
-              DC_contributor_role: tempData.contributorRole,
-              DC_issued_date: tempData.issuedDate,
-            },
-          },
-        }).catch((err) => window.console.log(err))
-      })
-        .catch((err) => window.console.log(err))
+      handlerSubmitInsertDocument(tempData, tempRelation)
     }
+    if (activeStep === 4) {
+      handlerSubmitUpdateTerm()
+    }
+
     handlerNextStep()
   }
 
@@ -280,7 +292,7 @@ const StepForm = () => {
             <ControlStep
               handlerBackStep={handlerBackStep}
               handlerNextStep={handlerNextStep}
-              active={!(activeStep >= 5)}
+              active={!(activeStep >= 6)}
               show={!(activeStep === 3)}
               disableBack={activeStep === 0 || activeStep >= 4}
               disableNext={informationForm.file === null && activeStep <= 3}

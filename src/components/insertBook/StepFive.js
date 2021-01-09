@@ -18,7 +18,8 @@ const StepFive = (props) => {
           preTermId,
           preTerm,
         },
-        image
+        image,
+        pageId,
       }
     }
   `
@@ -26,13 +27,22 @@ const StepFive = (props) => {
   const params = new URLSearchParams(window.location.search)
   const docId = parseInt(params.get('id'), 10)
 
-  const handlerSetTerm = (terms) => {
-    const tempTerms = termAll
+  const handlerSetTerm = (terms, pageId) => {
+    const tempTerms = { ...termAll }
+    let parseTerms = { }
     // cheack no term in back end
     if (terms.length === 1 && terms[0].preTermId === null) {
+      if (tempTerms[`page-${pageNumber}`]) {
+        return
+      }
+      parseTerms = {
+        [`page-${pageNumber}`]: { [`newterm-${insertTermID}`]: { queryTerm: 'เพิ่มคำ', inputTerm: '' } },
+      }
+      setinsertTermID((prevState) => prevState + 1)
+      setTermAll({ ...tempTerms, ...parseTerms })
       return
     }
-    let parseTerms = { }
+
     // check if already add term in state don't change input term
     terms.map((term) => {
       let tempInputTerm = term.preTerm
@@ -46,6 +56,7 @@ const StepFive = (props) => {
         [`page-${pageNumber}`]: {
           ...parseTerms[`page-${pageNumber}`],
           [`term-${term.preTermId}`]: { queryTerm: term.preTerm, inputTerm: tempInputTerm },
+          pageId,
         },
       }
       return { }
@@ -64,7 +75,7 @@ const StepFive = (props) => {
   const { data: dataImagePage, loading: imageLoading, error: imageError } = useQuery(QUERY_CORRECTNESSPAGE,
     {
       variables: { pageId: pageNumber, documentId: docId },
-      onCompleted: ({ keywordInPage }) => handlerSetTerm(keywordInPage.PreTerms),
+      onCompleted: ({ keywordInPage }) => handlerSetTerm(keywordInPage.PreTerms, keywordInPage.pageId),
     })
 
   if (imageLoading) {
@@ -90,11 +101,17 @@ const StepFive = (props) => {
     const tempTerms = { ...termAll }
     // normal insert Term || first insert Term
     if (termAll[`page-${pageNumber}`]) {
-      const parseTerm = { [`page-${pageNumber}`]: { ...termAll[`page-${pageNumber}`], [insertTermID]: { queryTerm: 'เพิ่มคำ', inputTerm: '' } } }
+      const parseTerm = { [`page-${pageNumber}`]: { ...termAll[`page-${pageNumber}`], [`newterm-${insertTermID}`]: { queryTerm: 'เพิ่มคำ', inputTerm: '', newTerm: true } } }
       setinsertTermID((prevState) => prevState + 1)
       setTermAll({ ...tempTerms, ...parseTerm })
     } else {
-      const parseTerm = { [`page-${pageNumber}`]: { ...termAll[`page-${pageNumber}`], [insertTermID]: { queryTerm: 'เพิ่มคำ', inputTerm: '' }, [insertTermID + 1]: { queryTerm: 'เพิ่มคำ', inputTerm: '' } } }
+      const parseTerm = {
+        [`page-${pageNumber}`]: {
+          ...termAll[`page-${pageNumber}`],
+          [`newterm-${insertTermID}`]: { queryTerm: 'เพิ่มคำ', inputTerm: '', newTerm: true },
+          [`newterm-${insertTermID + 1}`]: { queryTerm: 'เพิ่มคำ', inputTerm: '', newTerm: true },
+        },
+      }
       setinsertTermID((prevState) => prevState + 2)
       setTermAll({ ...tempTerms, ...parseTerm })
     }
@@ -113,20 +130,23 @@ const StepFive = (props) => {
     // }
   }
 
-  let inputRender = <InputTerm defaultLabel="เพิ่มคำ" placeholder="พิมพ์คำที่ต้องการ" />
+  let inputRender = null
 
   if (termAll[`page-${pageNumber}`]) {
     inputRender = Object.keys(termAll[`page-${pageNumber}`])
-      .map((indexTerm) => (
-        <InputTerm
-          key={indexTerm}
-          defaultLabel={termAll[`page-${pageNumber}`][indexTerm].queryTerm}
-          defaultInput={termAll[`page-${pageNumber}`][indexTerm].inputTerm}
-          placeholder="พิมพ์คำที่ต้องการ"
-          name={indexTerm}
-          handlerOnChange={handlerOnChangeTerm}
-        />
-      ))
+      .map((indexTerm) => {
+        if (indexTerm === 'pageId') return
+        return (
+          <InputTerm
+            key={indexTerm}
+            defaultLabel={termAll[`page-${pageNumber}`][indexTerm].queryTerm}
+            defaultInput={termAll[`page-${pageNumber}`][indexTerm].inputTerm}
+            placeholder="พิมพ์คำที่ต้องการ"
+            name={indexTerm}
+            handlerOnChange={handlerOnChangeTerm}
+          />
+        )
+      })
   }
 
   return (
@@ -143,7 +163,7 @@ const StepFive = (props) => {
       </ContainerWord>
       <ControlPage>
         <button type="button" disabled={pageNumber <= 1} onClick={() => handlerBackPage()}>back</button>
-        <InputPage value={pageNumber} onChange={handlerSetPageNumber} />
+        <InputPage value={pageNumber} onChange={(e) => handlerSetPageNumber(e)} />
         <p>/ 123</p>
         <button type="button" onClick={() => handlerNextPage()}>next</button>
       </ControlPage>
