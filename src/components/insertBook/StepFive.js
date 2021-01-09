@@ -36,7 +36,7 @@ const StepFive = (props) => {
         return
       }
       parseTerms = {
-        [`page-${pageNumber}`]: { [`newterm-${insertTermID}`]: { queryTerm: 'เพิ่มคำ', inputTerm: '' } },
+        [`page-${pageNumber}`]: { [`newterm-${insertTermID}`]: { queryTerm: 'เพิ่มคำ', inputTerm: '' }, pageId, pageNumber },
       }
       setinsertTermID((prevState) => prevState + 1)
       setTermAll({ ...tempTerms, ...parseTerms })
@@ -57,6 +57,7 @@ const StepFive = (props) => {
           ...parseTerms[`page-${pageNumber}`],
           [`term-${term.preTermId}`]: { queryTerm: term.preTerm, inputTerm: tempInputTerm },
           pageId,
+          pageNumber,
         },
       }
       return { }
@@ -84,6 +85,10 @@ const StepFive = (props) => {
 
   if (imageError) {
     window.console.log(imageError)
+  }
+
+  if (!dataImagePage) {
+    return null
   }
 
   const handlerOnChangeTerm = (e) => {
@@ -135,7 +140,7 @@ const StepFive = (props) => {
   if (termAll[`page-${pageNumber}`]) {
     inputRender = Object.keys(termAll[`page-${pageNumber}`])
       .map((indexTerm) => {
-        if (indexTerm === 'pageId') return
+        if (indexTerm === 'pageId' || indexTerm === 'pageNumber') return
         return (
           <InputTerm
             key={indexTerm}

@@ -36,6 +36,19 @@ const StepForm = () => {
     }
   `
 
+  const INSERT_TERM = gql`
+    mutation overridePerterm($newInformation: InputSeleceOverridePerterm!){
+      overridePerterm(newInformation: $newInformation){
+        overidestatus,
+        addNewStatus{
+          pageIndex,
+          documentId,
+          status
+        }
+      }
+    }
+  `
+
   const getSteps = () => ['Select file', 'Fill the data', 'Optional data', 'Waiting for upload', 'Correction', 'Waiting for tag', 'Edit tag']
 
   const fieldForm = () => (
@@ -75,6 +88,7 @@ const StepForm = () => {
 
   const params = new URLSearchParams(window.location.search)
   const step = params.get('step')
+  const docId = parseInt(params.get('id'), 10)
 
   const [tagMockupData, setTagData] = useState({ 1: 'tag1', 2: 'tag2' })
 
@@ -85,7 +99,8 @@ const StepForm = () => {
   const [insertTermID, setinsertTermID] = useState(1)
 
   const [uploadFile] = useMutation(UPLOAD_FILE)
-  const [insertDocument, { error: insertError }] = useMutation(INSERT_DOCUMENT)
+  const [insertDocument, { error: insertDocumentError }] = useMutation(INSERT_DOCUMENT)
+  const [insertTerm, { error: insertTermError }] = useMutation(INSERT_TERM)
 
   const {
     register, handleSubmit, setValue, getValues, control, errors,
@@ -204,8 +219,12 @@ const StepForm = () => {
     return result
   }
 
-  if (insertError) {
-    window.console.log('mutationError:', insertError)
+  if (insertDocumentError) {
+    window.console.log('mutationDocumentError:', insertDocumentError)
+  }
+
+  if (insertTermError) {
+    window.console.log('mutationTermError:', insertTermError)
   }
 
   const handlerSubmitInsertDocument = (tempData, tempRelation) => {
@@ -252,8 +271,34 @@ const StepForm = () => {
       .catch((err) => window.console.log(err))
   }
 
-  const handlerSubmitUpdateTerm = () => {
+  const parseTerms = () => {
+    const tempTerms = { ...termAll }
+    const resultOverRide = []
+    const resultNewPage = []
+    Object.keys(tempTerms).map((page) => {
+      const tokens = []
+      Object.keys(tempTerms[page]).map((term) => {
+        if (term === 'pageId' || term === 'pageNumber') {
+          return { }
+        }
+        const resultToken = tempTerms[page][term].inputTerm === '' ? null : tempTerms[page][term].inputTerm
+        tokens.push(resultToken)
+        return { }
+      })
+      if (tempTerms[page].pageId === -1) {
+        resultNewPage.push({ pageIndex: tempTerms[page].pageNumber, documentId: docId, token: tokens })
+      } else {
+        console.log(tempTerms[page].pageId)
+        resultOverRide.push({ pageId: tempTerms[page].pageId, token: tokens })
+      }
+      return { }
+    })
+    return { overide: resultOverRide, newPage: resultNewPage }
+  }
 
+  const handlerSubmitUpdateTerm = () => {
+    const result = parseTerms()
+    insertTerm({ variables: { newInformation: result } }).catch((err) => window.console.log(err)).then((res) => window.console.log(res))
   }
 
   const handlerOnSubmit = (data) => {
