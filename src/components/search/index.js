@@ -1,6 +1,3 @@
-import { SearchCard } from './SearchCard'
-import { SearchFormat } from './SearchFormat'
+import SearchComponents from './SearchComponents'
 
-export { SearchCard, SearchFormat }
-
-export default { }
+export default SearchComponents
