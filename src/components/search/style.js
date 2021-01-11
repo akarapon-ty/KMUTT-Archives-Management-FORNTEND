@@ -102,4 +102,31 @@ export const SearchTextFill = styled.div`
   font-size:16px;
   color: #10A0A2;
 `
+
+export const DeleteButton = styled.button`
+  float:right;
+  background-color:red;
+  color: white;
+  text-decoration: none;
+  padding:10px 20px;
+  height:48;
+  border-radius:4px;
+  border:none;
+  font-size:16px;
+  cursor: pointer;
+`
+export const ManageButton = styled.button`
+  margin-top:5px;
+  float:right;
+  background-color:white;
+  color: #10A0A2;
+  text-decoration: none;
+  padding:10px 20px;
+  height:48;
+  border-radius:4px;
+  border:none;
+  font-size:16px;
+  cursor: pointer;
+
+`
 export default { }

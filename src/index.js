@@ -5,6 +5,7 @@ import { ApolloProvider } from '@apollo/client'
 import client from './graphql/index'
 import ContextProvider from './store/actions'
 import App from './App'
+import './index.css'
 
 ReactDOM.render(
   <React.StrictMode>

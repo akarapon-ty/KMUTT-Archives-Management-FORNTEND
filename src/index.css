@@ -1,0 +1,26 @@
+body {
+    font-weight: normal;
+    font-style: normal;
+    font-family: 'Kanit', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  @font-face {
+    font-family: 'Kanit', sans-serif;
+    font-weight: normal;
+    font-style: normal;
+    src:  url('https://fonts.googleapis.com/css2?family=Kanit:wght@200;300;400;500;700&display=swap');
+  }
+  h4 {
+    text-align:center;
+    font-size: 24px;
+    font-weight: 500;
+    color:#10A0A2;
+  }
+  h3 {
+    text-align:center;
+    font-size: 30px;
+    font-weight: 500;
+    color:white;
+    text-shadow: 1px 1px 5px rgba(255, 255, 255, 0.5);
+  }

@@ -1,26 +1,42 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { useFormContext } from 'react-hook-form'
+
+import {
+  InputLogin, FormLabel, LoginButton, ErrorMessage,
+} from './style'
 
 export const ContainerLogin = (props) => {
-  const { login2222 } = props
-  const loginFail = login2222 ? 'test' : 'no noo no'
+  const { login } = props
+  const loginFail = login ? (<ErrorMessage>* incorrect username password</ErrorMessage>) : null
 
+  const LoginForm = ({ children }) => {
+    const methods = useFormContext()
+    return children({ ...methods })
+  }
   return (
-    <div>
-      <p>
-        Login
-        {loginFail}
-      </p>
-    </div>
+    <LoginForm>
+      {({ register }) => (
+        <>
+          <h4>Login</h4>
+          <FormLabel> Username </FormLabel>
+          <InputLogin ref={register} name="username" />
+          <FormLabel> Password </FormLabel>
+          <InputLogin ref={register} name="password" type="password" />
+          {loginFail}
+          <LoginButton type="submit">Login</LoginButton>
+        </>
+      )}
+    </LoginForm>
   )
 }
 
-export default { }
+export default {}
 
 ContainerLogin.defaultProps = {
-  login2222: false,
+  login: false,
 }
 
 ContainerLogin.propTypes = {
-  login2222: PropTypes.bool,
+  login: PropTypes.bool,
 }

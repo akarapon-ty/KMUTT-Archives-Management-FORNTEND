@@ -2,12 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import {
-  DivideBox, ResultStyle, Image, Content, TitleBook, TagBook, Tag, ConP, Line,
+  DivideBox, ResultStyle, Image, Content, TitleBook, TagBook, Tag, ConP, Line, DeleteButton, ManageButton,
 } from './style'
 
 export const SearchCard = (props) => {
   const {
-    title, creator, coverageTemporal, tag,
+    title, creator, coverageTemporal, tag, manage,
   } = props
 
   return (
@@ -16,8 +16,13 @@ export const SearchCard = (props) => {
         <Image />
 
         <Content>
-          <TitleBook>{title}</TitleBook>
+          {manage ? <DeleteButton type="button">Delete</DeleteButton> : null}
+          <TitleBook>
+            {title}
+            {' '}
+          </TitleBook>
           <Line />
+          {manage ? <ManageButton type="button">Edit</ManageButton> : null}
           <ConP>
             Creator :
             {' '}
@@ -33,7 +38,7 @@ export const SearchCard = (props) => {
             {tag.map((value) => (
 
               <Tag key={value}>
-                { value}
+                { value }
               </Tag>
 
             ))}
@@ -46,12 +51,12 @@ export const SearchCard = (props) => {
   )
 }
 
-export default {}
+export default { }
 
 SearchCard.defaultProps = {
   title: 'title default',
   creator: 'creator default',
-  coverageTemporal: 'coverageTemporal default',
+  coverageTemporal: '0',
   tag: [],
 
 }
@@ -59,7 +64,7 @@ SearchCard.defaultProps = {
 SearchCard.propTypes = {
   title: PropTypes.string,
   creator: PropTypes.string,
-  coverageTemporal: PropTypes.number,
+  coverageTemporal: PropTypes.string,
   tag: PropTypes.arrayOf(PropTypes.string),
 
 }

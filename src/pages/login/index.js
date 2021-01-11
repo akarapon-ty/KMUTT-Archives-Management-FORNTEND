@@ -1,23 +1,47 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState, useContext } from 'react'
+import { useForm, FormProvider } from 'react-hook-form'
+import axios from 'axios'
 
 import { ContainerLogin } from '../../components/login/index'
+import { AuthInContext } from '../../store/actions/auth'
+import { FormLogin } from './style'
+import DefaultLayoutStyle from '../../components/util/LayoutStyle'
 
-export const Login = () => {
-  const [login] = useState(true)
-  const [test, setTest] = useState('testss')
+const Login = () => {
+  const { loginSuccess, loginFail } = useContext(AuthInContext)
+  const [login, setLogin] = useState(false)
 
-  useEffect(() => {
-    setTimeout(() => {
-      setTest('first time when use')
-    }, 2000)
-  }, [test])
+  const {
+    register, handleSubmit, setValue, getValues,
+  } = useForm()
+
+  const loginHandler = (data) => {
+    const { username, password } = data
+    axios.post(`${process.env.REACT_APP_API_ENDPOINT}login`, {
+      username,
+      password,
+    }).then((response) => {
+      setLogin(false)
+      loginSuccess(response.data)
+      window.location.replace('/homepage')
+    }).catch((error) => {
+      loginFail()
+      if (error.response.data.message === 'incorrect username password') {
+        setLogin(true)
+      }
+    })
+  }
 
   return (
-    <>
-      <ContainerLogin login={login} />
-      {test}
-    </>
+    <DefaultLayoutStyle activate="true">
+      <FormProvider register={register} handleSubmit={handleSubmit} setValue={setValue} getValues={getValues}>
+        <FormLogin onSubmit={handleSubmit(loginHandler)}>
+          <ContainerLogin login={login} />
+        </FormLogin>
+      </FormProvider>
+    </DefaultLayoutStyle>
+
   )
 }
 
-export default { }
+export default Login
