@@ -4,10 +4,11 @@ import bgShort from '../../assets/BG/shortBg.png'
 import bgTall from '../../assets/BG/TrueBG.png'
 
 const LayoutGridStyle = styled.div`
-    font-weight:200;
+    font-family: 'Kanit', sans-serif;
+    font-weight:400;
     display:grid;
     grid-template-columns: auto 900px auto;
-    
+
 `
 const GridContentStyle = styled.div`
     grid-column-start: 2;
