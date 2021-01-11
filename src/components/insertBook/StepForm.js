@@ -3,6 +3,7 @@ import { useForm, FormProvider } from 'react-hook-form'
 import { Stepper, Step, StepLabel } from '@material-ui/core'
 import { useMutation, gql } from '@apollo/client'
 import { ThemeProvider } from '@material-ui/core/styles'
+import { useHistory } from 'react-router-dom'
 
 import {
   StepFormDiv, FormDiv, FormInsert, muiTheme,
@@ -14,6 +15,7 @@ import StepThree from './StepThree'
 import StepFour from './StepFour'
 import StepFive from './StepFive'
 import StepSix from './StepSix'
+import StepSeven from './StepSeven'
 
 const StepForm = () => {
   const UPLOAD_FILE = gql`
@@ -31,7 +33,8 @@ const StepForm = () => {
     mutation addDocument($body: AddDocumentInput!) {
       addDocument(body: $body) {
         status,
-        message
+        message,
+        documentId,
       }
     }
   `
@@ -86,6 +89,7 @@ const StepForm = () => {
     }
   )
 
+  const history = useHistory()
   const params = new URLSearchParams(window.location.search)
   const step = params.get('step')
   const docId = parseInt(params.get('id'), 10)
@@ -106,8 +110,20 @@ const StepForm = () => {
     register, handleSubmit, setValue, getValues, control, errors,
   } = useForm()
 
-  if (step === '4' && activeStep < 4) {
+  if (step === '4' && activeStep < 3) {
+    setActiveStep(3)
+  }
+
+  if (step === '5' && activeStep < 4) {
     setActiveStep(4)
+  }
+
+  if (step === '6' && activeStep < 5) {
+    setActiveStep(5)
+  }
+
+  if (step === '7' && activeStep < 6) {
+    setActiveStep(6)
   }
 
   const handlerBackStep = () => {
@@ -201,13 +217,13 @@ const StepForm = () => {
       case 2:
         return <StepThree handlerAddRelation={handlerAddRelation} handlerOnChangeRelation={handlerOnChangeRelation} value={informationForm} handlerRemoveRelation={handlerRemoveRelation} />
       case 3:
-        return <StepFour />
+        return <StepFour docId={docId} />
       case 4:
         return <StepFive termAll={termAll} setTermAll={setTermAll} pageNumber={pageNumber} setPageNumber={setPageNumber} insertTermID={insertTermID} setinsertTermID={setinsertTermID} />
       case 5:
-        return null
+        return <StepSix docId={docId} />
       case 6:
-        return <StepSix handlerAddTag={handlerAddTag} handlerOnChangeTag={handlerOnChangeTag} value={tagMockupData} handlerRemoveTag={handlerRemoveTag} />
+        return <StepSeven handlerAddTag={handlerAddTag} handlerOnChangeTag={handlerOnChangeTag} value={tagMockupData} handlerRemoveTag={handlerRemoveTag} />
       default:
         return null
     }
@@ -267,7 +283,10 @@ const StepForm = () => {
             DC_issued_date: tempData.issuedDate,
           },
         },
-      }).catch((err) => window.console.log(err))
+      }).then((result) => {
+        history.push(`/insertbook?step=4&id=${result.data.addDocument.documentId}`)
+      })
+        .catch((err) => window.console.log(err))
     })
       .catch((err) => window.console.log(err))
   }
@@ -287,18 +306,18 @@ const StepForm = () => {
         return { }
       })
       if (tempTerms[page].pageId === -1) {
-        resultNewPage.push({ pageIndex: tempTerms[page].pageNumber, documentId: docId, token: tokens })
+        resultNewPage.push({ pageIndex: tempTerms[page].pageNumber, token: tokens })
       } else {
         resultOverRide.push({ pageId: tempTerms[page].pageId, token: tokens })
       }
       return { }
     })
-    return { overide: resultOverRide, newPage: resultNewPage }
+    return { overide: resultOverRide, newPage: resultNewPage, documentId: docId }
   }
 
   const handlerSubmitUpdateTerm = () => {
     const result = parseTerms()
-    insertTerm({ variables: { newInformation: result } }).catch((err) => window.console.log(err)).then((res) => window.console.log(res))
+    insertTerm({ variables: { newInformation: result } }).catch((err) => window.console.log(err)).then(() => history.push(`/insertbook?step=6&id=${result.documentId}`))
   }
 
   const handlerOnSubmit = (data) => {
@@ -308,9 +327,12 @@ const StepForm = () => {
     if (activeStep === 2 && tempData.file) {
       const tempRelation = parseRelation(informationForm.relation)
       handlerSubmitInsertDocument(tempData, tempRelation)
+      return
     }
+
     if (activeStep === 4) {
       handlerSubmitUpdateTerm()
+      return
     }
 
     handlerNextStep()
@@ -338,7 +360,7 @@ const StepForm = () => {
               handlerBackStep={handlerBackStep}
               handlerNextStep={handlerNextStep}
               active={!(activeStep >= 6)}
-              show={!(activeStep === 3)}
+              show={!(activeStep === 3 || activeStep === 5)}
               disableBack={activeStep === 0 || activeStep >= 4}
               disableNext={informationForm.file === null && activeStep <= 3}
             />

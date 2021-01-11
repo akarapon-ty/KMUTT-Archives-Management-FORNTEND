@@ -33,6 +33,7 @@ const Status = () => {
     const filterStatus = getData.documentStatusMultiple.filter((datas) => datas.status === getStatus)
     return filterStatus.length !== 0 ? filterStatus.map((value) => <StatusCard key={value.documentId} id={value.documentId} titleBook={value.title} compileState={value.status} publishDate={value.publish} />) : false
   }
+
   return (
     <DefaultLayoutStyle>
       <Topic>STATUS UPLOAD</Topic>

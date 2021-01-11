@@ -36,6 +36,7 @@ export const ContainerWord = styled.div`
     display: inline-flex;
     align-items:  flex-start; 
     flex-wrap: wrap;
+    width:100%;
 `
 
 export const InputTermDiv = styled.div`

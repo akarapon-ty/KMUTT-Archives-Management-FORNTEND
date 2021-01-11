@@ -4,7 +4,6 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 import { ThemeProvider } from '@material-ui/core/styles'
 import CheckCircleOutlinedIcon from '@material-ui/icons/CheckCircleOutlined'
 import PropTypes from 'prop-types'
-import { withRouter } from 'react-router-dom'
 
 import {
   StatusStyle, DivideBox, Image, Content, TitleBook, Line, ConP, BoldText, StatusLoad, ColorProgress, Space,
@@ -12,7 +11,7 @@ import {
 
 const StatusCard = (props) => {
   const {
-    id, titleBook, publishDate, compileState,
+    id, titleBook, publishDate, compileState, handleNextStep,
   } = props
 
   const parseState = (state) => {
@@ -45,9 +44,6 @@ const StatusCard = (props) => {
     }
   }
 
-  const handleNextStep = (clickId) => {
-    props.history.push({ pathname: '/insertbook', search: `?step=4&id=${clickId}` })
-  }
   return (
     <>
       <StatusStyle state={newState}>
@@ -87,7 +83,7 @@ const StatusCard = (props) => {
   )
 }
 
-export default withRouter(StatusCard)
+export default StatusCard
 
 StatusCard.defaultProps = {
   compileState: 0,
