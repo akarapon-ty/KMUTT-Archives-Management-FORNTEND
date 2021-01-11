@@ -1,7 +1,7 @@
 import React from 'react'
 import { useQuery, gql } from '@apollo/client'
 
-import { SearchResult, SearchFormat } from '../../components/search'
+import { SearchCard, SearchFormat } from '../../components/search'
 import DefaultLayoutStyle from '../../components/util/LayoutStyle'
 
 export const Search = () => {
@@ -23,11 +23,14 @@ export const Search = () => {
   if (loading) {
     return null
   }
+  if (!data) {
+    return null
+  }
 
   return (
     <DefaultLayoutStyle>
       <SearchFormat searchFill="KMUTT" searchTotal={data.documents.documents.length} />
-      { data.documents.documents.map((value) => <SearchResult key={value.id} title={value.DC_title} creator={value.creator} coverageTemporal={value.DC_coverage_temporal} tag={[]} />)}
+      { data.documents.documents.map((value) => <SearchCard key={value.id} title={value.DC_title} creator={value.creator} coverageTemporal={value.DC_coverage_temporal} tag={[]} />)}
     </DefaultLayoutStyle>
   )
 }

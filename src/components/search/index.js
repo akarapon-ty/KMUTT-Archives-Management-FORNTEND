@@ -1,6 +1,6 @@
-import { SearchResult } from './SearchResult'
+import { SearchCard } from './SearchCard'
 import { SearchFormat } from './SearchFormat'
 
-export { SearchResult, SearchFormat }
+export { SearchCard, SearchFormat }
 
 export default { }
