@@ -233,7 +233,7 @@ const StepForm = () => {
         variables: {
           body: {
             startPage: parseInt(tempData.startPage, 10),
-            addVersion: true,
+            addVersion: false,
             name: res.data.uploadDocument.filename,
             path: res.data.uploadDocument.pathFile,
             DC_relation: tempRelation,
@@ -251,6 +251,7 @@ const StepForm = () => {
             DC_language: tempData.language,
             DC_coverage_spatial: tempData.coverageSpatial,
             DC_coverage_temporal: tempData.coverageTemporalMonth,
+            DC_coverage_temporal_year: tempData.coverageTempooralYear,
             DC_rights: tempData.rights,
             DC_rights_access: tempData.rightsAccess,
             thesis_degree_name: tempData.degreeName,
@@ -288,7 +289,6 @@ const StepForm = () => {
       if (tempTerms[page].pageId === -1) {
         resultNewPage.push({ pageIndex: tempTerms[page].pageNumber, documentId: docId, token: tokens })
       } else {
-        console.log(tempTerms[page].pageId)
         resultOverRide.push({ pageId: tempTerms[page].pageId, token: tokens })
       }
       return { }
