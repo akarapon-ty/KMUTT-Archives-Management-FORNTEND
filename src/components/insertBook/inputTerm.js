@@ -15,7 +15,7 @@ const InputTerm = (props) => {
         <LabelTerm>{defaultLabel}</LabelTerm>
       </LabelTermDiv>
       <LineBetweenLableAndInput />
-      <InputTermStyle defaultValue={defaultInput} placeholder={placeholder} onChange={(e) => handlerOnChange(e)} name={name} />
+      <InputTermStyle defaultValue={defaultInput} placeholder={placeholder} onChange={(e) => handlerOnChange(e)} name={name} size={parseInt(defaultInput.length, 10)} />
     </InputTermDiv>
   )
 }

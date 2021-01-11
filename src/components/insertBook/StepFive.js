@@ -1,9 +1,15 @@
 import React from 'react'
 import { useQuery, gql } from '@apollo/client'
+import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore'
+import NavigateNextIcon from '@material-ui/icons/NavigateNext'
 
 import {
-  ContainerPicture, ImagePage, ContainerOptions, InsertButton, ContainerWord, ControlPage, InputPage,
+  ContainerPicture, ImagePage, ContainerOptions, ContainerWord, ControlPage, InputPage, PageButton, LabelPage,
 } from './styleStepFive'
+import {
+  InsertButton,
+} from './styleAll'
+
 import InputTerm from './inputTerm'
 
 const StepFive = (props) => {
@@ -86,6 +92,10 @@ const StepFive = (props) => {
     window.console.log(imageError)
   }
 
+  if (!dataImagePage) {
+    return null
+  }
+
   const handlerOnChangeTerm = (e) => {
     const tempTerms = { ...termAll }
     const parseTerm = {
@@ -156,16 +166,22 @@ const StepFive = (props) => {
         <ImagePage alt="imagePage" src={`data:image/jpeg;base64,${dataImagePage.keywordInPage.image}`} />
       </ContainerPicture>
       <ContainerOptions>
-        <InsertButton type="button" onClick={() => handlerAddTerm()}> + Add text </InsertButton>
+        <InsertButton type="button" onClick={() => handlerAddTerm()}> + ADD TEXT </InsertButton>
       </ContainerOptions>
       <ContainerWord>
         {inputRender}
       </ContainerWord>
       <ControlPage>
-        <button type="button" disabled={pageNumber <= 1} onClick={() => handlerBackPage()}>back</button>
+        <PageButton type="button" disabled={pageNumber <= 1} onClick={() => handlerBackPage()}>
+          {' '}
+          <NavigateBeforeIcon />
+        </PageButton>
         <InputPage value={pageNumber} onChange={(e) => handlerSetPageNumber(e)} />
-        <p>/ 123</p>
-        <button type="button" onClick={() => handlerNextPage()}>next</button>
+        <LabelPage>/ 123</LabelPage>
+        <PageButton type="button" onClick={() => handlerNextPage()}>
+          {' '}
+          <NavigateNextIcon />
+        </PageButton>
       </ControlPage>
     </>
   )

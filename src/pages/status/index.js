@@ -31,9 +31,8 @@ const Status = () => {
 
   const dataFilter = (getData, getStatus) => {
     const filterStatus = getData.documentStatusMultiple.filter((datas) => datas.status === getStatus)
-    return filterStatus ? filterStatus.map((value) => <StatusCard key={value.documentId} id={value.documentId} titleBook={value.title} compileState={value.status} publishDate={value.publish} />) : null
+    return filterStatus.length !== 0 ? filterStatus.map((value) => <StatusCard key={value.documentId} id={value.documentId} titleBook={value.title} compileState={value.status} publishDate={value.publish} />) : false
   }
-  window.console.log('check if data ', dataStatus.documentStatusMultiple)
   return (
     <DefaultLayoutStyle>
       <Topic>STATUS UPLOAD</Topic>

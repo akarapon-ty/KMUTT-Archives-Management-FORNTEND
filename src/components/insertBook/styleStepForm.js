@@ -21,7 +21,8 @@ export const ControlStepDiv = styled.div`
 `
 
 export const LineControlStepDiv = styled.div`
-    border: 1px solid #4DC8C5;
+    background-color:#4DC8C5;
+    height:1px;
 `
 
 export const FormInsert = styled.form`
