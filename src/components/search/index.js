@@ -1,6 +1,3 @@
-import { SearchResult } from './SearchResult'
-import { SearchFormat } from './SearchFormat'
+import SearchComponents from './SearchComponents'
 
-export { SearchResult, SearchFormat }
-
-export default { }
+export default SearchComponents

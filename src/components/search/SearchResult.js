@@ -1,70 +1,54 @@
-import React from 'react'
+import React, { memo } from 'react'
 import PropTypes from 'prop-types'
 
-import {
-  DivideBox, ResultStyle, Image, Content, TitleBook, TagBook, Tag, ConP, Line, DeleteButton, ManageButton,
-} from './style'
+import { gql, useQuery } from '@apollo/client'
 
-export const SearchResult = (props) => {
-  const {
-    title, creator, coverageTemporal, tag, manage,
-  } = props
+import SearchCard from './searchCard'
+
+import { SearchText, SearchTextFill } from './style'
+
+const SearchResult = ({ input }) => {
+  const SEARCH_DOCUMENT = gql`
+    query searchDocument($fulltext: String!) {
+        searchDocument(fulltext: $fulltext){
+            foundDocument,
+            documentRelevance {
+                idDocument,
+                relevanceScore
+            }
+        }
+    }
+    `
+  const { loading: loadSearchDocument, error: errorSearchDocument, data: dataSearchDocument } = useQuery(SEARCH_DOCUMENT, { variables: { fulltext: input } })
+
+  if (loadSearchDocument) return null
+  if (errorSearchDocument) {
+    window.console.error(errorSearchDocument.message)
+    return null
+  }
+
+  const { documentRelevance, foundDocument } = dataSearchDocument.searchDocument
 
   return (
-    <ResultStyle>
-      <DivideBox>
-        <Image />
-
-        <Content>
-          {manage ? <DeleteButton type="button">Delete</DeleteButton> : null}
-          <TitleBook>
-            {title}
-            {' '}
-          </TitleBook>
-          <Line />
-          {manage ? <ManageButton type="button">Edit</ManageButton> : null}
-          <ConP>
-            Creator :
-            {' '}
-            {creator}
-          </ConP>
-          <ConP>
-            Coverage temporal :
-            {' '}
-            {coverageTemporal}
-          </ConP>
-          <TagBook>
-            <div>Tag : </div>
-            {tag.map((value) => (
-
-              <Tag key={value}>
-                { value }
-              </Tag>
-
-            ))}
-          </TagBook>
-        </Content>
-      </DivideBox>
-
-    </ResultStyle>
-
+    <>
+      <SearchText>
+        {foundDocument}
+        {' '}
+        Results found :
+        {' '}
+        <SearchTextFill>{input}</SearchTextFill>
+      </SearchText>
+      {documentRelevance.map((element) => <SearchCard key={`keyRelevance : ${element.idDocument}`} documentId={element.idDocument} />)}
+    </>
   )
 }
 
-export default { }
-
 SearchResult.defaultProps = {
-  title: 'title default',
-  creator: 'creator default',
-  coverageTemporal: '0',
-  tag: [],
-
+  input: '',
 }
 
 SearchResult.propTypes = {
-  title: PropTypes.string,
-  creator: PropTypes.string,
-  coverageTemporal: PropTypes.string,
-  tag: PropTypes.arrayOf(PropTypes.string),
-
+  input: PropTypes.string,
 }
+
+export default memo(SearchResult)
