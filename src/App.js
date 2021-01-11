@@ -5,6 +5,7 @@ import Router from './routing'
 
 function App() {
   const { loggedIn, auth } = useContext(AuthInContext)
+
   useEffect(() => {
     if (localStorage.getItem('token')) {
       auth(localStorage.getItem('token'))
