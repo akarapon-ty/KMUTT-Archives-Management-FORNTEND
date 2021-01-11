@@ -26,16 +26,18 @@ const StepFive = (props) => {
         },
         image,
         pageId,
+        amountPage,
       }
     }
   `
-
+  let amountPage = 0
   const params = new URLSearchParams(window.location.search)
   const docId = parseInt(params.get('id'), 10)
 
-  const handlerSetTerm = (terms, pageId) => {
+  const handlerSetTerm = (terms, pageId, maxPage) => {
     const tempTerms = { ...termAll }
     let parseTerms = { }
+    amountPage = maxPage
     // cheack no term in back end
     if (terms.length === 1 && terms[0].preTermId === null) {
       if (tempTerms[`page-${pageNumber}`]) {
@@ -82,7 +84,7 @@ const StepFive = (props) => {
   const { data: dataImagePage, loading: imageLoading, error: imageError } = useQuery(QUERY_CORRECTNESSPAGE,
     {
       variables: { pageId: pageNumber, documentId: docId },
-      onCompleted: ({ keywordInPage }) => handlerSetTerm(keywordInPage.PreTerms, keywordInPage.pageId),
+      onCompleted: ({ keywordInPage }) => handlerSetTerm(keywordInPage.PreTerms, keywordInPage.pageId, keywordInPage.amountPage),
     })
 
   if (imageLoading) {
@@ -135,10 +137,9 @@ const StepFive = (props) => {
   }
 
   const handlerNextPage = () => {
-    // check less than max page
-    // if (pageNumber > 1) {
-    setPageNumber((prevState) => prevState + 1)
-    // }
+    if (amountPage < 1) {
+      setPageNumber((prevState) => prevState + 1)
+    }
   }
 
   let inputRender = null
@@ -178,8 +179,11 @@ const StepFive = (props) => {
           <NavigateBeforeIcon />
         </PageButton>
         <InputPage value={pageNumber} onChange={(e) => handlerSetPageNumber(e)} />
-        <LabelPage>/ 123</LabelPage>
-        <PageButton type="button" onClick={() => handlerNextPage()}>
+        <LabelPage>
+          /
+          {amountPage}
+        </LabelPage>
+        <PageButton type="button" disabled={pageNumber === amountPage} onClick={() => handlerNextPage()}>
           {' '}
           <NavigateNextIcon />
         </PageButton>
