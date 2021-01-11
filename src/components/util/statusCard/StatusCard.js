@@ -23,7 +23,13 @@ const StatusCard = (props) => {
       case 2:
         return 'Text processing'
       case 3:
-        return 'Finish'
+        return 'Finish text processed'
+      case 4:
+        return 'Tag Generating'
+      case 5:
+        return 'Ready to Edit tag'
+      case 6:
+        return 'Insert Book Finish'
       default:
         return null
     }
@@ -32,6 +38,8 @@ const StatusCard = (props) => {
   const handleStatus = (status) => {
     switch (status) {
       case 3:
+        return <CheckCircleOutlinedIcon style={{ fontSize: 40 }} />
+      case 5:
         return <CheckCircleOutlinedIcon style={{ fontSize: 40 }} />
       case 0:
         return null
@@ -69,9 +77,18 @@ const StatusCard = (props) => {
         </DivideBox>
       </StatusStyle>
       {
-          newState === 'Finish' ? (
+          newState === 'Finish text processed' ? (
             <BoldText link state={newState} onClick={() => handleNextStep(id)}>
               Click here to continue
+              {' '}
+              <ArrowRightAltIcon style={{ marginLeft: 10, fontSize: 21 }} />
+            </BoldText>
+          ) : null
+      }
+      {
+          newState === 'Ready to Edit tag' ? (
+            <BoldText link state={newState} onClick={() => handleNextStep(id)}>
+              Click here to continue edit tag
               {' '}
               <ArrowRightAltIcon style={{ marginLeft: 10, fontSize: 21 }} />
             </BoldText>

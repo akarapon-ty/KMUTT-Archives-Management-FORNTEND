@@ -1,5 +1,6 @@
 import React from 'react'
 import { useQuery, gql } from '@apollo/client'
+import { useHistory } from 'react-router-dom'
 
 import DefaultLayoutStyle from '../../components/util/LayoutStyle'
 import { Topic, ContentDiv } from './style'
@@ -18,7 +19,7 @@ const Status = () => {
       
     }
   `
-
+  const history = useHistory()
   const { data: dataStatus, loading: loadingStatus, error: errorStatus } = useQuery(queryStatus)
 
   if (loadingStatus) {
@@ -29,15 +30,30 @@ const Status = () => {
     window.console.log('error : ', errorStatus)
   }
 
+  const handleNextStep = (clickId) => {
+    if (dataStatus === 3) {
+      history.push({ pathname: '/insertbook', search: `?step=5&id=${clickId}` })
+    } else {
+      history.push({ pathname: '/insertbook', search: `?step=7&id=${clickId}` })
+    }
+  }
+  window.console.log(dataStatus)
   const dataFilter = (getData, getStatus) => {
     const filterStatus = getData.documentStatusMultiple.filter((datas) => datas.status === getStatus)
-    return filterStatus.length !== 0 ? filterStatus.map((value) => <StatusCard key={value.documentId} id={value.documentId} titleBook={value.title} compileState={value.status} publishDate={value.publish} />) : false
+    return filterStatus.length !== 0 ? filterStatus.map((value) => <StatusCard handleNextStep={handleNextStep} key={value.documentId} id={value.documentId} titleBook={value.title} compileState={value.status} publishDate={value.publish} />) : false
   }
 
   return (
     <DefaultLayoutStyle>
       <Topic>STATUS UPLOAD</Topic>
       <ContentDiv>
+
+        {dataFilter(dataStatus, 5) ? <h6>Ready to edit tag</h6> : null}
+        {dataFilter(dataStatus, 5)}
+        <br />
+        {dataFilter(dataStatus, 4) ? <h6>Tag Generating</h6> : null}
+        {dataFilter(dataStatus, 4)}
+        <br />
         {dataFilter(dataStatus, 3) ? <h6>Ready to correction</h6> : null}
         {dataFilter(dataStatus, 3)}
         <br />
