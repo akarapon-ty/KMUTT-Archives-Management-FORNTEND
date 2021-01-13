@@ -59,24 +59,53 @@ const Status = () => {
       <Topic>STATUS UPLOAD</Topic>
       <ContentDiv>
 
-        {dataFilter(dataStatus, 5) ? <h6>Ready to edit tag</h6> : null}
+        {dataFilter(dataStatus, 5) ? (
+          <h6>
+            Ready to edit tag
+            <br />
+          </h6>
+        ) : null}
         {dataFilter(dataStatus, 5)}
-        <br />
-        {dataFilter(dataStatus, 4) ? <h6>Tag Generating</h6> : null}
+
+        {dataFilter(dataStatus, 4) ? (
+          <h6>
+            Tag Generating
+            <br />
+          </h6>
+        ) : null}
         {dataFilter(dataStatus, 4)}
-        <br />
-        {dataFilter(dataStatus, 3) ? <h6>Ready to correction</h6> : null}
+        {dataFilter(dataStatus, 3) ? (
+          <h6>
+            Ready to correction
+            <br />
+          </h6>
+        ) : null}
         {dataFilter(dataStatus, 3)}
-        <br />
-        {dataFilter(dataStatus, 2) ? <h6>Text processing</h6> : null}
+
+        {dataFilter(dataStatus, 2) ? (
+          <h6>
+            Text processing
+            <br />
+          </h6>
+        ) : null}
         {dataFilter(dataStatus, 2)}
-        <br />
-        {dataFilter(dataStatus, 1) ? <h6>OCR</h6> : null}
+
+        {dataFilter(dataStatus, 1) ? (
+          <h6>
+            OCR
+            <br />
+          </h6>
+        ) : null}
         {dataFilter(dataStatus, 1)}
-        <br />
-        {dataFilter(dataStatus, 0) ? <h6>In queue</h6> : null}
+
+        {dataFilter(dataStatus, 0) ? (
+          <h6>
+            In queue
+            <br />
+          </h6>
+        ) : null}
         {dataFilter(dataStatus, 0)}
-        <br />
+
       </ContentDiv>
     </DefaultLayoutStyle>
   )

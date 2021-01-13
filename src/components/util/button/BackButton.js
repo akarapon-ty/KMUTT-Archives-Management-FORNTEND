@@ -9,6 +9,7 @@ const BackButtonStyle = styled.button`
     border: none;
     background-color: white;
     font-size: 19px;
+    padding:10px 0px;
     color: ${(props) => (props.disabled ? 'white;' : '#10A0A2;')}
     ${(props) => (props.disabled ? null : 'cursor:pointer;')}
     &:hover {

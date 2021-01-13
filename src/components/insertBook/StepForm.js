@@ -439,6 +439,7 @@ const StepForm = () => {
               show={!(activeStep === 3 || activeStep === 5)}
               disableBack={activeStep === 0 || activeStep >= 4}
               disableNext={informationForm.file === null && activeStep <= 3}
+              finish={activeStep === 6}
             />
           </FormInsert>
         </FormProvider>
