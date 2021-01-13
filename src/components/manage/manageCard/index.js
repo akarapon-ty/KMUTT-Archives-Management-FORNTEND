@@ -8,10 +8,13 @@ const IndexManageCard = ({ documentId }) => {
   const QUERY_DOCUMENT_BY_ID = gql`
     query document($pk: Int!) {
         document(pk: $pk){
+          statusQuery,
+          document{
             id,
-            DC_title,
-            DC_coverage_temporal,
+            title,
+            coverageTemporal,
             creator,
+          }
         }
     }
 `
@@ -23,9 +26,15 @@ const IndexManageCard = ({ documentId }) => {
     return null
   }
 
+  const { statusQuery, document } = dataDocument.document
+
+  if (!statusQuery) {
+    return null
+  }
+
   const {
-    id, DC_title: dcTitle, creator, DC_coverage_temporal: dcCoverageTemporal,
-  } = dataDocument.document
+    id, title: dcTitle, creator, coverageTemporal: dcCoverageTemporal,
+  } = document
 
   return (
     <ManageCard key={id} title={dcTitle} creator={creator} coverageTemporal={dcCoverageTemporal} tag={[]} />
