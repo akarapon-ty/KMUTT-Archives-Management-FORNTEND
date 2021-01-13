@@ -10,11 +10,16 @@ import StepThree from '../../components/editBook/StepThree'
 
 import ControlStep from '../../components/editBook/ControlStep'
 
-const EditBook = (props) => {
+const EditBook = () => {
   const {
     register, handleSubmit, setValue, getValues, control, errors,
   } = useForm()
-  const documentId = 4
+  const params = new URLSearchParams(window.location.search)
+  if (!params.get('id')) {
+    window.location.replace('/homepage')
+  }
+  const documentId = parseInt(params.get('id'), 10)
+
   const QUERY_DOCUMENT_BY_ID = gql`
     query document($pk: Int!){
         document(pk: $pk) {
@@ -52,7 +57,7 @@ const EditBook = (props) => {
           publisher,
           publisherEmail,
           contributor,
-          contributorEmail,
+          contributorRole,
           issuedDate,
         }}
     }`
@@ -90,9 +95,10 @@ const EditBook = (props) => {
     publisher: '',
     publisherEmail: '',
     contributor: '',
-    contributorEmail: '',
+    contributorRole: '',
     issuedDate: '',
   }
+
   const [newInformation, setNewInformation] = useState(defaultInformation)
   const [activeStep, setActiveStep] = useState(0)
   const [tagMockupData, setTagData] = useState({ 1: 'tag1', 2: 'tag2' })
@@ -103,22 +109,24 @@ const EditBook = (props) => {
     setNewInformation(dataQuery)
   }
 
-  const { data: oldData, loading: oldDataLoading, error: oldDataError } = useQuery(QUERY_DOCUMENT_BY_ID, { variables: { pk: documentId }, onCompleted: ({ document }) => setData(document.document) })
+  const { data: documentData, loading: documentDataLoading, error: documentDataError } = useQuery(QUERY_DOCUMENT_BY_ID, {
+    variables: { pk: documentId },
+    onCompleted: ({ document }) => setData(document.document),
+  })
 
   const handlerOnSubmit = (data) => {
-    const tempData = { ...newInformation, ...data }
     setNewInformation({ ...newInformation, ...data })
   }
 
-  if (oldDataLoading) {
+  if (documentDataLoading) {
     return null
   }
-  window.console.log(oldData)
-  if (oldDataError) {
-    window.console.log('oldData error', oldDataError)
-    return (
-      null
-    )
+
+  window.console.log(documentData)
+
+  if (documentDataError) {
+    window.console.log('oldData error', documentDataError)
+    return null
   }
   const handlerBackStep = () => {
     setActiveStep((prevState) => prevState - 1)
@@ -194,7 +202,6 @@ const EditBook = (props) => {
         return <StepOne value={newInformation} />
       case 1:
         return <StepTwo handlerAddRelation={handlerAddRelation} handlerOnChangeRelation={handlerOnChangeRelation} value={newInformation} handlerRemoveRelation={handlerRemoveRelation} />
-
       default:
         return <StepThree handlerAddTag={handlerAddTag} handlerOnChangeTag={handlerOnChangeTag} value={tagMockupData} handlerRemoveTag={handlerRemoveTag} />
     }

@@ -30,7 +30,7 @@ const StepTwo = (props) => {
     language,
 
   } = value
-  const relationValue = Object.keys(relation).length > 0 ? relation : { 1: '' }
+  const relationValue = relation.length > 0 ? relation : ['']
 
   const selectLan = [{
     val: 'Thai',
@@ -58,13 +58,13 @@ const StepTwo = (props) => {
         <h5>Relation</h5>
         <InsertButton type="button" name="addRelation" onClick={() => handlerAddRelation()}>+ ADD</InsertButton>
       </LeftRightBox>
-      {Object.keys(relationValue).map((key) => (
+      {relationValue.map((key) => (
         <div key={`div-${key}`}>
           <Inline long>
             <MultiInputFormat
               onChange={handlerOnChangeRelation}
-              inputdefault={relationValue[key]}
-              value={relationValue[key]}
+              inputdefault={key}
+              value={key}
               name={key}
               key={`relation-${key}input`}
               inputLabel="Relation"

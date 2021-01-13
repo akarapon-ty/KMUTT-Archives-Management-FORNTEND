@@ -14,14 +14,15 @@ const StepOne = (props) => {
     titleAlternative,
     tableOfContents,
     abstract,
+    summary,
     note,
     coverageSpatial,
-    coverageTemporalMonth,
+    coverageTemporal,
     coverageTempooralYear,
     rights,
     rightsAccess,
-    creatorName,
-    creatorOrganizationName,
+    creator,
+    creatorOrgName,
     publisher,
     publisherEmail,
     contributor,
@@ -44,21 +45,22 @@ const StepOne = (props) => {
     lab: 'ค.ศ.',
   },
   ]
+
   return (
     <>
-      <SearchResult title={title} creator={creatorName} coverageTemporal={coverageTemporalMonth} tag={[]} />
+      <SearchResult title={title} creator={creator} coverageTemporal={coverageTemporal} tag={[]} />
 
       <h5>Title</h5>
       <InputFormat inputDefault={title} inputLabel="Title *" inputName="title" required />
       <InputFormat inputDefault={titleAlternative} inputLabel="Title Alternative" inputName="titleAlernative" />
 
       <h5>Creator</h5>
-      <InputFormat inputDefault={creatorName} inputLabel="Creator Name" inputName="creatorName" />
-      <InputFormat inputDefault={creatorOrganizationName} inputLabel="Creator Organization Name" inputName="creatorOrganizationName" />
+      <InputFormat inputDefault={creator} inputLabel="Creator Name" inputName="creatorName" />
+      <InputFormat inputDefault={creatorOrgName} inputLabel="Creator Organization Name" inputName="creatorOrganizationName" />
 
       <h5>Description</h5>
       <InputAreaText inputDefault={tableOfContents} inputLabel="Table of Contents" inputName="tableOfContents" />
-      <InputAreaText inputDefault={abstract} inputLabel="Summary" inputName="summary" />
+      <InputAreaText inputDefault={summary} inputLabel="Summary" inputName="summary" />
       <InputAreaText inputDefault={abstract} inputLabel="Abstract" inputName="abstract" />
       <InputFormat inputDefault={note} inputLabel="Note" inputName="note" />
 
@@ -75,7 +77,7 @@ const StepOne = (props) => {
 
       <h5>Coverage</h5>
       <InputFormat inputDefault={coverageSpatial} inputLabel="Coverage Spatial" inputName="coverageSpatial" />
-      <SelectorFormat inputDefault={coverageTempooralYear} inputLabel="Coverage Tempooral Year" inputName="coverageTempooralYear" options={selectY} inputDefault2={coverageTemporalMonth} inputLabel2="Year" inputName2="coverageTemporalMonth" />
+      <SelectorFormat inputDefault={coverageTempooralYear} inputLabel="Coverage Tempooral Year" inputName="coverageTempooralYear" options={selectY} inputDefault2={coverageTemporal} inputLabel2="Year" inputName2="coverageTemporalMonth" />
 
       <h5>Rights</h5>
       <InputFormat inputDefault={rights} inputLabel="Rights" inputName="rights" />
