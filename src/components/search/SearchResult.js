@@ -19,11 +19,16 @@ const SearchResult = ({ input }) => {
         }
     }
     `
-  const { loading: loadSearchDocument, error: errorSearchDocument, data: dataSearchDocument } = useQuery(SEARCH_DOCUMENT, { variables: { fulltext: input } })
+
+  const { loading: loadSearchDocument, error: errorSearchDocument, data: dataSearchDocument } = useQuery(SEARCH_DOCUMENT, { variables: { fulltext: input }, skip: input === '' })
 
   if (loadSearchDocument) return null
   if (errorSearchDocument) {
     window.console.error(errorSearchDocument.message)
+    return null
+  }
+
+  if (!dataSearchDocument) {
     return null
   }
 

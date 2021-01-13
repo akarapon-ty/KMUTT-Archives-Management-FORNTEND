@@ -16,8 +16,8 @@ const StepSeven = (props) => {
   } = props
 
   const QUERY_DOCUMENTTAG = gql`
-    query document($pk: Int!){
-      document(pk: $pk){
+    query documentInProcess($pk: Int!){
+      documentInProcess(pk: $pk){
         title,
         image,
         status,
@@ -29,7 +29,7 @@ const StepSeven = (props) => {
     }
   `
 
-  const { data, loading, error } = useQuery(QUERY_DOCUMENTTAG, { variables: { pk: docId }, onCompleted: ({ document }) => setTagData(document.tag) })
+  const { data, loading, error } = useQuery(QUERY_DOCUMENTTAG, { variables: { pk: docId }, onCompleted: ({ documentInProcess }) => setTagData(documentInProcess.tag) })
 
   if (loading) {
     return null
@@ -40,7 +40,7 @@ const StepSeven = (props) => {
     return null
   }
 
-  if (data.document.status !== 5) {
+  if (data.documentInProcess.status !== 5) {
     window.location.replace('/homepage')
   }
   const tagValue = value.length > 0 ? value : null
@@ -49,9 +49,9 @@ const StepSeven = (props) => {
     <>
       <h4>7. Edit Tag</h4>
       <DivideBox>
-        <ImageIcon src={`data:image/jpeg;base64,${data.document.image}`} />
+        <ImageIcon src={`data:image/jpeg;base64,${data.documentInProcess.image}`} />
         <Content>
-          <Topic>{data.document.title}</Topic>
+          <Topic>{data.documentInProcess.title}</Topic>
           <Detail>Tag / Keyword :</Detail>
 
           <Inline>

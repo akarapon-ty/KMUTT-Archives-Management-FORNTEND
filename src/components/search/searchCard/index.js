@@ -8,24 +8,35 @@ const IndexSearchCard = ({ documentId, onClick }) => {
   const QUERY_DOCUMENT_BY_ID = gql`
     query document($pk: Int!) {
         document(pk: $pk){
+          statusQuery,
+          document{
             id,
             title,
             coverageTemporal,
             creator,
+          },
         }
     }
 `
+
   const { loading: loadDocument, error: errorDocument, data: dataDocument } = useQuery(QUERY_DOCUMENT_BY_ID, { variables: { pk: documentId } })
 
   if (loadDocument) return null
+
   if (errorDocument) {
     window.console.error(errorDocument.message)
     return null
   }
 
+  const { statusQuery, document } = dataDocument.document
+
+  if (!statusQuery) {
+    return null
+  }
+
   const {
     id, title: dcTitle, creator, coverageTemporal: dcCoverageTemporal,
-  } = dataDocument.document
+  } = document
 
   return (
     <SearchCard key={id} title={dcTitle} creator={creator} coverageTemporal={dcCoverageTemporal} tag={[]} onClick={() => onClick(documentId)} />

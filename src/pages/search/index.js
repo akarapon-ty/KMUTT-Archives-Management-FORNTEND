@@ -5,7 +5,7 @@ import DefaultLayoutStyle from '../../components/util/LayoutStyle'
 
 export const SearchPage = () => (
   <DefaultLayoutStyle>
-    <SearchComponents initInputSearch="KMUTT" />
+    <SearchComponents initInputSearch="" />
   </DefaultLayoutStyle>
 )
 

@@ -135,8 +135,8 @@ const StepForm = () => {
   const [insertDocument, { error: insertDocumentError }] = useMutation(INSERT_DOCUMENT)
   const [insertTerm, { error: insertTermError }] = useMutation(INSERT_TERM)
   const [startTfIdf, { error: startTfIdfError }] = useMutation(STRAT_GENERATETAG)
-  const [insertUserKeyword, { error: insertUserKeywordError }] = useMutation(INSERT_USERKEYWORD)
-  const [removeTag, { error: removeTagError }] = useMutation(REMOVE_TAG)
+  const [insertUserKeyword] = useMutation(INSERT_USERKEYWORD)
+  const [removeTag] = useMutation(REMOVE_TAG)
 
   const {
     register, handleSubmit, setValue, getValues, control, errors,
