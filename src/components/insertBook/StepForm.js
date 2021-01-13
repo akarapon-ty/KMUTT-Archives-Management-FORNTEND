@@ -127,6 +127,7 @@ const StepForm = () => {
   const [informationForm, setInformationForm] = useState(fieldForm)
   const [termAll, setTermAll] = useState({})
   const [pageNumber, setPageNumber] = useState(0)
+  const [tempPageNumber, setTempPageNumber] = useState(0)
   const [limitPage, setLimitPage] = useState(0)
   const [limitPageStart, setLimitPageStart] = useState(0)
   const [insertTermID, setinsertTermID] = useState(1)
@@ -262,6 +263,8 @@ const StepForm = () => {
             setLimitPage={setLimitPage}
             limitPageStart={limitPageStart}
             setLimitPageStart={setLimitPageStart}
+            tempPageNumber={tempPageNumber}
+            setTempPageNumber={setTempPageNumber}
           />
         )
       case 5:
@@ -366,8 +369,7 @@ const StepForm = () => {
   const handlerSubmitUpdateTerm = () => {
     const result = parseTerms()
     insertTerm({ variables: { newInformation: result } }).catch((err) => window.console.log(err))
-      .then(() => startTfIdf({ variables: { documentId: result.documentId } }))
-      .then(() => history.push(`/insertbook?step=6&id=${result.documentId}`))
+      .then(() => startTfIdf({ variables: { documentId: result.documentId } }).then(() => history.push(`/insertbook?step=6&id=${result.documentId}`)))
   }
 
   const handlerSubmitUpdateKeyword = () => {

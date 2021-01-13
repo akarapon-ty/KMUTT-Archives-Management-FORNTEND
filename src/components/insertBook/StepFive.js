@@ -14,7 +14,8 @@ import InputTerm from './inputTerm'
 
 const StepFive = (props) => {
   const {
-    termAll, setTermAll, pageNumber, setPageNumber, setinsertTermID, insertTermID, limitPage, setLimitPage, setLimitPageStart, limitPageStart,
+    termAll, setTermAll, pageNumber, setPageNumber, setinsertTermID, insertTermID, limitPage,
+    setLimitPage, setLimitPageStart, limitPageStart, tempPageNumber, setTempPageNumber,
   } = props
 
   const QUERY_CORRECTNESSPAGE = gql`
@@ -35,7 +36,8 @@ const StepFive = (props) => {
     query amountPage($documentId: Int!){
       amountPage(documentId: $documentId){
         firstPage,
-        lastPage
+        lastPage,
+        status
       }
     }
   `
@@ -82,17 +84,28 @@ const StepFive = (props) => {
   }
 
   const handlerSetLimitPage = (start, stop, status) => {
-    if (status !== 5) {
+    if (status !== 3) {
       window.location.replace('/homepage')
     }
     setLimitPageStart(start)
     setPageNumber(start)
+    setTempPageNumber(start)
     setLimitPage(stop)
   }
 
   const handlerSetPageNumber = (e) => {
-    if (e.target.value <= 0) {
-      setPageNumber(1)
+    const tempValue = parseInt(e.target.value, 10)
+    if (Number.isNaN(tempValue)) {
+      setTempPageNumber(limitPageStart)
+      return
+    }
+    setTempPageNumber(tempValue)
+  }
+
+  const handlerChangePageNumber = (e) => {
+    if (e.target.value <= limitPageStart) {
+      setTempPageNumber(limitPageStart)
+      setPageNumber(limitPageStart)
     } else {
       setPageNumber(parseInt(e.target.value, 10))
     }
@@ -162,7 +175,7 @@ const StepFive = (props) => {
   }
 
   const handlerBackPage = () => {
-    if (pageNumber > 1) {
+    if (pageNumber > limitPageStart) {
       setPageNumber((prevState) => prevState - 1)
     }
   }
@@ -209,7 +222,7 @@ const StepFive = (props) => {
           {' '}
           <NavigateBeforeIcon />
         </PageButton>
-        <InputPage value={pageNumber} onChange={(e) => handlerSetPageNumber(e)} />
+        <InputPage value={tempPageNumber} onChange={(e) => handlerSetPageNumber(e)} onBlur={(e) => handlerChangePageNumber(e)} />
         <LabelPage>
           /
           {' '}
