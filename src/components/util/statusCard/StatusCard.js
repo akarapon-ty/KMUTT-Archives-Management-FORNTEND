@@ -11,7 +11,7 @@ import {
 
 const StatusCard = (props) => {
   const {
-    id, titleBook, publishDate, compileState, handleNextStep,
+    id, titleBook, publishDate, compileState, handleNextStep, image,
   } = props
 
   const parseState = (state) => {
@@ -56,7 +56,7 @@ const StatusCard = (props) => {
     <>
       <StatusStyle state={newState}>
         <DivideBox>
-          <Image />
+          <Image src={`data:image/jpeg;base64,${image}`} />
           <Content>
             <TitleBook>{titleBook}</TitleBook>
             <Line />
@@ -78,7 +78,7 @@ const StatusCard = (props) => {
       </StatusStyle>
       {
           newState === 'Finish text processed' ? (
-            <BoldText link state={newState} onClick={() => handleNextStep(id)}>
+            <BoldText link state={newState} onClick={() => handleNextStep(id, compileState)}>
               Click here to continue
               {' '}
               <ArrowRightAltIcon style={{ marginLeft: 10, fontSize: 21 }} />
@@ -87,7 +87,7 @@ const StatusCard = (props) => {
       }
       {
           newState === 'Ready to Edit tag' ? (
-            <BoldText link state={newState} onClick={() => handleNextStep(id)}>
+            <BoldText link state={newState} onClick={() => handleNextStep(id, compileState)}>
               Click here to continue edit tag
               {' '}
               <ArrowRightAltIcon style={{ marginLeft: 10, fontSize: 21 }} />

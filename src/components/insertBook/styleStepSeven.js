@@ -1,9 +1,8 @@
 import styled from 'styled-components'
 
-export const ImageIcon = styled.div`
+export const ImageIcon = styled.img`
     width:140px;
     height:190px;
-    background-color: red;
     position:static;
 `
 export const Topic = styled.div`

@@ -10,6 +10,29 @@ const Test = (props) => {
   const valueTest = Object.keys(relation).length > 0 ? relation : { 1: '' }
   const { register } = useFormContext()
 
+  /*
+  const queryMultiple = () => {
+    const res1 = useQuery(QUERY_CORRECTNESSPAGE,
+      {
+        variables: { pageId: pageNumber, documentId: docId },
+        onCompleted: ({ keywordInPage }) => handlerSetTerm(keywordInPage.PreTerms, keywordInPage.pageId),
+        skip: pageNumber === 0,
+      })
+    const res2 = useQuery(QUERY_AMOUNTPAGE,
+      {
+        variables: { documentId: docId },
+        onCompleted: ({ amountPage }) => handlerSetLimitPage(amountPage.firstPage, amountPage.lastpage),
+        skip: pageNumber !== 0,
+      })
+    return [res1, res2]
+  }
+
+  const [
+    { loading: amountPageLoading, error },
+    { loading: imageLoading, data: dataImagePage, error: imageError },
+  ] = queryMultiple()
+  */
+
   return (
     <>
       <div>

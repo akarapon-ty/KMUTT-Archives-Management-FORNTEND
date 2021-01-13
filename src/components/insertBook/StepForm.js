@@ -52,6 +52,33 @@ const StepForm = () => {
     }
   `
 
+  const STRAT_GENERATETAG = gql`
+    mutation startTfDjango($documentId: Int!){
+      startTfDjango(documentId: $documentId){
+        status,
+        message
+      }
+    }
+  `
+
+  const INSERT_USERKEYWORD = gql`
+    mutation insertUserKeyword($body: InsertUserKeywordInput!){
+      insertUserKeyword(body: $body){
+        status,
+        message
+      }
+    }
+  `
+
+  const REMOVE_TAG = gql`
+    mutation setStatusKeyword($scoreId: [Int]!, $status: String!){
+      setStatusKeyword(scoreId: $scoreId, status: $status){
+        status,
+        message,
+      }
+    }
+  `
+
   const getSteps = () => ['Select file', 'Fill the data', 'Optional data', 'Waiting for upload', 'Correction', 'Waiting for tag', 'Edit tag']
 
   const fieldForm = () => (
@@ -95,16 +122,21 @@ const StepForm = () => {
   const docId = parseInt(params.get('id'), 10)
 
   const [tagMockupData, setTagData] = useState({ 1: 'tag1', 2: 'tag2' })
-
+  const [removeTagId, setRemoveTagId] = useState([])
   const [activeStep, setActiveStep] = useState(0)
   const [informationForm, setInformationForm] = useState(fieldForm)
   const [termAll, setTermAll] = useState({})
-  const [pageNumber, setPageNumber] = useState(1)
+  const [pageNumber, setPageNumber] = useState(0)
+  const [limitPage, setLimitPage] = useState(0)
+  const [limitPageStart, setLimitPageStart] = useState(0)
   const [insertTermID, setinsertTermID] = useState(1)
 
   const [uploadFile] = useMutation(UPLOAD_FILE)
   const [insertDocument, { error: insertDocumentError }] = useMutation(INSERT_DOCUMENT)
   const [insertTerm, { error: insertTermError }] = useMutation(INSERT_TERM)
+  const [startTfIdf, { error: startTfIdfError }] = useMutation(STRAT_GENERATETAG)
+  const [insertUserKeyword, { error: insertUserKeywordError }] = useMutation(INSERT_USERKEYWORD)
+  const [removeTag, { error: removeTagError }] = useMutation(REMOVE_TAG)
 
   const {
     register, handleSubmit, setValue, getValues, control, errors,
@@ -137,29 +169,28 @@ const StepForm = () => {
   }
 
   const handlerAddTag = () => {
-    let newData = null
     const tagAddValue = getValues('Tag / Keyword')
-    if (tagAddValue) {
-      const tempTag = Object.keys(tagMockupData).length > 0 ? Object.keys(tagMockupData).sort() : ['0']
-      const counter = parseInt(tempTag[tempTag.length - 1], 10) + 1
-      newData = { ...tagMockupData, [counter]: tagAddValue }
-      setValue('Tag / Keyword', '')
-
-      window.console.log('tag', tagMockupData)
-      window.console.log('tag mock::', tempTag)
-      window.console.log('tag mock2::', newData)
-
-      setTagData(newData)
+    const tempTag = [...tagMockupData]
+    let alreadyKeyword = false
+    tempTag.map((temp) => {
+      if (temp.tag === tagAddValue) {
+        alreadyKeyword = true
+      }
+      return { }
+    })
+    if (!alreadyKeyword) {
+      tempTag.push({ scoreId: -1, tag: tagAddValue })
+      setTagData(tempTag)
     }
+    setValue('Tag / Keyword', '')
   }
 
-  const handlerRemoveTag = (key) => {
-    window.console.log('remove tag hello', key)
-
-    const tempTag = { ...tagMockupData }
-    const keyTag = key
-    delete tempTag[keyTag]
-
+  const handlerRemoveTag = (key, id) => {
+    const tempTag = [...tagMockupData]
+    if (id !== -1) {
+      setRemoveTagId([...removeTagId, id])
+    }
+    tempTag.splice(key, 1)
     setTagData(tempTag)
   }
 
@@ -219,11 +250,24 @@ const StepForm = () => {
       case 3:
         return <StepFour docId={docId} />
       case 4:
-        return <StepFive termAll={termAll} setTermAll={setTermAll} pageNumber={pageNumber} setPageNumber={setPageNumber} insertTermID={insertTermID} setinsertTermID={setinsertTermID} />
+        return (
+          <StepFive
+            termAll={termAll}
+            setTermAll={setTermAll}
+            pageNumber={pageNumber}
+            setPageNumber={setPageNumber}
+            insertTermID={insertTermID}
+            setinsertTermID={setinsertTermID}
+            limitPage={limitPage}
+            setLimitPage={setLimitPage}
+            limitPageStart={limitPageStart}
+            setLimitPageStart={setLimitPageStart}
+          />
+        )
       case 5:
         return <StepSix docId={docId} />
       case 6:
-        return <StepSeven handlerAddTag={handlerAddTag} handlerOnChangeTag={handlerOnChangeTag} value={tagMockupData} handlerRemoveTag={handlerRemoveTag} />
+        return <StepSeven handlerAddTag={handlerAddTag} handlerOnChangeTag={handlerOnChangeTag} value={tagMockupData} handlerRemoveTag={handlerRemoveTag} docId={docId} setTagData={setTagData} />
       default:
         return null
     }
@@ -241,6 +285,10 @@ const StepForm = () => {
 
   if (insertTermError) {
     window.console.log('mutationTermError:', insertTermError)
+  }
+
+  if (startTfIdfError) {
+    window.console.log('mutationStartTfError:', startTfIdfError)
   }
 
   const handlerSubmitInsertDocument = (tempData, tempRelation) => {
@@ -317,7 +365,28 @@ const StepForm = () => {
 
   const handlerSubmitUpdateTerm = () => {
     const result = parseTerms()
-    insertTerm({ variables: { newInformation: result } }).catch((err) => window.console.log(err)).then(() => history.push(`/insertbook?step=6&id=${result.documentId}`))
+    insertTerm({ variables: { newInformation: result } }).catch((err) => window.console.log(err))
+      .then(() => startTfIdf({ variables: { documentId: result.documentId } }))
+      .then(() => history.push(`/insertbook?step=6&id=${result.documentId}`))
+  }
+
+  const handlerSubmitUpdateKeyword = () => {
+    const userTag = tagMockupData.map((tag) => {
+      if (tag.scoreId !== -1) {
+        return
+      }
+      return tag.tag
+    })
+    removeTag({ variables: { scoreId: removeTagId, status: 'remove' } }).then(() => {
+      insertUserKeyword({
+        variables: {
+          body: {
+            keywords: userTag,
+            idDocument: docId,
+          },
+        },
+      })
+    })
   }
 
   const handlerOnSubmit = (data) => {
@@ -332,6 +401,11 @@ const StepForm = () => {
 
     if (activeStep === 4) {
       handlerSubmitUpdateTerm()
+      return
+    }
+
+    if (activeStep === 6) {
+      handlerSubmitUpdateKeyword()
       return
     }
 

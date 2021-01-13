@@ -15,6 +15,7 @@ const Status = () => {
           status,
           title,
           publish,
+          image,
         }
       
     }
@@ -30,17 +31,27 @@ const Status = () => {
     window.console.log('error : ', errorStatus)
   }
 
-  const handleNextStep = (clickId) => {
-    if (dataStatus === 3) {
+  const handleNextStep = (clickId, status) => {
+    if (status === 3) {
       history.push({ pathname: '/insertbook', search: `?step=5&id=${clickId}` })
     } else {
       history.push({ pathname: '/insertbook', search: `?step=7&id=${clickId}` })
     }
   }
-  window.console.log(dataStatus)
+
   const dataFilter = (getData, getStatus) => {
     const filterStatus = getData.documentStatusMultiple.filter((datas) => datas.status === getStatus)
-    return filterStatus.length !== 0 ? filterStatus.map((value) => <StatusCard handleNextStep={handleNextStep} key={value.documentId} id={value.documentId} titleBook={value.title} compileState={value.status} publishDate={value.publish} />) : false
+    return filterStatus.length !== 0 ? filterStatus.map((value) => (
+      <StatusCard
+        handleNextStep={handleNextStep}
+        key={value.documentId}
+        id={value.documentId}
+        titleBook={value.title}
+        compileState={value.status}
+        publishDate={value.publish}
+        image={value.image}
+      />
+    )) : false
   }
 
   return (

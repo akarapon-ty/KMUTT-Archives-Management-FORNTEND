@@ -14,6 +14,7 @@ const StepSix = (props) => {
             version,
             status,
             publish,
+            image,
         }
     }
     `
@@ -39,7 +40,7 @@ const StepSix = (props) => {
   return (
     <>
       <h4>6. Waiting for tag</h4>
-      <StatusCard handleNextStep={handleNextStep} titleBook={data.documentStatus.title} publishDate={data.documentStatus.publish} compileState={data.documentStatus.status} />
+      <StatusCard handleNextStep={handleNextStep} id={docId} titleBook={data.documentStatus.title} publishDate={data.documentStatus.publish} compileState={data.documentStatus.status} image={data.documentStatus.image} />
     </>
   )
 }

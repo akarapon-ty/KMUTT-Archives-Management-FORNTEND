@@ -4,13 +4,13 @@ import { gql, useQuery } from '@apollo/client'
 
 import SearchCard from './SearchCard'
 
-const IndexSearchCard = ({ documentId }) => {
+const IndexSearchCard = ({ documentId, onClick }) => {
   const QUERY_DOCUMENT_BY_ID = gql`
     query document($pk: Int!) {
         document(pk: $pk){
             id,
-            DC_title,
-            DC_coverage_temporal,
+            title,
+            coverageTemporal,
             creator,
         }
     }
@@ -24,11 +24,11 @@ const IndexSearchCard = ({ documentId }) => {
   }
 
   const {
-    id, DC_title: dcTitle, creator, DC_coverage_temporal: dcCoverageTemporal,
+    id, title: dcTitle, creator, coverageTemporal: dcCoverageTemporal,
   } = dataDocument.document
 
   return (
-    <SearchCard key={id} title={dcTitle} creator={creator} coverageTemporal={dcCoverageTemporal} tag={[]} />
+    <SearchCard key={id} title={dcTitle} creator={creator} coverageTemporal={dcCoverageTemporal} tag={[]} onClick={() => onClick(documentId)} />
   )
 }
 

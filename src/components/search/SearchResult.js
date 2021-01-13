@@ -27,6 +27,11 @@ const SearchResult = ({ input }) => {
     return null
   }
 
+  const handlerOnClickSearchCard = (id) => {
+    // send to viewDoc
+    window.console.log('docID', id)
+  }
+
   const { documentRelevance, foundDocument } = dataSearchDocument.searchDocument
 
   return (
@@ -38,7 +43,7 @@ const SearchResult = ({ input }) => {
         {' '}
         <SearchTextFill>{input}</SearchTextFill>
       </SearchText>
-      {documentRelevance.map((element) => <SearchCard key={`keyRelevance : ${element.idDocument}`} documentId={element.idDocument} />)}
+      {documentRelevance.map((element) => <SearchCard key={`keyRelevance : ${element.idDocument}`} documentId={element.idDocument} onClick={handlerOnClickSearchCard} />)}
     </>
   )
 }
