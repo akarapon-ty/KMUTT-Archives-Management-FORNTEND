@@ -18,20 +18,24 @@ const GridContentStyle = styled.div`
 export const BgTall = styled.img`
   top:-10px;
   right:0px;
+  min-width:1920px;
   width: 100%;
-  position: fixed;
-  height:100%;
+  position: absolute;
   z-index:-1;
+  height:100%;
   overflow-y:auto;
 `
 
 export const BgShort = styled.img`
-  top:-20px;
-  right:0px;
+  top: 0px;
+  right: 0px;
   width: 100%;
-  position: fixed;
-  z-index:-1;
-  overflow-y:auto;
+  height: 250px;
+  position: absolute;
+  min-width: 1920px;
+  z-index: -1;
+  overflow-y: auto;
+  
 `
 
 const DefaultLayoutStyle = ({ children, activate }) => {

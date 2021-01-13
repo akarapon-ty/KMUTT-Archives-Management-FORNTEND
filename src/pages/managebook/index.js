@@ -11,8 +11,8 @@ export const Search = () => {
         statusQuery
         documents {
           id,
-          DC_title,
-          DC_coverage_temporal,
+          title,
+          coverageTemporal,
           creator,
         }
       }
@@ -27,7 +27,7 @@ export const Search = () => {
   return (
     <DefaultLayoutStyle>
       <SearchFormat searchFill="KMUTT" searchTotal={data.documents.documents.length} manage active={data.documents ? null : true} />
-      { data.documents ? data.documents.documents.map((value) => <SearchResult key={value.id} title={value.DC_title} creator={value.creator} coverageTemporal={value.DC_coverage_temporal} tag={[]} manage />) : null}
+      { data.documents ? data.documents.documents.map((value) => <SearchResult key={value.id} title={value.title} creator={value.creator} coverageTemporal={value.coverageTemporal} tag={[]} manage />) : null}
     </DefaultLayoutStyle>
   )
 }

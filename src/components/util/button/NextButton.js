@@ -10,6 +10,8 @@ const NextButtonStyle = styled.button`
     border: none;
     background-color: white;
     font-size: 19px;
+    padding:10px 0px;
+
     color: ${(props) => (props.disabled ? 'white;' : '#10A0A2;')}
     ${(props) => (props.disabled ? null : 'cursor:pointer;')}
     &:hover {
@@ -35,7 +37,9 @@ const FinishButtonStyle = styled.button`
 `
 
 const NextButton = (props) => {
-  const { active, disable } = props
+  const {
+    active, disable, type, onClick, finish,
+  } = props
 
   const { register } = useFormContext()
 
@@ -46,13 +50,21 @@ const NextButton = (props) => {
           Next
           <NavigateNextIcon />
         </NextButtonStyle>
-      ) : (
+      ) : null}
+      {type ? (
+        <NextButtonStyle disabled={disable} name="submitNextForm" ref={register} type="button" onClick={() => onClick()}>
+          Next
+          <NavigateNextIcon />
+        </NextButtonStyle>
+      ) : null}
+      {finish ? (
         <FinishButtonStyle disabled={disable} name="submitNextForm" ref={register} type="submit">
           <DoneAllIcon />
           {' '}
           Finish
         </FinishButtonStyle>
-      )}
+      ) : null}
+
     </>
 
   )

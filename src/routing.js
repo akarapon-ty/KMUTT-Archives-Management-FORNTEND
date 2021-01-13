@@ -12,6 +12,7 @@ const Search = React.lazy(() => import('./pages/search'))
 const managebook = React.lazy(() => import('./pages/managebook'))
 const InsertBook = React.lazy(() => import('./pages/insertBook'))
 const Status = React.lazy(() => import('./pages/status'))
+const EditBook = React.lazy(() => import('./pages/editBook'))
 
 const Router = () => (
   <BrowserRouter>
@@ -25,6 +26,7 @@ const Router = () => (
         <Route path="/managebook" component={managebook} />
         <Route path="/insertbook" component={InsertBook} />
         <Route path="/status" component={Status} />
+        <Route path="/editbook" component={EditBook} />
         <Redirect to="/homepage" />
       </Switch>
     </Suspense>
