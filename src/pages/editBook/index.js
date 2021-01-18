@@ -29,6 +29,7 @@ const EditBook = () => {
           titleAlternative,
           tableOfContents,
           abstract,
+          summary,
           note,
           format,
           formatExtent,
@@ -49,7 +50,7 @@ const EditBook = () => {
           recCreateBy,
           recModifiedAt,
           recModifiedBy,
-          keyword,
+          tag,
           relation,
           type,
           creator,
@@ -59,6 +60,7 @@ const EditBook = () => {
           contributor,
           contributorRole,
           issuedDate,
+          image
         }}
     }`
 
@@ -67,6 +69,7 @@ const EditBook = () => {
     titleAlternative: '',
     tableOfContents: '',
     abstract: '',
+    summary: '',
     note: '',
     format: '',
     formatExtent: '',
@@ -87,8 +90,8 @@ const EditBook = () => {
     recCreateBy: '',
     recModifiedAt: '',
     recModifiedBy: '',
-    keyword: '',
-    relation: '',
+    tag: [''],
+    relation: [''],
     type: '',
     creator: '',
     creatorOrgName: '',
@@ -97,19 +100,21 @@ const EditBook = () => {
     contributor: '',
     contributorRole: '',
     issuedDate: '',
+    image: '',
   }
 
   const [newInformation, setNewInformation] = useState(defaultInformation)
   const [activeStep, setActiveStep] = useState(0)
-  const [tagMockupData, setTagData] = useState({ 1: 'tag1', 2: 'tag2' })
 
   const setData = (dataQuery) => {
-    window.console.log('Data nu :', dataQuery)
-
-    setNewInformation(dataQuery)
+    const TempQuery = { ...dataQuery }
+    if (TempQuery.relation.length === 0) {
+      TempQuery.relation = ['']
+    }
+    setNewInformation(TempQuery)
   }
 
-  const { data: documentData, loading: documentDataLoading, error: documentDataError } = useQuery(QUERY_DOCUMENT_BY_ID, {
+  const { loading: documentDataLoading, error: documentDataError } = useQuery(QUERY_DOCUMENT_BY_ID, {
     variables: { pk: documentId },
     onCompleted: ({ document }) => setData(document.document),
   })
@@ -122,78 +127,59 @@ const EditBook = () => {
     return null
   }
 
-  window.console.log(documentData)
-
   if (documentDataError) {
     window.console.log('oldData error', documentDataError)
     return null
   }
   const handlerBackStep = () => {
     setActiveStep((prevState) => prevState - 1)
-    window.console.log('acst', activeStep)
+    const tempValue = getValues()
+    setNewInformation({ ...newInformation, ...tempValue })
   }
 
   const handlerNextStep = () => {
     setActiveStep((prevState) => prevState + 1)
-    window.console.log('backst', activeStep)
+    const tempValue = getValues()
+    setNewInformation({ ...newInformation, ...tempValue })
   }
 
-  const handlerRemoveRelation = (value) => {
-    const tempRelation = newInformation.relation
-    const keyRelation = value
-    delete tempRelation[keyRelation]
-    setNewInformation({ ...newInformation, relation: tempRelation })
+  const handlerRemoveRelation = (index) => {
+    const tempTag = [...newInformation.relation]
+    tempTag.splice(index, 1)
+    setNewInformation({ ...newInformation, relation: tempTag })
   }
 
   const handlerAddRelation = () => {
-    let newData = null
-    if (Object.keys(newInformation.relation).length === 0) {
-      newData = { 1: '', 2: '' }
+    let newData = [...newInformation.relation]
+    if (newInformation.relation.length === 0) {
+      newData = ['', '']
     } else {
-      const tempRelation = Object.keys(newInformation.relation).length > 0 ? Object.keys(newInformation.relation).sort() : ['1']
-      const counter = parseInt(tempRelation[tempRelation.length - 1], 10) + 1
-      newData = { ...newInformation.relation, [counter]: '' }
+      newData.push('')
     }
     setNewInformation({ ...newInformation, relation: newData })
   }
 
-  const handlerOnChangeRelation = (e) => {
-    const tempRelation = newInformation.relation
-    const temp = { ...tempRelation, [e.target.name]: e.target.value }
-    setNewInformation({ ...newInformation, relation: temp })
-  }
-
   const handlerAddTag = () => {
-    let newData = null
     const tagAddValue = getValues('Tag / Keyword')
-    if (tagAddValue) {
-      const tempTag = Object.keys(tagMockupData).length > 0 ? Object.keys(tagMockupData).sort() : ['0']
-      const counter = parseInt(tempTag[tempTag.length - 1], 10) + 1
-      newData = { ...tagMockupData, [counter]: tagAddValue }
-      setValue('Tag / Keyword', '')
-
-      window.console.log('tag', tagMockupData)
-      window.console.log('tag mock::', tempTag)
-      window.console.log('tag mock2::', newData)
-
-      setTagData(newData)
+    const tempTag = [...newInformation.tag]
+    let alreadyKeyword = false
+    tempTag.map((temp) => {
+      if (temp === tagAddValue) {
+        alreadyKeyword = true
+      }
+      return { }
+    })
+    if (!alreadyKeyword) {
+      tempTag.push(tagAddValue)
+      setNewInformation({ ...newInformation, tag: tempTag })
     }
+    setValue('Tag / Keyword', '')
   }
 
   const handlerRemoveTag = (key) => {
-    window.console.log('remove tag hello', key)
-
-    const tempTag = { ...tagMockupData }
-    const keyTag = key
-    delete tempTag[keyTag]
-
-    setTagData(tempTag)
-  }
-
-  const handlerOnChangeTag = (e) => {
-    const tempTag = tagMockupData
-    const temp = { ...tempTag, [e.target.name]: e.target.value }
-    setTagData({ ...tagMockupData, temp })
+    const tempTag = [...newInformation.tag]
+    tempTag.splice(key, 1)
+    setNewInformation({ ...newInformation, tag: tempTag })
   }
 
   const handlerActiveStep = (stepIndex) => {
@@ -201,9 +187,9 @@ const EditBook = () => {
       case 0:
         return <StepOne value={newInformation} />
       case 1:
-        return <StepTwo handlerAddRelation={handlerAddRelation} handlerOnChangeRelation={handlerOnChangeRelation} value={newInformation} handlerRemoveRelation={handlerRemoveRelation} />
+        return <StepTwo handlerAddRelation={handlerAddRelation} value={newInformation} handlerRemoveRelation={handlerRemoveRelation} />
       default:
-        return <StepThree handlerAddTag={handlerAddTag} handlerOnChangeTag={handlerOnChangeTag} value={tagMockupData} handlerRemoveTag={handlerRemoveTag} />
+        return <StepThree handlerAddTag={handlerAddTag} value={newInformation} handlerRemoveTag={handlerRemoveTag} />
     }
   }
 
@@ -223,7 +209,6 @@ const EditBook = () => {
                 disableNext={activeStep === 2}
               />
             </Edit>
-
           </DefaultLayoutStyle>
         </FormInsert>
       </FormProvider>

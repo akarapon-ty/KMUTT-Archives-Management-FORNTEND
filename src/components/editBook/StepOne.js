@@ -1,11 +1,10 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
 import { Space } from '../insertBook/styleAll'
 import { InputFormat } from '../insertBook/InputField'
 import { SelectorFormat } from '../insertBook/InputSelector'
 import { InputAreaText } from '../insertBook/InputAreaText'
-import { SearchResult } from '../search'
+import SearchCard from '../search/searchCard/SearchCard'
 
 const StepOne = (props) => {
   const { value } = props
@@ -28,6 +27,8 @@ const StepOne = (props) => {
     contributor,
     contributorRole,
     issuedDate,
+    image,
+    tag,
   } = value
 
   const selectRA = [{
@@ -48,15 +49,15 @@ const StepOne = (props) => {
 
   return (
     <>
-      <SearchResult title={title} creator={creator} coverageTemporal={coverageTemporal} tag={[]} />
+      <SearchCard title={title} creator={creator} coverageTemporal={coverageTemporal} tag={tag} image={image} />
 
       <h5>Title</h5>
       <InputFormat inputDefault={title} inputLabel="Title *" inputName="title" required />
-      <InputFormat inputDefault={titleAlternative} inputLabel="Title Alternative" inputName="titleAlernative" />
+      <InputFormat inputDefault={titleAlternative} inputLabel="Title Alternative" inputName="titleAlternative" />
 
       <h5>Creator</h5>
-      <InputFormat inputDefault={creator} inputLabel="Creator Name" inputName="creatorName" />
-      <InputFormat inputDefault={creatorOrgName} inputLabel="Creator Organization Name" inputName="creatorOrganizationName" />
+      <InputFormat inputDefault={creator} inputLabel="Creator Name" inputName="creator" />
+      <InputFormat inputDefault={creatorOrgName} inputLabel="Creator Organization Name" inputName="creatorOrgName" />
 
       <h5>Description</h5>
       <InputAreaText inputDefault={tableOfContents} inputLabel="Table of Contents" inputName="tableOfContents" />
@@ -85,47 +86,6 @@ const StepOne = (props) => {
       <Space />
     </>
   )
-}
-
-InputFormat.defaultProps = {
-  title: 'Default',
-  titleAlternative: '',
-  tableOfContents: '',
-  abstract: '',
-  note: '',
-  coverageSpatial: '',
-  coverageTemporalMonth: '',
-  coverageTempooralYear: '',
-  rights: '',
-  rightsAccess: '',
-  creatorName: '',
-  creatorOrganizationName: '',
-  publisher: '',
-  publisherEmail: '',
-  contributor: '',
-  contributorRole: '',
-  issuedDate: '',
-}
-
-InputFormat.propTypes = {
-  title: PropTypes.string,
-  titleAlternative: PropTypes.string,
-  tableOfContents: PropTypes.string,
-  abstract: PropTypes.string,
-  note: PropTypes.string,
-  coverageSpatial: PropTypes.string,
-  coverageTemporalMonth: PropTypes.string,
-  coverageTempooralYear: PropTypes.string,
-  rights: PropTypes.string,
-  rightsAccess: PropTypes.string,
-  creatorName: PropTypes.string,
-  creatorOrganizationName: PropTypes.string,
-  publisher: PropTypes.string,
-  publisherEmail: PropTypes.string,
-  contributor: PropTypes.string,
-  contributorRole: PropTypes.string,
-  issuedDate: PropTypes.string,
-
 }
 
 export default StepOne

@@ -33,11 +33,13 @@ const StepFive = (props) => {
   `
 
   const QUERY_AMOUNTPAGE = gql`
-    query amountPage($documentId: Int!){
-      amountPage(documentId: $documentId){
-        firstPage,
-        lastPage,
-        status
+    query document($pk: Int!){
+      document(pk: $pk){
+        document{
+          pageStart,
+          amountPage,
+          status
+        }
       }
     }
   `
@@ -90,7 +92,7 @@ const StepFive = (props) => {
     setLimitPageStart(start)
     setPageNumber(start)
     setTempPageNumber(start)
-    setLimitPage(stop)
+    setLimitPage(start + stop - 1)
   }
 
   const handlerSetPageNumber = (e) => {
@@ -106,6 +108,9 @@ const StepFive = (props) => {
     if (e.target.value <= limitPageStart) {
       setTempPageNumber(limitPageStart)
       setPageNumber(limitPageStart)
+    } else if (e.target.value > limitPage) {
+      setTempPageNumber(limitPage)
+      setPageNumber(limitPage)
     } else {
       setPageNumber(parseInt(e.target.value, 10))
     }
@@ -114,8 +119,8 @@ const StepFive = (props) => {
   if (pageNumber === 0) {
     const { error } = useQuery(QUERY_AMOUNTPAGE,
       {
-        variables: { documentId: docId },
-        onCompleted: ({ amountPage }) => handlerSetLimitPage(amountPage.firstPage, amountPage.lastPage, amountPage.status),
+        variables: { pk: docId },
+        onCompleted: ({ document }) => handlerSetLimitPage(document.document.pageStart, document.document.amountPage, document.document.status),
         skip: pageNumber !== 0,
       })
     if (error) {

@@ -7,13 +7,13 @@ import {
 
 const SearchCard = (props) => {
   const {
-    title, creator, coverageTemporal, tag,
+    title, creator, coverageTemporal, tag, image,
   } = props
 
   return (
     <ResultStyle>
       <DivideBox>
-        <Image />
+        <Image src={`data:image/jpeg;base64,${image}`} />
         <Content>
           <TitleBook>
             {title}

@@ -16,7 +16,7 @@ const ControlStep = (props) => {
       <LineControlStepDiv />
       <ButtonControlStepDiv>
         <BackButton disableBack={disableBack} onClick={handlerBackStep} />
-        <SaveButtonStyle type="button">save</SaveButtonStyle>
+        <SaveButtonStyle type="submit">save</SaveButtonStyle>
         <NextButton active={active} disable={disableNext} onClick={handlerNextStep} type />
       </ButtonControlStepDiv>
     </ControlStepDiv>

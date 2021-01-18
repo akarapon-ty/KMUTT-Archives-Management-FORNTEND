@@ -9,37 +9,33 @@ import {
 } from '../insertBook/styleAll'
 import { InputFormat } from '../insertBook/InputField'
 
-const StepSeven = (props) => {
+const StepThree = (props) => {
   const {
-    value, handlerAddTag, handlerOnChangeTag, handlerRemoveTag,
+    value, handlerAddTag, handlerRemoveTag,
   } = props
-  const tagMockups = value
-  const tagValue = Object.keys(tagMockups).length > 0 ? tagMockups : null
+
+  const { image, tag } = value
 
   return (
     <>
       <DivideBox>
-        <ImageIcon />
+        <ImageIcon src={`data:image/jpeg;base64,${image}`} />
         <Content>
           <Topic>Titlebook</Topic>
           <Detail>Tag / Keyword :</Detail>
-
           <Inline>
-
-            { tagValue
-              ? Object.keys(tagValue).map((key) => (
+            {value
+              ? (tag).map((key) => (
                 <Tag key={`key : ${key}`}>
                   <TagP
-                    onChange={handlerOnChangeTag}
                     name={key}
                     key={`tag-${key}input`}
                   >
-                    {tagValue[key]}
+                    {key}
                   </TagP>
                   <CloseIcon key={`tag:${key}del`} onClick={() => handlerRemoveTag(key)} />
                 </Tag>
               )) : null}
-
           </Inline>
           <Space />
           <Line />
@@ -58,4 +54,4 @@ const StepSeven = (props) => {
   )
 }
 
-export default StepSeven
+export default StepThree

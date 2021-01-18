@@ -40,8 +40,8 @@ const StepForm = () => {
   `
 
   const INSERT_TERM = gql`
-    mutation overridePerterm($newInformation: InputSeleceOverridePerterm!){
-      overridePerterm(newInformation: $newInformation){
+    mutation overridePerterm($newInformation: InputSeleceOverridePerterm!, $documentId: Int!){
+      overridePerterm(newInformation: $newInformation, documentId: $documentId){
         overidestatus,
         addNewStatus{
           pageIndex,
@@ -62,20 +62,17 @@ const StepForm = () => {
   `
 
   const INSERT_USERKEYWORD = gql`
-    mutation insertUserKeyword($body: InsertUserKeywordInput!){
-      insertUserKeyword(body: $body){
+    mutation overrideUserKeyword($keywords: [String]!, $documentId: Int!){
+      overrideUserKeyword(keywords: $keywords, documentId: $documentId){
         status,
         message
       }
     }
   `
 
-  const REMOVE_TAG = gql`
-    mutation setStatusKeyword($scoreId: [Int]!, $status: String!){
-      setStatusKeyword(scoreId: $scoreId, status: $status){
-        status,
-        message,
-      }
+  const UPDATE_STATUS = gql`
+    mutation putDocumentDone($documentID: Int!){
+      putDocumentDone(documentID: $documentID)
     }
   `
 
@@ -121,8 +118,7 @@ const StepForm = () => {
   const step = params.get('step')
   const docId = parseInt(params.get('id'), 10)
 
-  const [tagMockupData, setTagData] = useState({ 1: 'tag1', 2: 'tag2' })
-  const [removeTagId, setRemoveTagId] = useState([])
+  const [tagData, setTagData] = useState(null)
   const [activeStep, setActiveStep] = useState(0)
   const [informationForm, setInformationForm] = useState(fieldForm)
   const [termAll, setTermAll] = useState({})
@@ -136,8 +132,8 @@ const StepForm = () => {
   const [insertDocument, { error: insertDocumentError }] = useMutation(INSERT_DOCUMENT)
   const [insertTerm, { error: insertTermError }] = useMutation(INSERT_TERM)
   const [startTfIdf, { error: startTfIdfError }] = useMutation(STRAT_GENERATETAG)
-  const [insertUserKeyword] = useMutation(INSERT_USERKEYWORD)
-  const [removeTag] = useMutation(REMOVE_TAG)
+  const [insertTag] = useMutation(INSERT_USERKEYWORD)
+  const [updateStatus] = useMutation(UPDATE_STATUS)
 
   const {
     register, handleSubmit, setValue, getValues, control, errors,
@@ -171,34 +167,25 @@ const StepForm = () => {
 
   const handlerAddTag = () => {
     const tagAddValue = getValues('Tag / Keyword')
-    const tempTag = [...tagMockupData]
+    const tempTag = [...tagData]
     let alreadyKeyword = false
     tempTag.map((temp) => {
-      if (temp.tag === tagAddValue) {
+      if (temp === tagAddValue) {
         alreadyKeyword = true
       }
       return { }
     })
     if (!alreadyKeyword) {
-      tempTag.push({ scoreId: -1, tag: tagAddValue })
+      tempTag.push(tagAddValue)
       setTagData(tempTag)
     }
     setValue('Tag / Keyword', '')
   }
 
-  const handlerRemoveTag = (key, id) => {
-    const tempTag = [...tagMockupData]
-    if (id !== -1) {
-      setRemoveTagId([...removeTagId, id])
-    }
+  const handlerRemoveTag = (key) => {
+    const tempTag = [...tagData]
     tempTag.splice(key, 1)
     setTagData(tempTag)
-  }
-
-  const handlerOnChangeTag = (e) => {
-    const tempTag = tagMockupData
-    const temp = { ...tempTag, [e.target.name]: e.target.value }
-    setTagData({ ...tagMockupData, temp })
   }
 
   const handlerRemoveRelation = (value) => {
@@ -270,7 +257,7 @@ const StepForm = () => {
       case 5:
         return <StepSix docId={docId} />
       case 6:
-        return <StepSeven handlerAddTag={handlerAddTag} handlerOnChangeTag={handlerOnChangeTag} value={tagMockupData} handlerRemoveTag={handlerRemoveTag} docId={docId} setTagData={setTagData} />
+        return <StepSeven handlerAddTag={handlerAddTag} value={tagData} handlerRemoveTag={handlerRemoveTag} docId={docId} setTagData={setTagData} />
       default:
         return null
     }
@@ -308,7 +295,8 @@ const StepForm = () => {
             DC_title: tempData.title,
             DC_title_alternative: tempData.titleAlernative,
             DC_description_table_of_contents: tempData.tableOfContents,
-            DC_description_summary_or_abstract: tempData.summary,
+            DC_description_summary: tempData.summary,
+            DC_description_abstract: tempData.abstract,
             DC_description_note: tempData.note,
             DC_format: 'pdf',
             DC_format_extent: '',
@@ -368,27 +356,21 @@ const StepForm = () => {
 
   const handlerSubmitUpdateTerm = () => {
     const result = parseTerms()
-    insertTerm({ variables: { newInformation: result } }).catch((err) => window.console.log(err))
-      .then(() => startTfIdf({ variables: { documentId: result.documentId } }).then(() => history.push(`/insertbook?step=6&id=${result.documentId}`)))
+    insertTerm({ variables: { newInformation: result, documentId: docId } })
+      .catch((err) => window.console.log(err))
+      .then(() => startTfIdf({ variables: { documentId: result.documentId } }))
+      .then(() => setTimeout(() => {
+        history.push(`/insertbook?step=6&id=${result.documentId}`)
+      }, 2000))
   }
 
   const handlerSubmitUpdateKeyword = () => {
-    const userTag = tagMockupData.map((tag) => {
-      if (tag.scoreId !== -1) {
-        return
-      }
-      return tag.tag
-    })
-    removeTag({ variables: { scoreId: removeTagId, status: 'remove' } }).then(() => {
-      insertUserKeyword({
-        variables: {
-          body: {
-            keywords: userTag,
-            idDocument: docId,
-          },
-        },
-      })
-    })
+    insertTag({
+      variables: {
+        documentId: docId,
+        keywords: tagData,
+      },
+    }).then(() => updateStatus({ variables: { documentID: docId } })).then(() => window.location.replace('/homepage'))
   }
 
   const handlerOnSubmit = (data) => {

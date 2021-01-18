@@ -52,11 +52,13 @@ const StatusCard = (props) => {
     }
   }
 
+  const imageRender = image ? <Image src={`data:image/jpeg;base64,${image}`} /> : null
+
   return (
     <>
       <StatusStyle state={newState}>
         <DivideBox>
-          <Image src={`data:image/jpeg;base64,${image}`} />
+          {imageRender}
           <Content>
             <TitleBook>{titleBook}</TitleBook>
             <Line />

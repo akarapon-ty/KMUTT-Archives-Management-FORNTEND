@@ -14,7 +14,6 @@ const StepFour = (props) => {
             version,
             status,
             publish,
-            image,
         }
     }
   `
@@ -40,7 +39,7 @@ const StepFour = (props) => {
   return (
     <>
       <h4>4. Waiting for upload</h4>
-      <StatusCard handleNextStep={handleNextStep} titleBook={data.documentStatus.title} publishDate={data.documentStatus.publish} compileState={data.documentStatus.status} image={data.documentStatus.image} />
+      <StatusCard handleNextStep={handleNextStep} titleBook={data.documentStatus.title} publishDate={data.documentStatus.publish} compileState={data.documentStatus.status} />
     </>
   )
 }

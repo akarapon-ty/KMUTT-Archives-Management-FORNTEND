@@ -12,64 +12,84 @@ import { InputFormat } from './InputField'
 
 const StepSeven = (props) => {
   const {
-    value, handlerAddTag, handlerOnChangeTag, handlerRemoveTag, docId, setTagData,
+    value, handlerAddTag, handlerRemoveTag, docId, setTagData,
   } = props
 
-  const QUERY_DOCUMENTTAG = gql`
-    query documentInProcess($pk: Int!){
-      documentInProcess(pk: $pk){
-        title,
-        image,
-        status,
-        tag{
-          tag,
-          scoreId
-        },
+  const QUERY_DOCUMENT = gql`
+    query document($pk: Int!){
+      document(pk: $pk){
+        document{
+          title,
+          image,
+          status,
+        }
       }
     }
   `
 
-  const { data, loading, error } = useQuery(QUERY_DOCUMENTTAG, { variables: { pk: docId }, onCompleted: ({ documentInProcess }) => setTagData(documentInProcess.tag) })
+  const QUERY_GENERATETAG = gql`
+    query generateTagForAdd($documentId: Int!, $limit: Int){
+      generateTagForAdd(documentId: $documentId, limit: $limit)
+    }
+  `
 
-  if (loading) {
+  const queryMultiple = () => {
+    const resultDoc = useQuery(QUERY_DOCUMENT,
+      {
+        variables: { pk: docId },
+      })
+    const resultTag = useQuery(QUERY_GENERATETAG,
+      {
+        variables: { documentId: docId, limit: 10 },
+        onCompleted: ({ generateTagForAdd }) => setTagData(generateTagForAdd),
+      })
+    return [resultDoc, resultTag]
+  }
+
+  const [{ data: documentData, loading: documentLoading, error: documentError }, { loading: tagLoading, error: tagError }] = queryMultiple()
+
+  if (documentLoading || tagLoading) {
     return null
   }
 
-  if (error) {
-    window.console.log(error)
+  if (documentError) {
+    window.console.log('doc', documentError)
     return null
   }
 
-  if (data.documentInProcess.status !== 5) {
+  if (tagError) {
+    window.console.log('tag', tagError)
+    return null
+  }
+
+  const { document } = documentData.document
+  const { status, image, title } = document
+
+  if (status !== 5) {
     window.location.replace('/homepage')
   }
-  const tagValue = value.length > 0 ? value : null
 
   return (
     <>
       <h4>7. Edit Tag</h4>
       <DivideBox>
-        <ImageIcon src={`data:image/jpeg;base64,${data.documentInProcess.image}`} />
+        <ImageIcon src={`data:image/jpeg;base64,${image}`} />
         <Content>
-          <Topic>{data.documentInProcess.title}</Topic>
+          <Topic>{title}</Topic>
           <Detail>Tag / Keyword :</Detail>
-
           <Inline>
-
-            { tagValue
-              ? tagValue.map((key, index) => (
-                <Tag key={`key : ${key.tag}`}>
+            { value
+              ? value.map((key, index) => (
+                <Tag key={`key : ${key}`}>
                   <TagP
-                    onChange={handlerOnChangeTag}
-                    name={key.tag}
-                    key={`tag-${key.tag}input`}
+                    name={key}
+                    key={`tag-${key}input`}
                   >
-                    {key.tag}
+                    {key}
                   </TagP>
-                  <CloseIcon key={`tag:${key.tag}del`} onClick={() => handlerRemoveTag(index, key.scoreId)} />
+                  <CloseIcon onClick={() => handlerRemoveTag(index, key)} />
                 </Tag>
               )) : null}
-
           </Inline>
           <Space />
           <Line />

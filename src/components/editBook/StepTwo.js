@@ -8,29 +8,29 @@ import {
 import { InputFormat } from '../insertBook/InputField'
 import { SelectorFormat } from '../insertBook/InputSelector'
 import { MultiInputFormat } from '../insertBook/MultiInputField'
-import { SearchResult } from '../search'
+import SearchCard from '../search/searchCard/SearchCard'
 
 const StepTwo = (props) => {
   const {
-    value, handlerOnChangeRelation, handlerAddRelation, handlerRemoveRelation,
+    value, handlerAddRelation, handlerRemoveRelation,
   } = props
   const {
     title,
-    creatorName,
-    coverageTemporalMonth,
+    creator,
+    coverageTemporal,
     identifierURL,
     identifierISBN,
     source,
     relation,
-    degreeName,
-    degreeLevel,
-    degreeDicipline,
-    degreeGrantor,
+    thesisDegreeName,
+    thesisDegreeLevel,
+    thesisDegreeDiscipline,
+    thesisDegreeGrantor,
     type,
     language,
-
+    tag,
+    image,
   } = value
-  const relationValue = relation.length > 0 ? relation : ['']
 
   const selectLan = [{
     val: 'Thai',
@@ -48,9 +48,10 @@ const StepTwo = (props) => {
 
   return (
     <>
-      <SearchResult title={title} creator={creatorName} coverageTemporal={coverageTemporalMonth} tag={[]} />
+      <SearchCard title={title} creator={creator} coverageTemporal={coverageTemporal} tag={tag} image={image} />
+
       <h5>Identifier</h5>
-      <InputFormat inputDefault={identifierURL} inputLabel="Identifier URL" inputName="identifierUrl" />
+      <InputFormat inputDefault={identifierURL} inputLabel="Identifier URL" inputName="identifierURL" />
       <InputFormat inputDefault={identifierISBN} inputLabel="Identifier ISBN" inputName="identifierIsbn" />
       <h5>Source</h5>
       <InputFormat inputDefault={source} inputLabel="Source" inputName="source" />
@@ -58,18 +59,16 @@ const StepTwo = (props) => {
         <h5>Relation</h5>
         <InsertButton type="button" name="addRelation" onClick={() => handlerAddRelation()}>+ ADD</InsertButton>
       </LeftRightBox>
-      {relationValue.map((key) => (
-        <div key={`div-${key}`}>
+      {relation.map((key, index) => (
+        <div key={`divrelation-${key}`}>
           <Inline long>
             <MultiInputFormat
-              onChange={handlerOnChangeRelation}
-              inputdefault={key}
-              value={key}
+              inputDefault={key}
               name={key}
               key={`relation-${key}input`}
               inputLabel="Relation"
             />
-            <InsertButton key={`relation-${key}button`} value={key} onClick={() => handlerRemoveRelation(key)} type="button">
+            <InsertButton key={`relation-${key}button`} value={key} onClick={() => handlerRemoveRelation(index)} type="button">
               <CloseIcon />
             </InsertButton>
           </Inline>
@@ -77,13 +76,13 @@ const StepTwo = (props) => {
         </div>
       ))}
       <h5>Thesis</h5>
-      <InputFormat inputDefault={degreeName} inputLabel="Degree Name" inputName="degreeName" />
-      <InputFormat inputDefault={degreeLevel} inputLabel="Degree Level" inputName="degreeLevel" />
-      <InputFormat inputDefault={degreeDicipline} inputLabel="Degree Dicipline" inputName="degreeDicipline" />
-      <InputFormat inputDefault={degreeGrantor} inputLabel="Degree Grantor" inputName="degreeGrantor" />
+      <InputFormat inputDefault={thesisDegreeName} inputLabel="Degree Name" inputName="thesisDegreeName" />
+      <InputFormat inputDefault={thesisDegreeLevel} inputLabel="Degree Level" inputName="thesisDegreeLevel" />
+      <InputFormat inputDefault={thesisDegreeDiscipline} inputLabel="Degree Dicipline" inputName="thesisDegreeDiscipline" />
+      <InputFormat inputDefault={thesisDegreeGrantor} inputLabel="Degree Grantor" inputName="thesisDegreeGrantor" />
 
       <h5>Type</h5>
-      <SelectorFormat inputDefault={type} inputLabel="Type" inputName="type" options={selectType} />
+      <SelectorFormat inputDefault={type[0]} inputLabel="Type" inputName="type" options={selectType} />
       <h5>Language</h5>
       <SelectorFormat inputDefault={language} inputLabel="Language" inputName="language" options={selectLan} />
       <Space />

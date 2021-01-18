@@ -39,5 +39,4 @@ SelectorFormat.propTypes = {
   inputDefault: PropTypes.string,
   inputName: PropTypes.string,
   options: PropTypes.arrayOf(PropTypes.object),
-
 }

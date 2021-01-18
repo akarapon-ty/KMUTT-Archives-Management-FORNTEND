@@ -14,6 +14,7 @@ const IndexSearchCard = ({ documentId, onClick }) => {
             title,
             coverageTemporal,
             creator,
+            image,
           },
         }
     }
@@ -35,11 +36,11 @@ const IndexSearchCard = ({ documentId, onClick }) => {
   }
 
   const {
-    id, title: dcTitle, creator, coverageTemporal: dcCoverageTemporal,
+    id, title: dcTitle, creator, coverageTemporal: dcCoverageTemporal, image,
   } = document
 
   return (
-    <SearchCard key={id} title={dcTitle} creator={creator} coverageTemporal={dcCoverageTemporal} tag={[]} onClick={() => onClick(documentId)} />
+    <SearchCard key={id} title={dcTitle} creator={creator} coverageTemporal={dcCoverageTemporal} tag={[]} onClick={() => onClick(documentId)} image={image} />
   )
 }
 
