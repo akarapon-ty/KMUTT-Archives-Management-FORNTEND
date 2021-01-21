@@ -7,7 +7,7 @@ const LayoutGridStyle = styled.div`
     font-family: 'Kanit', sans-serif;
     font-weight:400;
     display:grid;
-    grid-template-columns: auto 900px auto;
+    ${(props) => (props.wide ? 'grid-template-columns: auto 80% auto; width:inherit;' : 'grid-template-columns: auto 900px auto;')}
 
 `
 const GridContentStyle = styled.div`
@@ -38,10 +38,10 @@ export const BgShort = styled.img`
   
 `
 
-const DefaultLayoutStyle = ({ children, activate }) => {
+const DefaultLayoutStyle = ({ wide, children, activate }) => {
   const bg = activate ? <BgTall src={bgTall} /> : <BgShort src={bgShort} />
   return (
-    <LayoutGridStyle>
+    <LayoutGridStyle wide={wide}>
       {bg}
       <GridContentStyle>
         {children}
