@@ -163,15 +163,15 @@ const StepFive = (props) => {
     const tempTerms = { ...termAll }
     // normal insert Term || first insert Term
     if (termAll[`page-${pageNumber}`]) {
-      const parseTerm = { [`page-${pageNumber}`]: { ...termAll[`page-${pageNumber}`], [`newterm-${insertTermID}`]: { queryTerm: 'เพิ่มคำ', inputTerm: '', newTerm: true } } }
+      const parseTerm = { [`page-${pageNumber}`]: { ...termAll[`page-${pageNumber}`], [`newterm-${insertTermID}`]: { queryTerm: 'เพิ่มคำ', inputTerm: '' } } }
       setinsertTermID((prevState) => prevState + 1)
       setTermAll({ ...tempTerms, ...parseTerm })
     } else {
       const parseTerm = {
         [`page-${pageNumber}`]: {
           ...termAll[`page-${pageNumber}`],
-          [`newterm-${insertTermID}`]: { queryTerm: 'เพิ่มคำ', inputTerm: '', newTerm: true },
-          [`newterm-${insertTermID + 1}`]: { queryTerm: 'เพิ่มคำ', inputTerm: '', newTerm: true },
+          [`newterm-${insertTermID}`]: { queryTerm: 'เพิ่มคำ', inputTerm: '' },
+          [`newterm-${insertTermID + 1}`]: { queryTerm: 'เพิ่มคำ', inputTerm: '' },
         },
       }
       setinsertTermID((prevState) => prevState + 2)

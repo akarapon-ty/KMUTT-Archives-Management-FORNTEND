@@ -25,7 +25,7 @@ const StepThree = (props) => {
           <Detail>Tag / Keyword :</Detail>
           <Inline>
             {value
-              ? (tag).map((key) => (
+              ? (tag).map((key, index) => (
                 <Tag key={`key : ${key}`}>
                   <TagP
                     name={key}
@@ -33,7 +33,7 @@ const StepThree = (props) => {
                   >
                     {key}
                   </TagP>
-                  <CloseIcon key={`tag:${key}del`} onClick={() => handlerRemoveTag(key)} />
+                  <CloseIcon key={`tag:${key}del`} onClick={() => handlerRemoveTag(index)} />
                 </Tag>
               )) : null}
           </Inline>

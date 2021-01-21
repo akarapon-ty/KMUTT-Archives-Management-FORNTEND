@@ -1,5 +1,5 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+
 import CloseIcon from '@material-ui/icons/Close'
 
 import {
@@ -14,6 +14,7 @@ const StepTwo = (props) => {
   const {
     value, handlerAddRelation, handlerRemoveRelation,
   } = props
+
   const {
     title,
     creator,
@@ -89,33 +90,6 @@ const StepTwo = (props) => {
     </>
 
   )
-}
-
-InputFormat.defaultProps = {
-  identifierURL: '',
-  identifierISBN: '',
-  source: '',
-  relation: [''],
-  degreeName: '',
-  degreeLevel: '',
-  degreeDicipline: '',
-  degreeGrantor: '',
-  type: [''],
-  language: '',
-}
-
-InputFormat.propTypes = {
-  identifierURL: PropTypes.string,
-  identifierISBN: PropTypes.string,
-  source: PropTypes.string,
-  relation: PropTypes.arrayOf[PropTypes.string],
-  degreeName: PropTypes.string,
-  degreeLevel: PropTypes.string,
-  degreeDicipline: PropTypes.string,
-  degreeGrantor: PropTypes.string,
-  type: PropTypes.arrayOf[PropTypes.string],
-  language: PropTypes.string,
-
 }
 
 export default StepTwo
