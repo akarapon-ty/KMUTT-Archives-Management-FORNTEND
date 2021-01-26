@@ -114,6 +114,7 @@ const EditBook = () => {
 
   const [newInformation, setNewInformation] = useState(defaultInformation)
   const [activeStep, setActiveStep] = useState(0)
+  const [relationTemp, setRelationTemp] = useState([''])
 
   const setData = (dataQuery) => {
     const TempQuery = { ...dataQuery }
@@ -136,6 +137,7 @@ const EditBook = () => {
 
   const handlerOnSubmit = (data) => {
     setNewInformation({ ...newInformation, ...data })
+
     let tempData = { ...newInformation, ...data }
     tempData = {
       ...tempData,
@@ -156,6 +158,7 @@ const EditBook = () => {
       dcCoverageTemporalYear: tempData.coverageTemporalYear,
       dcRights: tempData.rights,
       dcRightsAccess: tempData.rightsAccess,
+      relation: relationTemp,
     }
     console.log(tempData)
     // updateDocument({ variables: { documentId, body: tempData } }).then((res) => console.log('t', res))
@@ -174,6 +177,7 @@ const EditBook = () => {
     const tempValue = getValues()
     console.log(tempValue)
     setNewInformation({ ...newInformation, ...tempValue })
+    setNewInformation({ ...newInformation, relation: relationTemp })
   }
 
   const handlerNextStep = () => {
@@ -181,22 +185,31 @@ const EditBook = () => {
     const tempValue = getValues()
     console.log(tempValue)
     setNewInformation({ ...newInformation, ...tempValue })
+    setNewInformation({ ...newInformation, relation: relationTemp })
   }
 
   const handlerRemoveRelation = (index) => {
-    const tempTag = [...newInformation.relation]
+    const tempTag = [...relationTemp]
     tempTag.splice(index, 1)
     setNewInformation({ ...newInformation, relation: tempTag })
+    setRelationTemp(tempTag)
   }
 
   const handlerAddRelation = () => {
-    let newData = [...newInformation.relation]
-    if (newInformation.relation.length === 0) {
+    let newData = [...relationTemp]
+    if (relationTemp.length === 0) {
       newData = ['', '']
     } else {
       newData.push('')
     }
     setNewInformation({ ...newInformation, relation: newData })
+    setRelationTemp(newData)
+  }
+
+  const handleOnChangeRelation = (ind, val) => {
+    const temp = [...relationTemp]
+    temp[ind] = val
+    setRelationTemp(temp)
   }
 
   const handlerAddTag = () => {
@@ -227,7 +240,7 @@ const EditBook = () => {
       case 0:
         return <StepOne value={newInformation} />
       case 1:
-        return <StepTwo handlerAddRelation={handlerAddRelation} value={newInformation} handlerRemoveRelation={handlerRemoveRelation} />
+        return <StepTwo handlerAddRelation={handlerAddRelation} value={newInformation} handlerRemoveRelation={handlerRemoveRelation} handleOnChangeRelation={handleOnChangeRelation} />
       default:
         return <StepThree handlerAddTag={handlerAddTag} value={newInformation} handlerRemoveTag={handlerRemoveTag} />
     }
