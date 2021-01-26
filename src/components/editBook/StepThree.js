@@ -14,14 +14,14 @@ const StepThree = (props) => {
     value, handlerAddTag, handlerRemoveTag,
   } = props
 
-  const { image, tag } = value
+  const { image, tag, title } = value
 
   return (
     <>
       <DivideBox>
         <ImageIcon src={`data:image/jpeg;base64,${image}`} />
         <Content>
-          <Topic>Titlebook</Topic>
+          <Topic>{title}</Topic>
           <Detail>Tag / Keyword :</Detail>
           <Inline>
             {value

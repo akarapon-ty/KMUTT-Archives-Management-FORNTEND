@@ -61,12 +61,13 @@ const StepTwo = (props) => {
         <InsertButton type="button" name="addRelation" onClick={() => handlerAddRelation()}>+ ADD</InsertButton>
       </LeftRightBox>
       {relation.map((key, index) => (
-        <div key={`divrelation-${key}`}>
+        <div key={`divrelation-${key}${index + 5}`}>
           <Inline long>
             <MultiInputFormat
               inputDefault={key}
               name={key}
               key={`relation-${key}input`}
+              inputName={`relation${index}`}
               inputLabel="Relation"
             />
             <InsertButton key={`relation-${key}button`} value={key} onClick={() => handlerRemoveRelation(index)} type="button">

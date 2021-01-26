@@ -10,7 +10,7 @@ const SearchComponents = (props) => {
     initInputSearch,
   } = props
 
-  const [inputSearchState, setInputSearchState] = useState('')
+  const [inputSearchState, setInputSearchState] = useState(initInputSearch)
   const [inputSearchConfirmState, setInputSearchConfirmState] = useState(initInputSearch)
 
   const handdleOnKeyDownSearch = (event) => {

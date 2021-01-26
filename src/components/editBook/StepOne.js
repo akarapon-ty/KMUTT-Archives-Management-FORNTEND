@@ -17,7 +17,7 @@ const StepOne = (props) => {
     note,
     coverageSpatial,
     coverageTemporal,
-    coverageTempooralYear,
+    coverageTemporalYear,
     rights,
     rightsAccess,
     creator,
@@ -40,10 +40,12 @@ const StepOne = (props) => {
   const selectY = [{
     val: 'พ.ศ.',
     lab: 'พ.ศ.',
+    selected: coverageTemporalYear === 'พ.ศ.' ? 'selected' : null,
   },
   {
     val: 'ค.ศ.',
     lab: 'ค.ศ.',
+    selected: coverageTemporalYear === 'ค.ศ.' ? 'selected' : null,
   },
   ]
 
@@ -71,14 +73,14 @@ const StepOne = (props) => {
 
       <h5>Contributor</h5>
       <InputFormat inputDefault={contributor} inputLabel="Contributor" inputName="contributor" />
-      <InputFormat inputDefault={contributorRole} inputLabel="Contributor Role" inputName="contributorRole" />
+      <InputFormat inputDefault={contributorRole[0]} inputLabel="Contributor Role" inputName="contributorRole" />
 
       <h5>Date</h5>
       <InputFormat types="date" inputDefault={issuedDate} inputLabel="Issued Date" inputName="issuedDate" />
 
       <h5>Coverage</h5>
       <InputFormat inputDefault={coverageSpatial} inputLabel="Coverage Spatial" inputName="coverageSpatial" />
-      <SelectorFormat inputDefault={coverageTempooralYear} inputLabel="Coverage Tempooral Year" inputName="coverageTempooralYear" options={selectY} inputDefault2={coverageTemporal} inputLabel2="Year" inputName2="coverageTemporalMonth" />
+      <SelectorFormat inputDefault={coverageTemporalYear} inputLabel="Coverage Tempooral Year" inputName="coverageTempooralYear" options={selectY} inputDefault2={coverageTemporal} inputLabel2="Year" inputName2="coverageTemporalMonth" />
 
       <h5>Rights</h5>
       <InputFormat inputDefault={rights} inputLabel="Rights" inputName="rights" />

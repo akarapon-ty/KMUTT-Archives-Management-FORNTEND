@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useQuery, gql } from '@apollo/client'
+import { useQuery, gql, useMutation } from '@apollo/client'
 import { useForm, FormProvider } from 'react-hook-form'
 
 import { FormInsert, Edit } from './style'
@@ -11,58 +11,67 @@ import StepThree from '../../components/editBook/StepThree'
 import ControlStep from '../../components/editBook/ControlStep'
 
 const EditBook = () => {
+  const QUERY_DOCUMENT_BY_ID = gql`
+  query document($pk: Int!){
+      document(pk: $pk) {
+        statusQuery,
+        document{
+        title,
+        titleAlternative,
+        tableOfContents,
+        abstract,
+        summary,
+        note,
+        format,
+        formatExtent,
+        identifierURL,
+        identifierISBN,
+        source,
+        language,
+        coverageSpatial,
+        coverageTemporal,
+        coverageTemporalYear,
+        rights,
+        rightsAccess,
+        thesisDegreeName,
+        thesisDegreeLevel,
+        thesisDegreeDiscipline,
+        thesisDegreeGrantor,
+        recCreateAt,
+        recCreateBy,
+        recModifiedAt,
+        recModifiedBy,
+        tag,
+        relation,
+        type,
+        creator,
+        creatorOrgName,
+        publisher,
+        publisherEmail,
+        contributor,
+        contributorRole,
+        issuedDate,
+        image
+      }}
+  }`
+
+  const UPDATE_DOCUMENT = gql`
+    mutation updateDocument($documentId: Int!, $body: UpdateDocumentInput!){
+      updateDocument(documentId: $documentId, body: $body){
+        updatestatus
+      }
+    }
+  `
+
   const {
     register, handleSubmit, setValue, getValues, control, errors,
   } = useForm()
+
   const params = new URLSearchParams(window.location.search)
   if (!params.get('id')) {
     window.location.replace('/homepage')
   }
   const documentId = parseInt(params.get('id'), 10)
-
-  const QUERY_DOCUMENT_BY_ID = gql`
-    query document($pk: Int!){
-        document(pk: $pk) {
-          statusQuery,
-          document{
-          title,
-          titleAlternative,
-          tableOfContents,
-          abstract,
-          summary,
-          note,
-          format,
-          formatExtent,
-          identifierURL,
-          identifierISBN,
-          source,
-          language,
-          coverageSpatial,
-          coverageTemporal,
-          coverageTemporalYear,
-          rights,
-          rightsAccess,
-          thesisDegreeName,
-          thesisDegreeLevel,
-          thesisDegreeDiscipline,
-          thesisDegreeGrantor,
-          recCreateAt,
-          recCreateBy,
-          recModifiedAt,
-          recModifiedBy,
-          tag,
-          relation,
-          type,
-          creator,
-          creatorOrgName,
-          publisher,
-          publisherEmail,
-          contributor,
-          contributorRole,
-          issuedDate,
-          image
-        }}
-    }`
 
   const defaultInformation = {
     title: '',
@@ -119,8 +128,37 @@ const EditBook = () => {
     onCompleted: ({ document }) => setData(document.document),
   })
 
+  const [updateDocument, { error: errorUpdate }] = useMutation(UPDATE_DOCUMENT)
+
+  if (errorUpdate) {
+    window.console.log('error update', errorUpdate)
+  }
+
   const handlerOnSubmit = (data) => {
     setNewInformation({ ...newInformation, ...data })
+    let tempData = { ...newInformation, ...data }
+    tempData = {
+      ...tempData,
+      dcTitle: tempData.title,
+      dcTitleAlternative: tempData.titleAlternative,
+      dcDescriptionTableOfContents: tempData.tableOfContents,
+      dcDescriptionNote: tempData.note,
+      dcDescriptionSummary: tempData.summary,
+      dcDescriptionAbstract: tempData.abstract,
+      dcFormat: tempData.format,
+      dcFormatExtent: tempData.formatExtent,
+      dcIdentifierURL: tempData.identifierURL,
+      dcIdentifierISBN: tempData.dcIdentifierISBN,
+      dcSource: tempData.source,
+      dcLanguage: tempData.language,
+      dcCoverageSpatial: tempData.coverageSpatial,
+      dcCoverageTemporal: tempData.coverageTemporal,
+      dcCoverageTemporalYear: tempData.coverageTemporalYear,
+      dcRights: tempData.rights,
+      dcRightsAccess: tempData.rightsAccess,
+    }
+    console.log(tempData)
+    // updateDocument({ variables: { documentId, body: tempData } }).then((res) => console.log('t', res))
   }
 
   if (documentDataLoading) {
@@ -134,12 +172,14 @@ const EditBook = () => {
   const handlerBackStep = () => {
     setActiveStep((prevState) => prevState - 1)
     const tempValue = getValues()
+    console.log(tempValue)
     setNewInformation({ ...newInformation, ...tempValue })
   }
 
   const handlerNextStep = () => {
     setActiveStep((prevState) => prevState + 1)
     const tempValue = getValues()
+    console.log(tempValue)
     setNewInformation({ ...newInformation, ...tempValue })
   }
 

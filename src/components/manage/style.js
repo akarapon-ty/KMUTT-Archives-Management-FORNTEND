@@ -45,7 +45,7 @@ export const TagBook = styled.div`
   display: flex;
   -webkit-align-items: center;
   -webkit-box-align: center;
-
+  word-wrap: break-word;
 `
 
 export const Tag = styled.div`

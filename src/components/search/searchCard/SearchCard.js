@@ -11,11 +11,11 @@ const SearchCard = (props) => {
   } = props
 
   return (
-    <ResultStyle>
+    <ResultStyle onClick={onClick ? () => onClick(id) : null}>
       <DivideBox>
         <Image src={`data:image/jpeg;base64,${image}`} />
         <Content>
-          <TitleBook onClick={onClick ? () => onClick(id) : null}>
+          <TitleBook>
             {title}
             {' '}
           </TitleBook>

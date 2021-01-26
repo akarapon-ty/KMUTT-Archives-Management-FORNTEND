@@ -25,7 +25,7 @@ const MultiPage = (props) => {
   let tempCurrent = 0
 
   const getYPosition = () => {
-    const top = window.pageYOffset || document.documentElement.scrollTop
+    const top = window.pageYOffset
     return top
   }
 
@@ -117,15 +117,12 @@ const MultiPage = (props) => {
           file={filePdf}
           onLoadSuccess={onDocumentLoadSuccess}
         >
-
           <Page
             pageNumber={pageNumber}
             scale={scalePage}
             width={500}
           />
-
         </Document>
-
       </PageContain>
     </>
   )

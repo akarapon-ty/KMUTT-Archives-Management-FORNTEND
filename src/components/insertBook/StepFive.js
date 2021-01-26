@@ -48,6 +48,7 @@ const StepFive = (props) => {
   const docId = parseInt(params.get('id'), 10)
 
   const handlerSetTerm = (terms, pageId) => {
+    console.log(pageId)
     const tempTerms = { ...termAll }
     let parseTerms = { }
     // cheack no term in back end

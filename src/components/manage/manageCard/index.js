@@ -40,7 +40,7 @@ const IndexManageCard = ({ documentId }) => {
   } = document
 
   const handlerEditOnClick = () => {
-    window.location.replace(`/editbook?id=${id}`)
+    window.location.href = `/editbook?id=${id}`
   }
 
   return (

@@ -6,6 +6,7 @@ export const ResultStyle = styled.div`
   line-height: 13px;
   margin:auto;
   margin-bottom:20px;
+  cursor: pointer;
 `
 
 export const DivideBox = styled.div`
@@ -45,7 +46,7 @@ export const TagBook = styled.div`
   display: flex;
   -webkit-align-items: center;
   -webkit-box-align: center;
-
+  word-wrap: break-word;
 `
 
 export const Tag = styled.div`

@@ -33,7 +33,7 @@ const SearchResult = ({ input }) => {
   }
 
   const handlerOnClickSearchCard = (id) => {
-    window.location.replace(`/viewBook?id=${id}`)
+    window.location.href = `/viewbook?id=${id}`
   }
 
   const { documentRelevance, foundDocument } = dataSearchDocument.searchDocument
