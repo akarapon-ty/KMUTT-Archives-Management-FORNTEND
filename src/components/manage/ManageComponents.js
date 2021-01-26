@@ -1,17 +1,12 @@
 import React, { useState } from 'react'
-import PropTypes from 'prop-types'
 
 import SearchResult from './ManageResult'
 
 import InputSearchBar from '../util/input/searchBar/InputSearchBar'
 
-const ManageComponents = (props) => {
-  const {
-    initInputSearch,
-  } = props
-
+const ManageComponents = () => {
   const [inputSearchState, setInputSearchState] = useState('')
-  const [inputSearchConfirmState, setInputSearchConfirmState] = useState(initInputSearch)
+  const [inputSearchConfirmState, setInputSearchConfirmState] = useState('')
 
   const handdleOnKeyDownSearch = (event) => {
     if (event.key === 'Enter') {
@@ -32,14 +27,6 @@ const ManageComponents = (props) => {
       <SearchResult input={inputSearchConfirmState} />
     </div>
   )
-}
-
-ManageComponents.defaultProps = {
-  initInputSearch: '',
-}
-
-ManageComponents.propTypes = {
-  initInputSearch: PropTypes.string,
 }
 
 export default ManageComponents

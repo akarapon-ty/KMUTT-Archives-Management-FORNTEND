@@ -7,13 +7,13 @@ import {
 
 const ManageCard = (props) => {
   const {
-    title, creator, coverageTemporal, tag,
+    title, creator, coverageTemporal, tag, image, onClick,
   } = props
 
   return (
     <ResultStyle>
       <DivideBox>
-        <Image />
+        <Image src={`data:image/jpeg;base64,${image}`} />
         <Content>
           <DeleteButton type="button">Delete</DeleteButton>
           <TitleBook>
@@ -21,7 +21,7 @@ const ManageCard = (props) => {
             {' '}
           </TitleBook>
           <Line />
-          <ManageButton type="button">Edit</ManageButton>
+          <ManageButton type="button" onClick={() => onClick()}>Edit</ManageButton>
           <ConP>
             Creator :
             {' '}

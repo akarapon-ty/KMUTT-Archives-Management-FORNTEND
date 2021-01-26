@@ -5,7 +5,7 @@ import DefaultLayoutStyle from '../../components/util/LayoutStyle'
 
 export const ManagePage = () => (
   <DefaultLayoutStyle>
-    <ManageComponents initInputSearch="" />
+    <ManageComponents />
   </DefaultLayoutStyle>
 )
 

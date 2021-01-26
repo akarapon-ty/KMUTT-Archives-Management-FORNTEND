@@ -33,8 +33,7 @@ const SearchResult = ({ input }) => {
   }
 
   const handlerOnClickSearchCard = (id) => {
-    // send to viewDoc
-    window.console.log('docID', id)
+    window.location.replace(`/viewBook?id=${id}`)
   }
 
   const { documentRelevance, foundDocument } = dataSearchDocument.searchDocument

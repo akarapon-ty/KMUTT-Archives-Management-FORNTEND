@@ -181,12 +181,14 @@ const StepFive = (props) => {
 
   const handlerBackPage = () => {
     if (pageNumber > limitPageStart) {
+      setTempPageNumber((prevState) => prevState - 1)
       setPageNumber((prevState) => prevState - 1)
     }
   }
 
   const handlerNextPage = () => {
     if (pageNumber < limitPage) {
+      setTempPageNumber((prevState) => prevState + 1)
       setPageNumber((prevState) => prevState + 1)
     }
   }

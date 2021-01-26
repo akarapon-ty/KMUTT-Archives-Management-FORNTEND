@@ -14,6 +14,8 @@ const IndexManageCard = ({ documentId }) => {
             title,
             coverageTemporal,
             creator,
+            image,
+            tag,
           }
         }
     }
@@ -21,6 +23,7 @@ const IndexManageCard = ({ documentId }) => {
   const { loading: loadDocument, error: errorDocument, data: dataDocument } = useQuery(QUERY_DOCUMENT_BY_ID, { variables: { pk: documentId } })
 
   if (loadDocument) return null
+
   if (errorDocument) {
     window.console.error(errorDocument.message)
     return null
@@ -33,11 +36,15 @@ const IndexManageCard = ({ documentId }) => {
   }
 
   const {
-    id, title: dcTitle, creator, coverageTemporal: dcCoverageTemporal,
+    id, title: dcTitle, creator, coverageTemporal: dcCoverageTemporal, image, tag,
   } = document
 
+  const handlerEditOnClick = () => {
+    window.location.replace(`/editbook?id=${id}`)
+  }
+
   return (
-    <ManageCard key={id} title={dcTitle} creator={creator} coverageTemporal={dcCoverageTemporal} tag={[]} />
+    <ManageCard key={id} title={dcTitle} creator={creator} coverageTemporal={dcCoverageTemporal} tag={tag} image={image} onClick={handlerEditOnClick} />
   )
 }
 

@@ -7,7 +7,7 @@ import {
 
 const SearchCard = (props) => {
   const {
-    title, creator, coverageTemporal, tag, image,
+    title, creator, coverageTemporal, tag, image, onClick, id,
   } = props
 
   return (
@@ -15,7 +15,7 @@ const SearchCard = (props) => {
       <DivideBox>
         <Image src={`data:image/jpeg;base64,${image}`} />
         <Content>
-          <TitleBook>
+          <TitleBook onClick={onClick ? () => onClick(id) : null}>
             {title}
             {' '}
           </TitleBook>

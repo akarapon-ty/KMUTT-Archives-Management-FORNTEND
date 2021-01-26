@@ -14,10 +14,9 @@ export const DivideBox = styled.div`
   background-color: #ffffff;
 `
 
-export const Image = styled.div`
+export const Image = styled.img`
   width:124px;
   height:170px;
-  background-color: #000000;
 `
 
 export const Content = styled.div`

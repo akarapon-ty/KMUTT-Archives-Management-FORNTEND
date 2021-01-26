@@ -12,7 +12,8 @@ import {
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`
 
-const MultiPage = ({ filePdf }) => {
+const MultiPage = (props) => {
+  const { filePdf, document } = props
   const [numPage, setNumPages] = useState(null)
   const [pageNumber, setPageNumber] = useState(1)
   const [scalePage, setScalePage] = useState(1.0)
@@ -88,11 +89,12 @@ const MultiPage = ({ filePdf }) => {
     lab: '200%',
   },
   ]
+
   return (
     <>
-      <h3>Titlebook</h3>
+      <h3>{document.title}</h3>
       <Top />
-      <SearchCard />
+      <SearchCard title={document.title} creator={document.creator} coverageTemporal={document.coverageTemporal} tag={document.tag} image={document.image} />
       <Top />
       <NavigatePage stick={isSticky} ref={ref}>
         <Inline>
@@ -101,9 +103,7 @@ const MultiPage = ({ filePdf }) => {
           /
           {' '}
           {numPage}
-
           {pageNumber === numPage ? <PageButton disabled type="button" onClick={nextPage}><NavigateNextIcon /></PageButton> : <PageButton type="button" onClick={nextPage}><NavigateNextIcon /></PageButton>}
-
         </Inline>
         <ZoomSelector onChange={(e) => scalePageChange(e.target.value)}>
           {widthScale.map((option) => (
