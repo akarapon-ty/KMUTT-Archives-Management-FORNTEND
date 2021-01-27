@@ -45,7 +45,7 @@ export const TagBook = styled.div`
   display: flex;
   -webkit-align-items: center;
   -webkit-box-align: center;
-  word-wrap: break-word;
+  flex-wrap: wrap;
 `
 
 export const Tag = styled.div`
@@ -60,8 +60,10 @@ export const Tag = styled.div`
   padding-right:10px;
   margin-right:5px;
   margin-left:5px;
+  margin-top:5px;
   text-align: center;
   font-size: 12px;
+  
 `
 export const SearchInputStyle = styled.input`
   width:93%;

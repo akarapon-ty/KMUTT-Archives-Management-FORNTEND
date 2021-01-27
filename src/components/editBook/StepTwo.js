@@ -53,7 +53,7 @@ const StepTwo = (props) => {
 
       <h5>Identifier</h5>
       <InputFormat inputDefault={identifierURL} inputLabel="Identifier URL" inputName="identifierURL" />
-      <InputFormat inputDefault={identifierISBN} inputLabel="Identifier ISBN" inputName="identifierIsbn" />
+      <InputFormat inputDefault={identifierISBN} inputLabel="Identifier ISBN" inputName="identifierISBN" />
       <h5>Source</h5>
       <InputFormat inputDefault={source} inputLabel="Source" inputName="source" />
       <LeftRightBox>

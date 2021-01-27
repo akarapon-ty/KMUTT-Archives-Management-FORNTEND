@@ -58,7 +58,8 @@ const EditBook = () => {
   const UPDATE_DOCUMENT = gql`
     mutation updateDocument($documentId: Int!, $body: UpdateDocumentInput!){
       updateDocument(documentId: $documentId, body: $body){
-        updatestatus
+        updatestatus,
+        error
       }
     }
   `
@@ -138,7 +139,6 @@ const EditBook = () => {
     setNewInformation({ ...newInformation, ...data })
     let tempData = { ...newInformation, ...data }
     tempData = {
-      ...tempData,
       dcTitle: tempData.title,
       dcTitleAlternative: tempData.titleAlternative,
       dcDescriptionTableOfContents: tempData.tableOfContents,
@@ -148,7 +148,7 @@ const EditBook = () => {
       dcFormat: tempData.format,
       dcFormatExtent: tempData.formatExtent,
       dcIdentifierURL: tempData.identifierURL,
-      dcIdentifierISBN: tempData.dcIdentifierISBN,
+      dcIdentifierISBN: tempData.identifierISBN,
       dcSource: tempData.source,
       dcLanguage: tempData.language,
       dcCoverageSpatial: tempData.coverageSpatial,
@@ -156,9 +156,22 @@ const EditBook = () => {
       dcCoverageTemporalYear: tempData.coverageTemporalYear,
       dcRights: tempData.rights,
       dcRightsAccess: tempData.rightsAccess,
+      thesisDegreeName: tempData.thesisDegreeName,
+      thesisDegreeLevel: tempData.thesisDegreeLevel,
+      thesisDegreeDiscipline: tempData.thesisDegreeDiscipline,
+      thesisDegreeGrantor: tempData.thesisDegreeGrantor,
+      creator: tempData.creator,
+      creatorOrgname: tempData.creatorOrgName,
+      publisher: tempData.publisher,
+      publisherEmail: tempData.publisherEmail,
+      contributor: tempData.contributor,
+      contributorRole: tempData.contributorRole,
+      issuedDate: tempData.issuedDate,
+      type: tempData.type,
+      relation: tempData.relation,
     }
     console.log(tempData)
-    // updateDocument({ variables: { documentId, body: tempData } }).then((res) => console.log('t', res))
+    updateDocument({ variables: { documentId, body: tempData } }).then((res) => console.log('t', res))
   }
 
   if (documentDataLoading) {

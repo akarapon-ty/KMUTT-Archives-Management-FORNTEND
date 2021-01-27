@@ -80,7 +80,7 @@ const StepOne = (props) => {
 
       <h5>Coverage</h5>
       <InputFormat inputDefault={coverageSpatial} inputLabel="Coverage Spatial" inputName="coverageSpatial" />
-      <SelectorFormat inputDefault={coverageTemporalYear} inputLabel="Coverage Tempooral Year" inputName="coverageTempooralYear" options={selectY} inputDefault2={coverageTemporal} inputLabel2="Year" inputName2="coverageTemporalMonth" />
+      <SelectorFormat inputDefault={coverageTemporalYear} inputLabel="Coverage Tempooral Year" inputName="coverageTempooralYear" options={selectY} inputDefault2={coverageTemporal} inputLabel2="Year" inputName2="coverageTemporal" />
 
       <h5>Rights</h5>
       <InputFormat inputDefault={rights} inputLabel="Rights" inputName="rights" />
