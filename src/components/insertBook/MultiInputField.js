@@ -12,7 +12,6 @@ export const MultiInputFormat = (props) => {
   const { register } = useFormContext()
 
   return (
-
     <InputField
       name={inputName}
       ref={register}
@@ -20,7 +19,6 @@ export const MultiInputFormat = (props) => {
       placeholder={inputLabel}
       onChange={(e) => handleOnChangeRelation(index, e.target.value)}
     />
-
   )
 }
 

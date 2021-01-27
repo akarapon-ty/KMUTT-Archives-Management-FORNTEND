@@ -127,6 +127,7 @@ const StepForm = () => {
   const [limitPage, setLimitPage] = useState(0)
   const [limitPageStart, setLimitPageStart] = useState(0)
   const [insertTermID, setinsertTermID] = useState(1)
+  const [relationTemp, setRelationTemp] = useState([''])
 
   const [uploadFile] = useMutation(UPLOAD_FILE)
   const [insertDocument, { error: insertDocumentError }] = useMutation(INSERT_DOCUMENT)
@@ -158,7 +159,7 @@ const StepForm = () => {
   const handlerBackStep = () => {
     setActiveStep((prevState) => prevState - 1)
     const value = getValues()
-    setInformationForm({ ...informationForm, ...value })
+    setInformationForm({ ...informationForm, ...value, relation: relationTemp })
   }
 
   const handlerNextStep = () => {
@@ -188,29 +189,28 @@ const StepForm = () => {
     setTagData(tempTag)
   }
 
-  const handlerRemoveRelation = (value) => {
-    const tempRelation = informationForm.relation
-    const keyRelation = value
-    delete tempRelation[keyRelation]
-    setInformationForm({ ...informationForm, relation: tempRelation })
+  const handlerRemoveRelation = (index) => {
+    const tempTag = [...relationTemp]
+    tempTag.splice(index, 1)
+    setInformationForm({ ...informationForm, relation: tempTag })
+    setRelationTemp(tempTag)
   }
 
   const handlerAddRelation = () => {
-    let newData = null
-    if (Object.keys(informationForm.relation).length === 0) {
-      newData = { 1: '', 2: '' }
+    let newData = [...relationTemp]
+    if (newData.length === 0) {
+      newData = ['', '']
     } else {
-      const tempRelation = Object.keys(informationForm.relation).length > 0 ? Object.keys(informationForm.relation).sort() : ['1']
-      const counter = parseInt(tempRelation[tempRelation.length - 1], 10) + 1
-      newData = { ...informationForm.relation, [counter]: '' }
+      newData.push('')
     }
     setInformationForm({ ...informationForm, relation: newData })
+    setRelationTemp(newData)
   }
 
-  const handlerOnChangeRelation = (e) => {
-    const tempRelation = informationForm.relation
-    const temp = { ...tempRelation, [e.target.name]: e.target.value }
-    setInformationForm({ ...informationForm, relation: temp })
+  const handlerOnChangeRelation = (index, value) => {
+    const temp = [...relationTemp]
+    temp[index] = value
+    setRelationTemp(temp)
   }
 
   const handleUploadFile = (files) => {
@@ -263,12 +263,6 @@ const StepForm = () => {
     }
   }
 
-  const parseRelation = (relation) => {
-    const result = []
-    Object.keys(relation).map((value) => result.push(value))
-    return result
-  }
-
   if (insertDocumentError) {
     window.console.log('mutationDocumentError:', insertDocumentError)
   }
@@ -281,7 +275,7 @@ const StepForm = () => {
     window.console.log('mutationStartTfError:', startTfIdfError)
   }
 
-  const handlerSubmitInsertDocument = (tempData, tempRelation) => {
+  const handlerSubmitInsertDocument = (tempData) => {
     uploadFile({ variables: { file: informationForm.file } }).then((res) => {
       insertDocument({
         variables: {
@@ -290,7 +284,7 @@ const StepForm = () => {
             addVersion: false,
             name: res.data.uploadDocument.filename,
             path: res.data.uploadDocument.pathFile,
-            DC_relation: tempRelation,
+            DC_relation: tempData.relation,
             DC_type: [tempData.type],
             DC_title: tempData.title,
             DC_title_alternative: tempData.titleAlernative,
@@ -374,12 +368,11 @@ const StepForm = () => {
   }
 
   const handlerOnSubmit = (data) => {
-    const tempData = { ...informationForm, ...data }
-    setInformationForm({ ...informationForm, ...data })
+    const tempData = { ...informationForm, ...data, relation: relationTemp }
+    setInformationForm({ ...informationForm, ...data, relation: relationTemp })
 
     if (activeStep === 2 && tempData.file) {
-      const tempRelation = parseRelation(informationForm.relation)
-      handlerSubmitInsertDocument(tempData, tempRelation)
+      handlerSubmitInsertDocument(tempData)
       return
     }
 

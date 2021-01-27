@@ -13,10 +13,10 @@ const StepThree = (props) => {
     value, handlerAddRelation, handlerOnChangeRelation, handlerRemoveRelation,
   } = props
   const {
-    identifierUrl, identifierIsbn, source, relation, degreeName, degreeLevel, degreeDicipline, degreeGrantor, type, language,
+    identifierUrl, identifierIsbn, source, degreeName, relation, degreeLevel, degreeDicipline, degreeGrantor, type, language,
   } = value
 
-  const relationValue = Object.keys(relation).length > 0 ? relation : { 1: '' }
+  const relationValue = relation.length > 0 ? relation : ['']
 
   const selectLan = [{
     val: 'Thai',
@@ -44,18 +44,18 @@ const StepThree = (props) => {
         <h5>Relation</h5>
         <InsertButton type="button" name="addRelation" onClick={() => handlerAddRelation()}>+ ADD</InsertButton>
       </LeftRightBox>
-      {Object.keys(relationValue).map((key) => (
-        <div key={`div-${key}`}>
+      {relationValue.map((key, index) => (
+        <div key={`div-${index * 5}`}>
           <Inline long>
             <MultiInputFormat
-              onChange={handlerOnChangeRelation}
-              inputdefault={relationValue[key]}
-              value={relationValue[key]}
+              handleOnChangeRelation={handlerOnChangeRelation}
+              inputDefault={key}
               name={key}
-              key={`relation-${key}input`}
+              index={index}
+              key={`relation-${index * 5}input`}
               inputLabel="Relation"
             />
-            <InsertButton key={`relation-${key}button`} value={key} onClick={() => handlerRemoveRelation(key)} type="button">
+            <InsertButton key={`relation-${index * 5}button`} value={key} onClick={() => handlerRemoveRelation(index)} type="button">
               <CloseIcon />
             </InsertButton>
           </Inline>
