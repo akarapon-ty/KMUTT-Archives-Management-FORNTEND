@@ -21,12 +21,13 @@ export const UlNavigationitems = styled.ul`
         height: 100%;
     }
 `
-export const Logo = styled.li`
+export const Logo = styled.a`
     padding: 0px;
-    max-height: 56;
+    max-height: 56px;
     margin-right:auto;
     align-items: center;
     height: 100%;
+    text-decoration: none;
     color:white;
     text-transform: uppercase;
     text-shadow: 1px 1px 10px #10A0A2;

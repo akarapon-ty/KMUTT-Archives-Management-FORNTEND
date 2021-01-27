@@ -73,7 +73,7 @@ const StepOne = (props) => {
 
       <h5>Contributor</h5>
       <InputFormat inputDefault={contributor} inputLabel="Contributor" inputName="contributor" />
-      <InputFormat inputDefault={contributorRole[0]} inputLabel="Contributor Role" inputName="contributorRole" />
+      <InputFormat inputDefault={contributorRole} inputLabel="Contributor Role" inputName="contributorRole" />
 
       <h5>Date</h5>
       <InputFormat types="date" inputDefault={issuedDate} inputLabel="Issued Date" inputName="issuedDate" />

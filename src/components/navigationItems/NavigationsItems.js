@@ -60,7 +60,7 @@ const NavigationsItems = () => {
   return (
     <>
       <UlNavigationitems>
-        <Logo onClick={() => history.replace('/homepage')}>Kmutt Archives Management</Logo>
+        <Logo href="/homepage" onClick={() => history.replace()}>Kmutt Archives Management</Logo>
         {naviBar}
         {naviProfile}
       </UlNavigationitems>

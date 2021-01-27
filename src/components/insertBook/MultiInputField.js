@@ -6,14 +6,20 @@ import { InputField } from './styleAll'
 
 export const MultiInputFormat = (props) => {
   const {
-    inputName, inputLabel, inputDefault,
+    inputName, inputLabel, inputDefault, index, handleOnChangeRelation,
   } = props
 
   const { register } = useFormContext()
 
   return (
 
-    <InputField name={inputName} ref={register} defaultValue={inputDefault} placeholder={inputLabel} />
+    <InputField
+      name={inputName}
+      ref={register}
+      defaultValue={inputDefault}
+      placeholder={inputLabel}
+      onChange={(e) => handleOnChangeRelation(index, e.target.value)}
+    />
 
   )
 }

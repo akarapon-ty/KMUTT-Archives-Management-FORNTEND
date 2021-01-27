@@ -12,7 +12,7 @@ import SearchCard from '../search/searchCard/SearchCard'
 
 const StepTwo = (props) => {
   const {
-    value, handlerAddRelation, handlerRemoveRelation,
+    value, handlerAddRelation, handlerRemoveRelation, handleOnChangeRelation,
   } = props
 
   const {
@@ -67,8 +67,9 @@ const StepTwo = (props) => {
               inputDefault={key}
               name={key}
               key={`relation-${key}input`}
-              inputName={`relation${index}`}
               inputLabel="Relation"
+              index={index}
+              handleOnChangeRelation={handleOnChangeRelation}
             />
             <InsertButton key={`relation-${key}button`} value={key} onClick={() => handlerRemoveRelation(index)} type="button">
               <CloseIcon />
