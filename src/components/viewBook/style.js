@@ -24,7 +24,7 @@ export const PageButton = styled.button`
     background: none;
     display: inline;
     border: none;
-    font-size: 19px;
+    font-size: 16px;
     color: white;
     cursor:pointer;
     vertical-align:middle;

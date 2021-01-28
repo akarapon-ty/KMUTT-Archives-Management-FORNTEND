@@ -2,7 +2,6 @@ import styled from 'styled-components'
 import { createMuiTheme } from '@material-ui/core/styles'
 
 export const StatusStyle = styled.div`
-    height: 145px;
     font-size: 16px;
     line-height: 13px;
     margin: auto;

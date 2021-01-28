@@ -376,7 +376,6 @@ const StepForm = () => {
   const handlerOnSubmit = (data) => {
     const tempData = { ...informationForm, ...data }
     setInformationForm({ ...informationForm, ...data })
-
     if (activeStep === 2 && tempData.file) {
       const tempRelation = parseRelation(informationForm.relation)
       handlerSubmitInsertDocument(tempData, tempRelation)
@@ -421,6 +420,7 @@ const StepForm = () => {
               show={!(activeStep === 3 || activeStep === 5)}
               disableBack={activeStep === 0 || activeStep >= 4}
               disableNext={informationForm.file === null && activeStep <= 3}
+              activeStep={activeStep}
               finish={activeStep === 6}
             />
           </FormInsert>

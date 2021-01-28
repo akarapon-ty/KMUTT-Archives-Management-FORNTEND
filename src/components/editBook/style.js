@@ -16,7 +16,7 @@ export const SaveButtonStyle = styled.button`
 
     background-color: #10A0A2;;
     color:white;
-    font-size: 19px;
+    font-size: 16px;
     cursor:pointer;
     &:hover {
       background-color: #4DC8C5;
