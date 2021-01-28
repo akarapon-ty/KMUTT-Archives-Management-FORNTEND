@@ -15,7 +15,8 @@ const StepThree = (props) => {
   const {
     identifierUrl, identifierIsbn, source, degreeName, relation, degreeLevel, degreeDicipline, degreeGrantor, type, language,
   } = value
-
+  console.log(relation)
+  const relationTemp = relation.length === 0 ? [''] : relation
   const selectLan = [{
     val: 'Thai',
     lab: 'Thai',
@@ -42,7 +43,7 @@ const StepThree = (props) => {
         <h5>Relation</h5>
         <InsertButton type="button" name="addRelation" onClick={() => handlerAddRelation()}>+ ADD</InsertButton>
       </LeftRightBox>
-      {relation.map((key, index) => (
+      {relationTemp.map((key, index) => (
         <div key={`div-${index * 5}`}>
           <Inline long>
             <MultiInputFormat

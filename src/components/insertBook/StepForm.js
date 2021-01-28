@@ -103,7 +103,7 @@ const StepForm = () => {
       identifierUrl: null,
       identifierIsbn: null,
       source: null,
-      relation: {},
+      relation: [''],
       degreeName: null,
       degreeLevel: null,
       degreeDicipline: null,

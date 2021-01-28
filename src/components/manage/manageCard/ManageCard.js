@@ -9,7 +9,7 @@ import Popups from '../../util/popups/Popups'
 
 const ManageCard = (props) => {
   const {
-    title, creator, coverageTemporal, tag, image, onClick,
+    title, creator, coverageTemporal, tag, image, onClick, handlerDeleteOnClick,
   } = props
 
   return (
@@ -22,6 +22,7 @@ const ManageCard = (props) => {
             content="If you delete this document will no longer exist."
             red
             confirm="Delete"
+            handlerDeleteOnClick={handlerDeleteOnClick}
           />
           <TitleBook>
             {title}

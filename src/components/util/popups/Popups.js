@@ -10,7 +10,7 @@ import Backdrop from '../backdrop/BackDrop'
 
 const Popups = (props) => {
   const {
-    topic, content, red, confirm,
+    topic, content, red, confirm, handlerDeleteOnClick,
   } = props
   const [open, setOpen] = useState(false)
 
@@ -25,7 +25,7 @@ const Popups = (props) => {
   return (
     <>
       {red ? (
-        <DeleteButton onClick={() => handleClickOpen()} red={red}>
+        <DeleteButton onClick={() => handlerDeleteOnClick()} red={red}>
           <DeleteForeverIcon />
           DELETE
         </DeleteButton>
