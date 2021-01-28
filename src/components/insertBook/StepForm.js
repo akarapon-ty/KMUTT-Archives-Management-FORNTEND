@@ -127,7 +127,6 @@ const StepForm = () => {
   const [limitPage, setLimitPage] = useState(0)
   const [limitPageStart, setLimitPageStart] = useState(0)
   const [insertTermID, setinsertTermID] = useState(1)
-  const [relationTemp, setRelationTemp] = useState([''])
 
   const [uploadFile] = useMutation(UPLOAD_FILE)
   const [insertDocument, { error: insertDocumentError }] = useMutation(INSERT_DOCUMENT)
@@ -159,7 +158,7 @@ const StepForm = () => {
   const handlerBackStep = () => {
     setActiveStep((prevState) => prevState - 1)
     const value = getValues()
-    setInformationForm({ ...informationForm, ...value, relation: relationTemp })
+    setInformationForm({ ...informationForm, ...value })
   }
 
   const handlerNextStep = () => {
@@ -366,9 +365,8 @@ const StepForm = () => {
   }
 
   const handlerOnSubmit = (data) => {
-    const tempData = { ...informationForm, ...data, relation: relationTemp }
-    setInformationForm({ ...informationForm, ...data, relation: relationTemp })
-
+    const tempData = { ...informationForm, ...data }
+    setInformationForm({ ...informationForm, ...data })
     if (activeStep === 2 && tempData.file) {
       handlerSubmitInsertDocument(tempData)
       return
@@ -412,6 +410,7 @@ const StepForm = () => {
               show={!(activeStep === 3 || activeStep === 5)}
               disableBack={activeStep === 0 || activeStep >= 4}
               disableNext={informationForm.file === null && activeStep <= 3}
+              activeStep={activeStep}
               finish={activeStep === 6}
             />
           </FormInsert>

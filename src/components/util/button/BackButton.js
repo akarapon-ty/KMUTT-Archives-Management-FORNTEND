@@ -6,9 +6,10 @@ import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore'
 const BackButtonStyle = styled.button`
     display: flex;
     justify-content: center;
+    align-items: center;
     border: none;
     background-color: white;
-    font-size: 19px;
+    font-size: 16px;
     padding:10px 0px;
     color: ${(props) => (props.disabled ? 'white;' : '#10A0A2;')}
     ${(props) => (props.disabled ? null : 'cursor:pointer;')}

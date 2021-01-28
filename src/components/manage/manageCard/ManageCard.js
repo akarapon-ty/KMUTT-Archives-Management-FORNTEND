@@ -2,8 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import {
-  DivideBox, ResultStyle, Image, Content, TitleBook, TagBook, Tag, ConP, Line, DeleteButton, ManageButton,
+  DivideBox, ResultStyle, Image, Content, TitleBook, TagBook, Tag, ConP, Line, ManageButton,
 } from '../style'
+
+import Popups from '../../util/popups/Popups'
 
 const ManageCard = (props) => {
   const {
@@ -15,13 +17,18 @@ const ManageCard = (props) => {
       <DivideBox>
         <Image src={`data:image/jpeg;base64,${image}`} />
         <Content>
-          <DeleteButton type="button">Delete</DeleteButton>
+          <Popups
+            topic="Do you want to delete?"
+            content="If you delete this document will no longer exist."
+            red
+            confirm="Delete"
+          />
           <TitleBook>
             {title}
             {' '}
           </TitleBook>
           <Line />
-          <ManageButton type="button" onClick={() => onClick()}>Edit</ManageButton>
+          <ManageButton type="button" onClick={() => onClick()}>EDIT</ManageButton>
           <ConP>
             Creator :
             {' '}
@@ -35,11 +42,9 @@ const ManageCard = (props) => {
           <TagBook>
             <div>Tag : </div>
             {tag.map((value) => (
-
               <Tag key={value}>
                 { value}
               </Tag>
-
             ))}
           </TagBook>
         </Content>
