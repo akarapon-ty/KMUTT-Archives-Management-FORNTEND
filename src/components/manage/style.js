@@ -4,14 +4,18 @@ export const ResultStyle = styled.div`
   height: 170px;
   font-size: 16px;
   line-height: 13px;
+  padding:10px;
+  border-radius:4px;
   margin:auto;
   margin-bottom:20px;
+  &:hover {
+    background-color:rgba(16,160,162,0.1);
+  }
 `
 
 export const DivideBox = styled.div`
   display: flex;
   align-items: stretch;
-  background-color: #ffffff;
 `
 
 export const Image = styled.img`
@@ -53,6 +57,7 @@ export const Tag = styled.div`
   border-color: #10A0A2;
   border-radius: 14px;
   border-width: thin;
+  background-color:#ffffff;
   color: #10A0A2;
   padding-top:4px;
   padding-bottom:3px;

@@ -25,7 +25,7 @@ const Popups = (props) => {
   return (
     <>
       {red ? (
-        <DeleteButton onClick={() => handlerDeleteOnClick()} red={red}>
+        <DeleteButton onClick={() => handleClickOpen()} red={red}>
           <DeleteForeverIcon />
           DELETE
         </DeleteButton>
@@ -46,7 +46,7 @@ const Popups = (props) => {
             <br />
           </ModalDetail>
           {red ? (
-            <ConfirmButton onClick={() => handleClickClose()} red={red}>{confirm}</ConfirmButton>
+            <ConfirmButton onClick={() => handlerDeleteOnClick()} red={red}>{confirm}</ConfirmButton>
           ) : (
             <ConfirmButton name="submitNextForm" type="submit" onClick={() => handleClickClose()}>Yes, delete this document.</ConfirmButton>
           )}

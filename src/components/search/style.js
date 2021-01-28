@@ -2,17 +2,22 @@ import styled from 'styled-components'
 
 export const ResultStyle = styled.div`
   height: 170px;
+  padding:10px;
+  border-radius:4px;
   font-size: 16px;
   line-height: 13px;
   margin:auto;
   margin-bottom:20px;
   cursor: pointer;
+  &:hover {
+    background-color:rgba(16,160,162,0.1);
+  }
 `
 
 export const DivideBox = styled.div`
   display: flex;
   align-items: stretch;
-  background-color: #ffffff;
+  
 `
 
 export const Image = styled.img`
@@ -50,6 +55,7 @@ export const TagBook = styled.div`
 `
 
 export const Tag = styled.div`
+  background-color:#FFFFFF;
   border-style: solid;
   border-color: #10A0A2;
   border-radius: 14px;

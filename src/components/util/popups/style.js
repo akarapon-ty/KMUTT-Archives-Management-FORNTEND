@@ -19,14 +19,14 @@ export const DeleteButton = styled.div`
   }
 `
 
-export const CancelButton = styled.div`
+export const CancelButton = styled.button`
   text-transform: uppercase;
   margin-top:5px;
   float:right;
   background-color:white;
   color: ${(props) => (props.red ? 'red' : '#10A0A2')};
   text-decoration: none;
-  padding:10px 15px;
+  padding:10px 20px;
   border-radius:4px;
   border:none;
   font-size:16px;
@@ -42,7 +42,7 @@ export const ConfirmButton = styled.button`
   background-color: ${(props) => (props.red ? 'red' : '#10A0A2')};
   color: white;
   text-decoration: none;
-  padding:10px 15px;
+  padding:10px 20px;
   border-radius:4px;
   border:none;
   font-size:16px;
