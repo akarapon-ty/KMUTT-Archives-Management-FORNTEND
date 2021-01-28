@@ -190,27 +190,25 @@ const StepForm = () => {
   }
 
   const handlerRemoveRelation = (index) => {
-    const tempTag = [...relationTemp]
+    const tempTag = [...informationForm.relation]
     tempTag.splice(index, 1)
     setInformationForm({ ...informationForm, relation: tempTag })
-    setRelationTemp(tempTag)
   }
 
   const handlerAddRelation = () => {
-    let newData = [...relationTemp]
+    let newData = [...informationForm.relation]
     if (newData.length === 0) {
       newData = ['', '']
     } else {
       newData.push('')
     }
     setInformationForm({ ...informationForm, relation: newData })
-    setRelationTemp(newData)
   }
 
   const handlerOnChangeRelation = (index, value) => {
-    const temp = [...relationTemp]
+    const temp = [...informationForm.relation]
     temp[index] = value
-    setRelationTemp(temp)
+    setInformationForm({ ...informationForm, relation: temp })
   }
 
   const handleUploadFile = (files) => {

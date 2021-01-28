@@ -36,9 +36,11 @@ const StepTwo = (props) => {
   const selectLan = [{
     val: 'Thai',
     lab: 'Thai',
+    selected: language === 'Thai' ? 'selected' : null,
   }, {
     val: 'Eng',
     lab: 'Eng',
+    selected: language === 'Eng' ? 'selected' : null,
   },
   ]
   const selectType = [{
@@ -61,22 +63,22 @@ const StepTwo = (props) => {
         <InsertButton type="button" name="addRelation" onClick={() => handlerAddRelation()}>+ ADD</InsertButton>
       </LeftRightBox>
       {relation.map((key, index) => (
-        <div key={`divrelation-${key}${index + 5}`}>
+        <React.Fragment key={`divrelation-${index * 5}`}>
           <Inline long>
             <MultiInputFormat
+              handleOnChangeRelation={handleOnChangeRelation}
               inputDefault={key}
               name={key}
-              key={`relation-${key}input`}
-              inputLabel="Relation"
               index={index}
-              handleOnChangeRelation={handleOnChangeRelation}
+              key={`relation-${index * 5}input`}
+              inputLabel="Relation"
             />
-            <InsertButton key={`relation-${key}button`} value={key} onClick={() => handlerRemoveRelation(index)} type="button">
+            <InsertButton key={`relation-${index * 5}button`} value={key} onClick={() => handlerRemoveRelation(index)} type="button">
               <CloseIcon />
             </InsertButton>
           </Inline>
           <Space />
-        </div>
+        </React.Fragment>
       ))}
       <h5>Thesis</h5>
       <InputFormat inputDefault={thesisDegreeName} inputLabel="Degree Name" inputName="thesisDegreeName" />

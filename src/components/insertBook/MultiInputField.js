@@ -15,7 +15,7 @@ export const MultiInputFormat = (props) => {
     <InputField
       name={inputName}
       ref={register}
-      defaultValue={inputDefault}
+      value={inputDefault}
       placeholder={inputLabel}
       onChange={(e) => handleOnChangeRelation(index, e.target.value)}
     />

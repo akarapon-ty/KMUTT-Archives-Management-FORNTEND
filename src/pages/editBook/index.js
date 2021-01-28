@@ -64,6 +64,15 @@ const EditBook = () => {
     }
   `
 
+  const UPDATE_TAG = gql`
+    mutation overrideUserKeyword($keywords: [String]!, $documentId: Int!){
+      overrideUserKeyword(keywords: $keywords, documentId: $documentId){
+        status,
+        message
+      }
+    }
+  `
+
   const {
     register, handleSubmit, setValue, getValues, control, errors,
   } = useForm()
@@ -115,7 +124,6 @@ const EditBook = () => {
 
   const [newInformation, setNewInformation] = useState(defaultInformation)
   const [activeStep, setActiveStep] = useState(0)
-  const [relationTemp, setRelationTemp] = useState([''])
 
   const setData = (dataQuery) => {
     const TempQuery = { ...dataQuery, contributorRole: dataQuery.contributorRole[0] }
@@ -130,10 +138,15 @@ const EditBook = () => {
     onCompleted: ({ document }) => setData(document.document),
   })
 
-  const [updateDocument, { error: errorUpdate }] = useMutation(UPDATE_DOCUMENT)
+  const [updateDocument, { error: errorUpdateDocument }] = useMutation(UPDATE_DOCUMENT)
+  const [updateTag, { error: errorUpdateTag }] = useMutation(UPDATE_TAG)
 
-  if (errorUpdate) {
-    window.console.log('error update', errorUpdate)
+  if (errorUpdateDocument) {
+    window.console.log('Error Update Document', errorUpdateDocument)
+  }
+
+  if (errorUpdateTag) {
+    window.console.log('Error Update Tag', errorUpdateTag)
   }
 
   const handlerOnSubmit = (data) => {
@@ -169,10 +182,11 @@ const EditBook = () => {
       contributorRole: tempData.contributorRole,
       issuedDate: tempData.issuedDate,
       type: tempData.type,
-      relation: relationTemp,
+      relation: tempData.relation,
     }
-    console.log(tempData)
-    updateDocument({ variables: { documentId, body: tempData } }).then((res) => console.log('t', res))
+    updateDocument({ variables: { documentId, body: tempData } }).then(() => {
+      updateTag({ variables: { documentId, keywords: newInformation.tag } }).then(() => window.location.replace(`/editbook?id=${documentId}`))
+    })
   }
 
   if (documentDataLoading) {
@@ -186,37 +200,35 @@ const EditBook = () => {
   const handlerBackStep = () => {
     setActiveStep((prevState) => prevState - 1)
     const tempValue = getValues()
-    setNewInformation({ ...newInformation, ...tempValue, relation: relationTemp })
+    setNewInformation({ ...newInformation, ...tempValue })
   }
 
   const handlerNextStep = () => {
     setActiveStep((prevState) => prevState + 1)
     const tempValue = getValues()
-    setNewInformation({ ...newInformation, ...tempValue, relation: relationTemp })
+    setNewInformation({ ...newInformation, ...tempValue })
   }
 
   const handlerRemoveRelation = (index) => {
-    const tempTag = [...relationTemp]
+    const tempTag = [...newInformation.relation]
     tempTag.splice(index, 1)
     setNewInformation({ ...newInformation, relation: tempTag })
-    setRelationTemp(tempTag)
   }
 
   const handlerAddRelation = () => {
-    let newData = [...relationTemp]
-    if (relationTemp.length === 0) {
+    let newData = [...newInformation.relation]
+    if (newData.length === 0) {
       newData = ['', '']
     } else {
       newData.push('')
     }
     setNewInformation({ ...newInformation, relation: newData })
-    setRelationTemp(newData)
   }
 
   const handleOnChangeRelation = (ind, val) => {
-    const temp = [...relationTemp]
+    const temp = [...newInformation.relation]
     temp[ind] = val
-    setRelationTemp(temp)
+    setNewInformation({ ...newInformation, relation: temp })
   }
 
   const handlerAddTag = () => {

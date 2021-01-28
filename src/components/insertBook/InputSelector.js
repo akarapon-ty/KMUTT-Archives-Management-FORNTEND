@@ -14,9 +14,9 @@ export const SelectorFormat = (props) => {
   return (
     <>
       <InputLabel>{inputLabel}</InputLabel>
-      <InputSelector name={inputName} ref={register} placeholder={inputLabel}>
+      <InputSelector name={inputName} ref={register} placeholder={inputLabel} options={options}>
         {options.map((option) => (
-          <option key={`option.val-${option.val}`} value={option.val} selected={option.selected}>{option.lab}</option>
+          <option key={`option.val-${option.lab}`} value={option.val} selected={option.selected}>{option.lab}</option>
         ))}
       </InputSelector>
       {inputName2 ? <InputField type="number" numb name={inputName2} ref={register} defaultValue={inputDefault2} placeholder={inputLabel2} /> : null }

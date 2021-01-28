@@ -37,12 +37,14 @@ const StepTwo = (props) => {
   const selectY = [{
     val: 'พ.ศ.',
     lab: 'พ.ศ.',
+    selected: coverageTempooralYear === 'พ.ศ.' ? 'selected' : null,
   },
   {
     val: 'ค.ศ.',
     lab: 'ค.ศ.',
-  },
-  ]
+    selected: coverageTempooralYear === 'ค.ศ.' ? 'selected' : null,
+  }]
+
   return (
     <>
       <h4>2. Fill the data</h4>
