@@ -34,7 +34,6 @@ export const CancelButton = styled.div`
   &:hover{
     opacity:0.5;
   }
-
 `
 export const ConfirmButton = styled.button`
   text-transform: uppercase;
@@ -51,7 +50,6 @@ export const ConfirmButton = styled.button`
   &:hover{
     opacity:0.5;
   }
-
 `
 export const NextButtonStyle = styled.button`
     display: flex;
@@ -76,7 +74,7 @@ export const ModalBackground = styled.div`
     width:100%;
     height:100%;
     z-index:1;
-    display: ${(props) => (props.open ? 'flex' : 'none')}; 
+    display: ${(props) => (props.show ? 'flex' : 'none')}; 
     align-items: center; 
     justify-content: center;
 `
@@ -84,8 +82,7 @@ export const ModalContent = styled.div`
     background-color:white;
     min-width:20em;
     max-width:40em;
-    z-index:2;
-
+    z-index:102;
     padding:20px;
     border-radius:4px
 `
@@ -94,8 +91,6 @@ export const ModalTopic = styled.div`
     color: #323232;    
     padding:10px 5px 5px 5px;   
     line-height:normal;
-
-   
 `
 export const ModalDetail = styled.div`
     font-size:16px;
