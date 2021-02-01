@@ -28,7 +28,7 @@ const IndexManageCard = ({ documentId }) => {
   `
   const { loading: loadDocument, error: errorDocument, data: dataDocument } = useQuery(QUERY_DOCUMENT_BY_ID, { variables: { pk: documentId } })
 
-  const { softDeleteDocument, error: errorSoftDelete } = useMutation(SOFT_DELETE_DOCUMENT)
+  const [softDeleteDocument, { error: errorSoftDelete }] = useMutation(SOFT_DELETE_DOCUMENT)
 
   if (loadDocument) return null
 

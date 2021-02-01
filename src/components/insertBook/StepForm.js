@@ -342,16 +342,16 @@ const StepForm = () => {
       }
       return { }
     })
-    return { overide: resultOverRide, newPage: resultNewPage, documentId: docId }
+    return { overide: resultOverRide, newPage: resultNewPage }
   }
 
   const handlerSubmitUpdateTerm = () => {
     const result = parseTerms()
     insertTerm({ variables: { newInformation: result, documentId: docId } })
       .catch((err) => window.console.log(err))
-      .then(() => startTfIdf({ variables: { documentId: result.documentId } }))
+      .then(() => startTfIdf({ variables: { documentId: docId } }))
       .then(() => setTimeout(() => {
-        history.push(`/insertbook?step=6&id=${result.documentId}`)
+        history.push(`/insertbook?step=6&id=${docId}`)
       }, 2000))
   }
 
