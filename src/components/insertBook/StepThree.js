@@ -15,8 +15,9 @@ const StepThree = (props) => {
   const {
     identifierUrl, identifierIsbn, source, degreeName, relation, degreeLevel, degreeDicipline, degreeGrantor, type, language,
   } = value
-  console.log(relation)
+
   const relationTemp = relation.length === 0 ? [''] : relation
+
   const selectLan = [{
     val: 'Thai',
     lab: 'Thai',
@@ -25,6 +26,7 @@ const StepThree = (props) => {
     lab: 'Eng',
   },
   ]
+
   const selectType = [{
     val: 'Text',
     lab: 'Text',

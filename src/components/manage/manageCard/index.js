@@ -57,7 +57,7 @@ const IndexManageCard = ({ documentId }) => {
   }
 
   const handlerDeleteOnClick = () => {
-    softDeleteDocument({ variables: { documentId: id } }).then(() => { window.location.href = `/editbook?id=${id}` })
+    softDeleteDocument({ variables: { documentId: id } }).then(() => { window.location.href = '/managebook' })
   }
 
   return (
