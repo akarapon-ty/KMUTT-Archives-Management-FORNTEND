@@ -28,7 +28,7 @@ const IndexManageCard = ({ documentId }) => {
   `
   const { loading: loadDocument, error: errorDocument, data: dataDocument } = useQuery(QUERY_DOCUMENT_BY_ID, { variables: { pk: documentId } })
 
-  const { softDeleteDocument, error: errorSoftDelete } = useMutation(SOFT_DELETE_DOCUMENT)
+  const [softDeleteDocument, { error: errorSoftDelete }] = useMutation(SOFT_DELETE_DOCUMENT)
 
   if (loadDocument) return null
 
@@ -57,7 +57,7 @@ const IndexManageCard = ({ documentId }) => {
   }
 
   const handlerDeleteOnClick = () => {
-    softDeleteDocument({ variables: { documentId: id } }).then(() => { window.location.href = `/editbook?id=${id}` })
+    softDeleteDocument({ variables: { documentId: id } }).then(() => { window.location.href = '/managebook' })
   }
 
   return (

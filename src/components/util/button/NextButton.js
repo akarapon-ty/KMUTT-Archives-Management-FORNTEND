@@ -69,6 +69,7 @@ const NextButton = (props) => {
             name="submitNextForm"
             topic="Do you want to go to next step?"
             content="If you continue to next step you won't be available to edit word in this document again."
+            confirm="Yes, continue to edit tag."
           />
         </>
       ) : null}

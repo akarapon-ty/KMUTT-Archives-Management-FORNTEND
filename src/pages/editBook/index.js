@@ -126,7 +126,7 @@ const EditBook = () => {
   const [activeStep, setActiveStep] = useState(0)
 
   const setData = (dataQuery) => {
-    const TempQuery = { ...dataQuery, contributorRole: dataQuery.contributorRole[0] }
+    const TempQuery = { ...dataQuery, contributorRole: dataQuery.contributorRole.length === 0 ? '' : dataQuery.contributorRole[0] }
     if (TempQuery.relation.length === 0) {
       TempQuery.relation = ['']
     }
