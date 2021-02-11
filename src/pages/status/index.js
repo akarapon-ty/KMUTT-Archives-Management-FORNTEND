@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useQuery, gql } from '@apollo/client'
 import { useHistory } from 'react-router-dom'
 
@@ -20,8 +20,10 @@ const Status = () => {
       
     }
   `
+
+  const [statusData, setStatusData] = useState()
   const history = useHistory()
-  const { data: dataStatus, loading: loadingStatus, error: errorStatus } = useQuery(queryStatus)
+  const { loading: loadingStatus, error: errorStatus } = useQuery(queryStatus, { onCompleted: ({ documentStatusMultiple }) => setStatusData(documentStatusMultiple), fetchPolicy: 'no-cache' })
 
   if (loadingStatus) {
     return null
@@ -29,6 +31,10 @@ const Status = () => {
 
   if (errorStatus) {
     window.console.log('error : ', errorStatus)
+  }
+
+  if (!statusData) {
+    return null
   }
 
   const handleNextStep = (clickId, status) => {
@@ -40,7 +46,7 @@ const Status = () => {
   }
 
   const dataFilter = (getData, getStatus) => {
-    const filterStatus = getData.documentStatusMultiple.filter((datas) => datas.status === getStatus)
+    const filterStatus = getData.filter((datas) => datas.status === getStatus)
     return filterStatus.length !== 0 ? filterStatus.map((value) => (
       <StatusCard
         handleNextStep={handleNextStep}
@@ -59,52 +65,52 @@ const Status = () => {
       <Topic>STATUS UPLOAD</Topic>
       <ContentDiv>
 
-        {dataFilter(dataStatus, 5) ? (
+        {dataFilter(statusData, 5) ? (
           <h6>
             Ready to edit tag
             <br />
           </h6>
         ) : null}
-        {dataFilter(dataStatus, 5)}
+        {dataFilter(statusData, 5)}
 
-        {dataFilter(dataStatus, 4) ? (
+        {dataFilter(statusData, 4) ? (
           <h6>
             Tag Generating
             <br />
           </h6>
         ) : null}
-        {dataFilter(dataStatus, 4)}
-        {dataFilter(dataStatus, 3) ? (
+        {dataFilter(statusData, 4)}
+        {dataFilter(statusData, 3) ? (
           <h6>
             Ready to correction
             <br />
           </h6>
         ) : null}
-        {dataFilter(dataStatus, 3)}
+        {dataFilter(statusData, 3)}
 
-        {dataFilter(dataStatus, 2) ? (
+        {dataFilter(statusData, 2) ? (
           <h6>
             Text processing
             <br />
           </h6>
         ) : null}
-        {dataFilter(dataStatus, 2)}
+        {dataFilter(statusData, 2)}
 
-        {dataFilter(dataStatus, 1) ? (
+        {dataFilter(statusData, 1) ? (
           <h6>
             OCR
             <br />
           </h6>
         ) : null}
-        {dataFilter(dataStatus, 1)}
+        {dataFilter(statusData, 1)}
 
-        {dataFilter(dataStatus, 0) ? (
+        {dataFilter(statusData, 0) ? (
           <h6>
             In queue
             <br />
           </h6>
         ) : null}
-        {dataFilter(dataStatus, 0)}
+        {dataFilter(statusData, 0)}
 
       </ContentDiv>
     </DefaultLayoutStyle>

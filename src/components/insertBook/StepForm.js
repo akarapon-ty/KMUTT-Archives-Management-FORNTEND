@@ -278,7 +278,7 @@ const StepForm = () => {
         variables: {
           body: {
             startPage: parseInt(tempData.startPage, 10),
-            addVersion: false,
+            addVersion: true,
             name: res.data.uploadDocument.filename,
             path: res.data.uploadDocument.pathFile,
             DC_relation: tempData.relation,
