@@ -24,8 +24,8 @@ export const InputFormat = (props) => {
 export default { }
 
 InputFormat.defaultProps = {
-  inputLabel: 'titleAlernative',
-  inputName: 'titleAlernative',
+  inputLabel: 'defaultProp',
+  inputName: 'defaultProp',
   inputDefault: null,
   conts: null,
   types: null,

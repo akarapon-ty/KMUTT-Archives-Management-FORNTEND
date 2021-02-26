@@ -25,8 +25,8 @@ export const MultiInputFormat = (props) => {
 export default { }
 
 MultiInputFormat.defaultProps = {
-  inputLabel: 'titleAlernative',
-  inputName: 'titleAlernative',
+  inputLabel: 'defaultProp',
+  inputName: 'defaultProp',
   inputDefault: null,
 
 }

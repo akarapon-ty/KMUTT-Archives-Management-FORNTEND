@@ -62,6 +62,11 @@ const StepFive = (props) => {
       setTermAll({ ...tempTerms, ...parseTerms })
       return
     }
+    if (terms.length === 0) {
+      parseTerms = {
+        [`page-${pageNumber}`]: { [`newterm-${insertTermID}`]: { queryTerm: 'เพิ่มคำ', inputTerm: '' }, pageId, pageNumber },
+      }
+    }
 
     // check if already add term in state don't change input term
     terms.map((term) => {

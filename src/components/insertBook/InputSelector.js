@@ -27,8 +27,8 @@ export const SelectorFormat = (props) => {
 export default { }
 
 SelectorFormat.defaultProps = {
-  inputLabel: 'titleAlernative',
-  inputName: 'titleAlernative',
+  inputLabel: 'defaultProp',
+  inputName: 'defaultProp',
   options: [],
 
 }
