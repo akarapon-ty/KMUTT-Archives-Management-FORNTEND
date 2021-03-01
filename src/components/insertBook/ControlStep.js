@@ -8,7 +8,7 @@ import BackButton from '../util/button/BackButton'
 
 const ControlStep = (props) => {
   const {
-    active, disableBack, handlerBackStep, disableNext, show, finish, activeStep, handleSubmit,
+    active, disableBack, handlerBackStep, disableNext, show, finish, activeStep,
   } = props
 
   return (
@@ -16,7 +16,7 @@ const ControlStep = (props) => {
       <LineControlStepDiv />
       <ButtonControlStepDiv>
         <BackButton disableBack={disableBack} onClick={handlerBackStep} />
-        <NextButton active={active} disable={disableNext} finish={finish} activeStep={activeStep} handleSubmit={handleSubmit} />
+        <NextButton active={active} disable={disableNext} finish={finish} activeStep={activeStep} />
       </ButtonControlStepDiv>
     </ControlStepDiv>
   )

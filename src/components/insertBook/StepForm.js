@@ -363,10 +363,9 @@ const StepForm = () => {
     }).then(() => updateStatus({ variables: { documentID: docId } })).then(() => window.location.replace('/homepage'))
   }
 
-  const handlerOnSubmit = () => {
-    const value = getValues()
-    const tempData = { ...informationForm, ...value }
-    setInformationForm({ ...informationForm, ...value })
+  const handlerOnSubmit = (data) => {
+    const tempData = { ...informationForm, ...data }
+    setInformationForm({ ...informationForm, ...data })
     if (activeStep === 2 && tempData.file) {
       handlerSubmitInsertDocument(tempData)
       return
@@ -401,10 +400,9 @@ const StepForm = () => {
 
       <FormDiv>
         <FormProvider register={register} handleSubmit={handleSubmit} setValue={setValue} getValues={getValues} control={control} errors={errors}>
-          <FormInsert>
+          <FormInsert onSubmit={handleSubmit(handlerOnSubmit)}>
             {handlerActiveStep(activeStep)}
             <ControlStep
-              handleSubmit={handlerOnSubmit}
               handlerBackStep={handlerBackStep}
               handlerNextStep={handlerNextStep}
               active={!(activeStep >= 6)}
