@@ -19,7 +19,7 @@ const NavigationsItems = () => {
 
   let naviProfile = null
   let naviBar = listItem.map((item) => <NavigationItem key={item.name} link={item.link} exact={item.exact}>{item.name}</NavigationItem>)
-  const { loading } = useQuery(userInformation, { onCompleted: setProfileInfor })
+  const { loading, error } = useQuery(userInformation, { onCompleted: setProfileInfor, errorPolicy: 'all' })
 
   const profileHandler = () => {
     setProfileShow((prevState) => !prevState)
@@ -37,9 +37,8 @@ const NavigationsItems = () => {
   }, [loggedIn])
 
   useEffect(() => {
-    if (isLogin && !loading) {
+    if (isLogin && !loading && !error) {
       setlistItem([
-
         {
           name: 'MANAGE BOOK', link: '/managebook', exact: false,
         },
@@ -50,6 +49,12 @@ const NavigationsItems = () => {
           name: 'STATUS', link: '/status', exact: false,
         }])
       naviBar = listItem.map((item) => <NavigationItem key={item.name} link={item.link} exact={item.exact}>{item.name}</NavigationItem>)
+    } else if (error && !loading && !isLogin) {
+      if (error.networkError.result.errors) {
+        if (error.networkError.result.errors[0].extensions.code === 'UNAUTHENTICATED') {
+          logout()
+        }
+      }
     }
   }, [isLogin, loading])
 
