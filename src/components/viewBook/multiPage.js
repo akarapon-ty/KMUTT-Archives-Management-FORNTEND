@@ -7,7 +7,7 @@ import NavigateNextIcon from '@material-ui/icons/NavigateNext'
 import SearchCard from '../search/searchCard/SearchCard'
 
 import {
-  NavigatePage, PageContain, PageButton, ZoomSelector, PageInput, Inline, Top,
+  NavigatePage, PageContain, PageButton, ZoomSelector, PageInput, Inline, Top, ShowMore, ShowButton,
 } from './style'
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`
@@ -17,12 +17,21 @@ const MultiPage = (props) => {
   const [numPage, setNumPages] = useState(null)
   const [pageNumber, setPageNumber] = useState(1)
   const [scalePage, setScalePage] = useState(1.0)
-
   const [tempPageNumber, setTempPageNumber] = useState(pageNumber)
   const [isSticky, setSticky] = useState(false)
+  const [isShow, setShow] = useState(false)
+
   const ref = useRef(null)
 
   let tempCurrent = 0
+
+  const handleClickOpen = () => {
+    setShow(true)
+  }
+
+  const handleClickClose = () => {
+    setShow(false)
+  }
 
   const getYPosition = () => {
     const top = window.pageYOffset
@@ -92,10 +101,123 @@ const MultiPage = (props) => {
 
   return (
     <>
-      <h3>{document.title}</h3>
       <Top />
       <SearchCard title={document.title} creator={document.creator} coverageTemporal={document.coverageTemporal} tag={document.tag} image={document.image} />
       <Top />
+      {isShow ? (
+        <ShowMore>
+          Title :
+          {' '}
+          {document.title}
+          Title Alternative :
+          {' '}
+          {document.titleAlternative}
+          Version :
+          {' '}
+          {document.version}
+          Amount of page :
+          {' '}
+          {document.amountPage}
+          Table of contents :
+          {' '}
+          {document.tableOfContents}
+          Summary :
+          {' '}
+          {document.summary}
+          Abstract :
+          {' '}
+          {document.abstract}
+          Note :
+          {' '}
+          {document.note}
+          Format :
+          {' '}
+          {document.format}
+          Format Extent :
+          {' '}
+          {document.formatExtent}
+          Identifier URL :
+          {' '}
+          {document.identifierURL}
+          Identifier ISBN :
+          {' '}
+          {document.identifierISBN}
+          Source :
+          {' '}
+          {document.source}
+          Language :
+          {' '}
+          {document.language}
+          Coverage Spatial :
+          {' '}
+          {document.coverageSpatial}
+          Coverage Temporal :
+          {' '}
+          {document.coverageTemporal}
+          Coverage Temporal Year :
+          {' '}
+          {document.coverageTemporalYear}
+          Rights :
+          {' '}
+          {document.rights}
+          Rights Access :
+          {' '}
+          {document.rightsAccess}
+          Thesis Degree Name :
+          {' '}
+          {document.thesisDegreeName}
+          Thesis Degree Level :
+          {' '}
+          {document.thesisDegreeLevel}
+          Thesis Degree Discipline :
+          {' '}
+          {document.thesisDegreeDiscipline}
+          Thesis Degree Grantor :
+          {' '}
+          {document.thesisDegreeGrantor}
+          Rec Create At :
+          {' '}
+          {document.recCreateAt}
+          Rec Create By :
+          {' '}
+          {document.recCreateBy}
+          Rec Modified At :
+          {' '}
+          {document.recModifiedAt}
+          Rec Modified By :
+          {' '}
+          {document.recModifiedBy}
+          Relation :
+          {' '}
+          {document.relation}
+          Type :
+          {' '}
+          {document.type}
+          Creator :
+          {' '}
+          {document.creator}
+          Creator Organiation Name :
+          {' '}
+          {document.creatorOrgName}
+          Publisher :
+          {' '}
+          {document.publisher}
+          Publisher Email :
+          {' '}
+          {document.publisherEmail}
+          Contributor :
+          {' '}
+          {document.contributor}
+          Contributor Role :
+          {' '}
+          {document.contributorRole}
+          IssuedDate :
+          {' '}
+          {document.issuedDate}
+        </ShowMore>
+      ) : null}
+      {isShow ? <ShowButton onClick={() => handleClickClose()} type="button">Show less detail</ShowButton>
+        : <ShowButton onClick={() => handleClickOpen()} type="button">Show more detail</ShowButton>}
       <NavigatePage stick={isSticky} ref={ref}>
         <Inline>
           {pageNumber === 1 ? <PageButton disabled type="button" onClick={prevPage}><NavigateBeforeIcon /></PageButton> : <PageButton type="button" onClick={prevPage}><NavigateBeforeIcon /></PageButton>}

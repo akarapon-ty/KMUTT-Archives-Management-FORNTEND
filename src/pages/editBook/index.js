@@ -200,12 +200,14 @@ const EditBook = () => {
   const handlerBackStep = () => {
     setActiveStep((prevState) => prevState - 1)
     const tempValue = getValues()
+    window.scrollTo(0, 0)
     setNewInformation({ ...newInformation, ...tempValue })
   }
 
   const handlerNextStep = () => {
     setActiveStep((prevState) => prevState + 1)
     const tempValue = getValues()
+    window.scrollTo(0, 0)
     setNewInformation({ ...newInformation, ...tempValue })
   }
 

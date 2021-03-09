@@ -71,4 +71,22 @@ export const Top = styled.div`
 export const Inline = styled.div`
     margin-left:auto;
 `
+
+export const ShowMore = styled.div`
+
+`
+
+export const ShowButton = styled.button`
+    width:100%;
+    background: none;
+    display: inline;
+    border: none;
+    font-size: 16px;
+    color: #10A0A2;
+    cursor:pointer;
+    vertical-align:middle;
+    &:hover {
+      color: #4DC8C5;
+  }
+`
 export default { }

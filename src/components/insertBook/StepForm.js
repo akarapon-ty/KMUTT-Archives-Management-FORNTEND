@@ -90,8 +90,8 @@ const StepForm = () => {
       summary: null,
       abstract: null,
       note: null,
-      publisher: null,
-      publisherEmail: null,
+      publisher: 'มหาวิทยาลัยเทคโนโลยีพระจอมเกล้าธนบุรี.หอสมุด',
+      publisherEmail: 'Archive.lib@mail.kmutt.ac.th',
       contributor: null,
       contributorRole: null,
       issuedDate: null,
@@ -158,11 +158,13 @@ const StepForm = () => {
   const handlerBackStep = () => {
     setActiveStep((prevState) => prevState - 1)
     const value = getValues()
+    window.scrollTo(0, 0)
     setInformationForm({ ...informationForm, ...value })
   }
 
   const handlerNextStep = () => {
     setActiveStep((prevState) => prevState + 1)
+    window.scrollTo(0, 0)
   }
 
   const handlerAddTag = () => {

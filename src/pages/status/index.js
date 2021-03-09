@@ -67,7 +67,7 @@ const Status = () => {
 
         {dataFilter(statusData, 5) ? (
           <h6>
-            Ready to edit tag
+            Status 6 : Ready to edit tag
             <br />
           </h6>
         ) : null}
@@ -75,14 +75,14 @@ const Status = () => {
 
         {dataFilter(statusData, 4) ? (
           <h6>
-            Tag Generating
+            Status 5 : Tag Generating
             <br />
           </h6>
         ) : null}
         {dataFilter(statusData, 4)}
         {dataFilter(statusData, 3) ? (
           <h6>
-            Ready to correction
+            Status 4 : Ready to correction
             <br />
           </h6>
         ) : null}
@@ -90,7 +90,7 @@ const Status = () => {
 
         {dataFilter(statusData, 2) ? (
           <h6>
-            Text processing
+            Status 3 : Text processing
             <br />
           </h6>
         ) : null}
@@ -98,7 +98,7 @@ const Status = () => {
 
         {dataFilter(statusData, 1) ? (
           <h6>
-            OCR
+            Status 2 : OCR
             <br />
           </h6>
         ) : null}
@@ -106,7 +106,7 @@ const Status = () => {
 
         {dataFilter(statusData, 0) ? (
           <h6>
-            In queue
+            Status 1 : In queue
             <br />
           </h6>
         ) : null}
