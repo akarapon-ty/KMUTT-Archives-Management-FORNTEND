@@ -38,14 +38,14 @@ const FinishButtonStyle = styled.button`
 
 const NextButton = (props) => {
   const {
-    active, disable, type, onClick, finish, activeStep, handleSubmit,
+    active, disable, type, onClick, finish, activeStep,
   } = props
   const { register } = useFormContext()
 
   return (
     <>
       {active && activeStep !== 4 ? (
-        <NextButtonStyle disabled={disable} name="submitNextForm" ref={register} type="button" onClick={() => handleSubmit()}>
+        <NextButtonStyle disabled={disable} name="submitNextForm" ref={register} type="submit">
           Next
           <NavigateNextIcon />
         </NextButtonStyle>
