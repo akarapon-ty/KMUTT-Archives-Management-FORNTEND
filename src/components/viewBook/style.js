@@ -65,22 +65,49 @@ export const ZoomSelector = styled.select`
     margin-right:10px;
 `
 export const Top = styled.div`
-    margin-top:100px;
+    margin-top:140px;
 
 `
 export const Inline = styled.div`
     margin-left:auto;
 `
 
-export const ShowMore = styled.div`
-
+export const Sep = styled.div`
+    display:inline;
+    font-size:16px;
+    width:50%;
 `
 
+export const ShowMore = styled.div`
+    border: 1px solid #10A0A2;
+    border-radius:4px;
+    margin-bottom:20px;
+    padding:10px;
+
+`
+export const TagTop = styled.p`
+    height:auto;
+    min-width: fit-content;
+    margin:3px;
+    color:#10A0A2;
+
+`
+export const TagText = styled.p`
+    height:auto;    
+    overflow-wrap: anywhere;
+    margin:3px;
+    font-weight: 300;
+    color:#6F6F6F;
+`
+export const Detail = styled.div`
+    display:flex;
+    padding:20px;
+
+`
 export const ShowButton = styled.button`
     width:100%;
     background: none;
     display: inline;
-    border: none;
     font-size: 16px;
     color: #10A0A2;
     cursor:pointer;
@@ -88,5 +115,11 @@ export const ShowButton = styled.button`
     &:hover {
       color: #4DC8C5;
   }
+
+`
+
+export const Cont = styled.div`
+    display:flex;
+
 `
 export default { }

@@ -53,6 +53,7 @@ const ViewBook = () => {
             contributorRole,
             issuedDate,
             tag,
+            image,
         }
       }
     }
@@ -76,6 +77,10 @@ const ViewBook = () => {
   }
   if (documentError) {
     window.console.log('doc', documentError)
+    return null
+  }
+
+  if (!document) {
     return null
   }
 

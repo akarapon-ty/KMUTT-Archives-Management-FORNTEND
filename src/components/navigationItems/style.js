@@ -63,4 +63,10 @@ export const Logout = styled.div`
   z-index: 300;
 `
 
+export const AlignCenter = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`
+
 export default { }
