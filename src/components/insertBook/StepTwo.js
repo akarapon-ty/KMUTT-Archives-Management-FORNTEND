@@ -1,12 +1,18 @@
 import React from 'react'
+import CloseIcon from '@material-ui/icons/Close'
 
-import { Space } from './styleAll'
+import {
+  Space, InsertButton, Inline, LeftRightBox, InputLabel,
+} from './styleAll'
 import { InputFormat } from './InputField'
 import { SelectorFormat } from './InputSelector'
 import { InputAreaText } from './InputAreaText'
+import { MultiInputFormat } from './MultiInputField'
 
 const StepTwo = (props) => {
-  const { value } = props
+  const {
+    value, handlerAddPublisherEmail, handlerOnChangePublisherEmail, handlerRemovePublisherEmail,
+  } = props
   const {
     title,
     titleAlernative,
@@ -27,6 +33,8 @@ const StepTwo = (props) => {
     rights,
     rightsAccess,
   } = value
+
+  const publisherEmailTemp = publisherEmail.length === 0 ? [''] : publisherEmail
 
   const selectRA = [{
     val: 'Public',
@@ -64,7 +72,28 @@ const StepTwo = (props) => {
 
       <h5>Publisher</h5>
       <InputFormat inputDefault={publisher} inputLabel="Publisher" inputName="publisher" />
-      <InputFormat inputDefault={publisherEmail} inputLabel="Publisher Email" inputName="publisherEmail" />
+      {/* <InputFormat inputDefault={publisherEmail} inputLabel="Publisher Email" inputName="publisherEmail" /> */}
+      <LeftRightBox>
+        <InputLabel>Publisher Emai</InputLabel>
+        <InsertButton type="button" name="addPublisherEmail" onClick={() => handlerAddPublisherEmail()}>+ ADD</InsertButton>
+      </LeftRightBox>
+      {publisherEmailTemp.map((key, index) => (
+        <div key={`div-${index * 5}`}>
+          <Inline long>
+            <MultiInputFormat
+              handleOnChange={handlerOnChangePublisherEmail}
+              inputDefault={key}
+              name={key}
+              index={index}
+              key={`publisherEmail-${index * 5}input`}
+              inputLabel="Publisher Email"
+            />
+            <InsertButton key={`publisherEmail-${index * 5}button`} value={key} onClick={() => handlerRemovePublisherEmail(index)} type="button">
+              <CloseIcon />
+            </InsertButton>
+          </Inline>
+        </div>
+      ))}
 
       <h5>Contributor</h5>
       <InputFormat inputDefault={contributor} inputLabel="Contributor" inputName="contributor" />

@@ -2,7 +2,7 @@ import React from 'react'
 import CloseIcon from '@material-ui/icons/Close'
 
 import {
-  Space, InsertButton, Inline, LeftRightBox,
+  Space, InsertButton, Inline, LeftRightBox, InputLabel,
 } from './styleAll'
 import { InputFormat } from './InputField'
 import { SelectorFormat } from './InputSelector'
@@ -41,15 +41,16 @@ const StepThree = (props) => {
       <InputFormat inputDefault={identifierIsbn} inputLabel="Identifier ISBN" inputName="identifierIsbn" />
       <h5>Source</h5>
       <InputFormat inputDefault={source} inputLabel="Source" inputName="source" />
+      <h5>Relation</h5>
       <LeftRightBox>
-        <h5>Relation</h5>
+        <InputLabel>Relation</InputLabel>
         <InsertButton type="button" name="addRelation" onClick={() => handlerAddRelation()}>+ ADD</InsertButton>
       </LeftRightBox>
       {relationTemp.map((key, index) => (
         <div key={`div-${index * 5}`}>
           <Inline long>
             <MultiInputFormat
-              handleOnChangeRelation={handlerOnChangeRelation}
+              handleOnChange={handlerOnChangeRelation}
               inputDefault={key}
               name={key}
               index={index}
@@ -60,7 +61,6 @@ const StepThree = (props) => {
               <CloseIcon />
             </InsertButton>
           </Inline>
-          <Space />
         </div>
       ))}
       <h5>Thesis</h5>
