@@ -4,10 +4,11 @@ import {
 } from 'react-pdf'
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore'
 import NavigateNextIcon from '@material-ui/icons/NavigateNext'
+import DetailBook from './DetailBook'
 import SearchCard from '../search/searchCard/SearchCard'
 
 import {
-  NavigatePage, PageContain, PageButton, ZoomSelector, PageInput, Inline, Top, ShowMore, ShowButton,
+  NavigatePage, PageContain, PageButton, ZoomSelector, PageInput, Inline, Top, ShowButton, ShowMore,
 } from './style'
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`
@@ -20,19 +21,11 @@ const MultiPage = (props) => {
   const [tempPageNumber, setTempPageNumber] = useState(pageNumber)
   const [isSticky, setSticky] = useState(false)
   const [isShow, setShow] = useState(false)
-
+  const [tempTop, setTempTop] = useState(0)
   const ref = useRef(null)
+  const detailRef = useRef(null)
 
-  let tempCurrent = 0
-
-  const handleClickOpen = () => {
-    setShow(true)
-  }
-
-  const handleClickClose = () => {
-    setShow(false)
-  }
-
+  let tempCurrent = tempTop
   const getYPosition = () => {
     const top = window.pageYOffset
     return top
@@ -46,13 +39,20 @@ const MultiPage = (props) => {
   }
 
   useEffect(() => {
-    tempCurrent = ref.current.getBoundingClientRect().top
-    window.addEventListener('scroll', handleScroll)
+    setTempTop(ref.current.getBoundingClientRect().top)
+  }, [])
 
+  useEffect(() => {
+    if (!isShow) {
+      tempCurrent = tempTop
+    } else {
+      tempCurrent = tempTop + detailRef.current.getBoundingClientRect().height
+    }
+    window.addEventListener('scroll', handleScroll)
     return () => {
       window.removeEventListener('scroll', () => handleScroll)
     }
-  }, [])
+  }, [isShow, tempTop])
 
   const onDocumentLoadSuccess = ({ numPages }) => {
     setNumPages(numPages)
@@ -83,6 +83,14 @@ const MultiPage = (props) => {
     setPageNumber(tempValue)
   }
 
+  const handleClickOpen = () => {
+    setShow(true)
+  }
+
+  const handleClickClose = () => {
+    setShow(false)
+  }
+
   const widthScale = [{
     val: '150%',
     lab: '100%',
@@ -103,121 +111,16 @@ const MultiPage = (props) => {
     <>
       <Top />
       <SearchCard title={document.title} creator={document.creator} coverageTemporal={document.coverageTemporal} tag={document.tag} image={document.image} />
-      <Top />
-      {isShow ? (
-        <ShowMore>
-          Title :
-          {' '}
-          {document.title}
-          Title Alternative :
-          {' '}
-          {document.titleAlternative}
-          Version :
-          {' '}
-          {document.version}
-          Amount of page :
-          {' '}
-          {document.amountPage}
-          Table of contents :
-          {' '}
-          {document.tableOfContents}
-          Summary :
-          {' '}
-          {document.summary}
-          Abstract :
-          {' '}
-          {document.abstract}
-          Note :
-          {' '}
-          {document.note}
-          Format :
-          {' '}
-          {document.format}
-          Format Extent :
-          {' '}
-          {document.formatExtent}
-          Identifier URL :
-          {' '}
-          {document.identifierURL}
-          Identifier ISBN :
-          {' '}
-          {document.identifierISBN}
-          Source :
-          {' '}
-          {document.source}
-          Language :
-          {' '}
-          {document.language}
-          Coverage Spatial :
-          {' '}
-          {document.coverageSpatial}
-          Coverage Temporal :
-          {' '}
-          {document.coverageTemporal}
-          Coverage Temporal Year :
-          {' '}
-          {document.coverageTemporalYear}
-          Rights :
-          {' '}
-          {document.rights}
-          Rights Access :
-          {' '}
-          {document.rightsAccess}
-          Thesis Degree Name :
-          {' '}
-          {document.thesisDegreeName}
-          Thesis Degree Level :
-          {' '}
-          {document.thesisDegreeLevel}
-          Thesis Degree Discipline :
-          {' '}
-          {document.thesisDegreeDiscipline}
-          Thesis Degree Grantor :
-          {' '}
-          {document.thesisDegreeGrantor}
-          Rec Create At :
-          {' '}
-          {document.recCreateAt}
-          Rec Create By :
-          {' '}
-          {document.recCreateBy}
-          Rec Modified At :
-          {' '}
-          {document.recModifiedAt}
-          Rec Modified By :
-          {' '}
-          {document.recModifiedBy}
-          Relation :
-          {' '}
-          {document.relation}
-          Type :
-          {' '}
-          {document.type}
-          Creator :
-          {' '}
-          {document.creator}
-          Creator Organiation Name :
-          {' '}
-          {document.creatorOrgName}
-          Publisher :
-          {' '}
-          {document.publisher}
-          Publisher Email :
-          {' '}
-          {document.publisherEmail}
-          Contributor :
-          {' '}
-          {document.contributor}
-          Contributor Role :
-          {' '}
-          {document.contributorRole}
-          IssuedDate :
-          {' '}
-          {document.issuedDate}
-        </ShowMore>
-      ) : null}
-      {isShow ? <ShowButton onClick={() => handleClickClose()} type="button">Show less detail</ShowButton>
-        : <ShowButton onClick={() => handleClickOpen()} type="button">Show more detail</ShowButton>}
+      <ShowMore ref={detailRef}>
+        {isShow ? (
+          <>
+            <DetailBook document={document} />
+            <ShowButton onClick={() => handleClickClose()} type="button">Show less detail</ShowButton>
+          </>
+        )
+          : <ShowButton onClick={() => handleClickOpen()} type="button">Show more detail</ShowButton>}
+      </ShowMore>
+
       <NavigatePage stick={isSticky} ref={ref}>
         <Inline>
           {pageNumber === 1 ? <PageButton disabled type="button" onClick={prevPage}><NavigateBeforeIcon /></PageButton> : <PageButton type="button" onClick={prevPage}><NavigateBeforeIcon /></PageButton>}

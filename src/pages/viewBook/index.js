@@ -80,6 +80,10 @@ const ViewBook = () => {
     return null
   }
 
+  if (!document) {
+    return null
+  }
+
   return (
     <DefaultLayoutStyle wide>
       <MultiPage filePdf={filePdf} document={document} />

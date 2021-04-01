@@ -4,7 +4,6 @@ import { NavLink } from 'react-router-dom'
 export const Li = styled.li`
     margin: 10px 0;
     box-sizing: border-box;
-    display: block;
     width: 100%;
     margin-left:auto;
     @media (min-width: 500px) {
@@ -19,8 +18,8 @@ export const Li = styled.li`
 export const NavLinkStyle = styled(NavLink)`
     text-decoration: none;
     width: 100%;
+    text-align:center;
     box-sizing: border-box;
-    display: block;
     color:white;
     &:hover{
         text-shadow: 1px 1px 5px white;
@@ -46,9 +45,10 @@ export const ProfileText = styled.div`
     text-decoration: none;
     width: 100%;
     box-sizing: border-box;
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     color:white;
-
     &:hover{
         text-shadow: 1px 1px 5px white;
 
@@ -62,7 +62,6 @@ export const ProfileText = styled.div`
         padding: 16px 30px;
         border-buttom: 4px solid transparent;
         width: auto;
-        display: block;
         &:hover {
         }
     }

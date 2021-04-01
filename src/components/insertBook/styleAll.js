@@ -9,6 +9,8 @@ export const InputField = styled.input`
     border:1px solid #e5e5e5;
     padding:10px;
     font-size:16px;
+    margin-bottom:10px;
+
 `
 export const InputArea = styled.textarea`
     width:97.7%;
@@ -17,13 +19,13 @@ export const InputArea = styled.textarea`
     padding:10px;
     font-size:16px;
     resize: none;
+    margin-bottom:10px;
 
 `
 export const InputLabel = styled.div`
     font-size:16px;
     font-weight:400;
     color:#10A0A2;
-    margin-top:20px;
     margin-bottom:10px;
 `
 export const InputSelector = styled.select`
@@ -57,7 +59,6 @@ export const InsertButton = styled.button`
 export const LeftRightBox = styled.div`
     display: flex;
     justify-content: space-between;
-    padding: 15px 0px 0px 0px;
 `
 
 export default { }

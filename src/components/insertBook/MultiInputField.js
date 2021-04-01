@@ -6,7 +6,7 @@ import { InputField } from './styleAll'
 
 export const MultiInputFormat = (props) => {
   const {
-    inputName, inputLabel, inputDefault, index, handleOnChangeRelation,
+    inputName, inputLabel, inputDefault, index, handleOnChange,
   } = props
 
   const { register } = useFormContext()
@@ -17,7 +17,7 @@ export const MultiInputFormat = (props) => {
       ref={register}
       value={inputDefault}
       placeholder={inputLabel}
-      onChange={(e) => handleOnChangeRelation(index, e.target.value)}
+      onChange={(e) => handleOnChange(index, e.target.value)}
     />
   )
 }

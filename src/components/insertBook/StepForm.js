@@ -91,7 +91,7 @@ const StepForm = () => {
       abstract: null,
       note: null,
       publisher: 'มหาวิทยาลัยเทคโนโลยีพระจอมเกล้าธนบุรี.หอสมุด',
-      publisherEmail: 'Archive.lib@mail.kmutt.ac.th',
+      publisherEmail: ['Archive.lib@mail.kmutt.ac.th'],
       contributor: null,
       contributorRole: null,
       issuedDate: null,
@@ -212,6 +212,28 @@ const StepForm = () => {
     setInformationForm({ ...informationForm, relation: temp })
   }
 
+  const handlerRemovePublisherEmail = (index) => {
+    const tempTag = [...informationForm.publisherEmail]
+    tempTag.splice(index, 1)
+    setInformationForm({ ...informationForm, publisherEmail: tempTag })
+  }
+
+  const handlerAddPublisherEmail = () => {
+    let newData = [...informationForm.publisherEmail]
+    if (newData.length === 0) {
+      newData = ['', '']
+    } else {
+      newData.push('')
+    }
+    setInformationForm({ ...informationForm, publisherEmail: newData })
+  }
+
+  const handlerOnChangePublisherEmail = (index, value) => {
+    const temp = [...informationForm.publisherEmail]
+    temp[index] = value
+    setInformationForm({ ...informationForm, publisherEmail: temp })
+  }
+
   const handleUploadFile = (files) => {
     const validTypes = 'application/pdf'
     const inputFile = files
@@ -230,7 +252,7 @@ const StepForm = () => {
       case 0:
         return <SelectFile value={informationForm} handleUploadFile={handleUploadFile} handlerDeleteUploadFile={handlerDeleteUploadFile} />
       case 1:
-        return <StepTwo value={informationForm} />
+        return <StepTwo value={informationForm} handlerAddPublisherEmail={handlerAddPublisherEmail} handlerOnChangePublisherEmail={handlerOnChangePublisherEmail} handlerRemovePublisherEmail={handlerRemovePublisherEmail} />
       case 2:
         return <StepThree handlerAddRelation={handlerAddRelation} handlerOnChangeRelation={handlerOnChangeRelation} value={informationForm} handlerRemoveRelation={handlerRemoveRelation} />
       case 3:
@@ -384,6 +406,7 @@ const StepForm = () => {
     }
 
     handlerNextStep()
+    window.console.log(tempData)
   }
 
   const steps = getSteps()
