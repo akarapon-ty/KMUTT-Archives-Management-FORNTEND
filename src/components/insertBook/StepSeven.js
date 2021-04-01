@@ -63,11 +63,7 @@ const StepSeven = (props) => {
   }
 
   const { document } = documentData.document
-  const { status, image, title } = document
-
-  if (status !== 5) {
-    window.location.replace('/homepage')
-  }
+  const { image, title } = document
 
   return (
     <>

@@ -49,7 +49,7 @@ const NavigationsItems = () => {
           name: 'STATUS', link: '/status', exact: false,
         }])
       naviBar = listItem.map((item) => <NavigationItem key={item.name} link={item.link} exact={item.exact}>{item.name}</NavigationItem>)
-    } else if (error && !loading && !isLogin) {
+    } else if (error && !loading && !loggedIn) {
       if (error.networkError.result.errors) {
         if (error.networkError.result.errors[0].extensions.code === 'UNAUTHENTICATED') {
           logout()
