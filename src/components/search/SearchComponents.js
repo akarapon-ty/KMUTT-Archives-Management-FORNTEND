@@ -1,45 +1,46 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 
 import SearchResult from './SearchResult'
-
-import InputSearchBar from '../util/input/searchBar/InputSearchBar'
+import MutiSearchBar from '../util/input/mutiSearchBar/MutiSearchBar'
 
 const SearchComponents = (props) => {
   const {
-    initInputSearch,
+    initializeTokenSearch,
   } = props
 
-  const [inputSearchState, setInputSearchState] = useState(initInputSearch)
-  const [inputSearchConfirmState, setInputSearchConfirmState] = useState(initInputSearch)
+  const [storeTokenState, setStoreTokenState] = useState([])
+  const [yearRangeState, setYearRangeState] = useState([])
 
-  const handdleOnKeyDownSearch = (event) => {
-    if (event.key === 'Enter') {
-      setInputSearchConfirmState(inputSearchState)
+  useEffect(() => {
+    if (initializeTokenSearch !== null && initializeTokenSearch !== '') {
+      setStoreTokenState((prevState) => {
+        const newState = [...prevState, { prefix: null, value: initializeTokenSearch }]
+        return newState
+      })
     }
-  }
+  }, [initializeTokenSearch])
 
   return (
     <div>
       <h3>Search KMUTT Archives</h3>
-      <InputSearchBar
-        onChange={(e) => {
-          setInputSearchState(e.target.value)
-        }}
-        onKeyDown={handdleOnKeyDownSearch}
-        value={inputSearchState}
+      <MutiSearchBar
+        storeToken={storeTokenState}
+        yearRange={yearRangeState}
+        setStoreToken={setStoreTokenState}
+        setYearRange={setYearRangeState}
       />
-      <SearchResult input={inputSearchConfirmState} />
+      <SearchResult searchToken={storeTokenState} yearRange={yearRangeState} />
     </div>
   )
 }
 
 SearchComponents.defaultProps = {
-  initInputSearch: '',
+  initializeTokenSearch: '',
 }
 
 SearchComponents.propTypes = {
-  initInputSearch: PropTypes.string,
+  initializeTokenSearch: PropTypes.string,
 }
 
 export default SearchComponents

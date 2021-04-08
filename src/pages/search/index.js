@@ -9,7 +9,7 @@ export const SearchPage = () => {
 
   return (
     <DefaultLayoutStyle>
-      <SearchComponents initInputSearch={keyword} />
+      <SearchComponents initializeTokenSearch={keyword} />
     </DefaultLayoutStyle>
   )
 }

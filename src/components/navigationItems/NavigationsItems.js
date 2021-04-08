@@ -22,7 +22,7 @@ const NavigationsItems = () => {
   const [profileInfor, setProfileInfor] = useState(null)
   const { logout, loggedIn } = useContext(AuthInContext)
   const [isLogin, setIsLogin] = useState(loggedIn)
-
+  const log = localStorage.getItem('token')
   let naviProfile = null
   const naviBar = listItem.map((item) => (
     <NavigationItem key={item.name} link={item.link} exact={item.exact}>
@@ -31,14 +31,15 @@ const NavigationsItems = () => {
         &nbsp;&nbsp;
         {item.name}
       </AlignCenter>
-
     </NavigationItem>
   ))
-  const { loading, error } = useQuery(userInformation, { onCompleted: setProfileInfor, errorPolicy: 'all' })
+
+  const { loading, error } = useQuery(userInformation, { onCompleted: setProfileInfor, skip: !log, errorPolicy: 'all' })
 
   const profileHandler = () => {
     setProfileShow((prevState) => !prevState)
   }
+
   const logoutHandler = () => {
     setlistItem([{
       name: 'LOGIN', link: '/login', exact: false, icon: <AccountCircleIcon />,
@@ -47,6 +48,7 @@ const NavigationsItems = () => {
     setIsLogin(false)
     setProfileInfor(null)
   }
+
   const history = useHistory()
 
   useEffect(() => {
@@ -65,10 +67,12 @@ const NavigationsItems = () => {
         {
           name: 'STATUS', link: '/status', exact: false, icon: <GetAppIcon />,
         }])
-    } else if (error && !loading && !loggedIn) {
+    } else if (isLogin && log && error && !loading) {
       if (error.networkError.result.errors) {
         if (error.networkError.result.errors[0].extensions.code === 'UNAUTHENTICATED') {
           logout()
+          setIsLogin(false)
+          setProfileInfor(null)
         }
       }
     }
