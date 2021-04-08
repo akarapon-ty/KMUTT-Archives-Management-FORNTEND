@@ -99,7 +99,7 @@ export const SearchText = styled.div`
   font-weight:500;
   font-size:16px;
   margin-bottom:30px;
-  margin-top:30px;
+  margin-top:5px;
 
 `
 

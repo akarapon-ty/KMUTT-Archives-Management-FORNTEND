@@ -7,20 +7,51 @@ import SearchCard from './searchCard'
 
 import { SearchText, SearchTextFill } from './style'
 
-const SearchResult = ({ input }) => {
+const SearchResult = ({ searchToken, yearRange }) => {
   const SEARCH_DOCUMENT = gql`
-    query searchDocument($fulltext: String!) {
-        searchDocument(fulltext: $fulltext){
+    query searchDocument($searchSet: InputSearch) {
+        searchDocument(searchSet: $searchSet){
             foundDocument,
             documentRelevance {
-                idDocument,
-                relevanceScore
-            }
+                documentId,
+                relevanceScore,
+            },
+            errorMessage,
         }
     }
     `
 
-  const { loading: loadSearchDocument, error: errorSearchDocument, data: dataSearchDocument } = useQuery(SEARCH_DOCUMENT, { variables: { fulltext: input }, skip: input === '' })
+  const parserSearchDocument = (token, year) => {
+    const search = []
+    const contributor = []
+    const contributorRole = []
+    const creator = []
+    const creatorOrganizationName = []
+    const publisher = []
+
+    token.forEach((element) => {
+      if (element.prefix === null) search.push(element.value)
+      else if (element.prefix === 'Creator') search.push(element.value)
+      else if (element.prefix === 'Creator Organization Name') search.push(element.value)
+      else if (element.prefix === 'Contributor') search.push(element.value)
+      else if (element.prefix === 'Contributor Role') search.push(element.value)
+      else if (element.prefix === 'Publisher') search.push(element.value)
+    })
+
+    return {
+      search, contributor, contributorRole, creator, creatorOrganizationName, publisher, year,
+    }
+  }
+
+  const {
+    loading: loadSearchDocument,
+    error: errorSearchDocument,
+    data: dataSearchDocument,
+  } = useQuery(SEARCH_DOCUMENT,
+    {
+      variables: { searchSet: parserSearchDocument(searchToken, yearRange) },
+      skip: searchToken.length === 0,
+    })
 
   if (loadSearchDocument) return null
   if (errorSearchDocument) {
@@ -36,7 +67,7 @@ const SearchResult = ({ input }) => {
     window.location.href = `/viewbook?id=${id}`
   }
 
-  const { documentRelevance, foundDocument } = dataSearchDocument.searchDocument
+  const { documentRelevance, foundDocument, errorMessage } = dataSearchDocument.searchDocument
 
   return (
     <>
@@ -45,19 +76,24 @@ const SearchResult = ({ input }) => {
         {' '}
         Results found :
         {' '}
-        <SearchTextFill>{input}</SearchTextFill>
+        {/* <SearchTextFill>{input}</SearchTextFill> */}
       </SearchText>
-      {documentRelevance.map((element) => <SearchCard key={`keyRelevance : ${element.idDocument}`} documentId={element.idDocument} onClick={handlerOnClickSearchCard} />)}
+      {documentRelevance.map((element) => <SearchCard key={`keyRelevance : ${element.documentId}`} documentId={element.documentId} onClick={handlerOnClickSearchCard} />)}
     </>
   )
 }
 
 SearchResult.defaultProps = {
-  input: '',
+  searchToken: [],
+  yearRange: [],
 }
 
 SearchResult.propTypes = {
-  input: PropTypes.string,
+  searchToken: PropTypes.arrayOf(PropTypes.shape({
+    prefix: PropTypes.string,
+    value: PropTypes.string,
+  })),
+  yearRange: PropTypes.arrayOf(PropTypes.number),
 }
 
 export default memo(SearchResult)
