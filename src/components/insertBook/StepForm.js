@@ -91,9 +91,9 @@ const StepForm = () => {
       abstract: null,
       note: null,
       publisher: 'มหาวิทยาลัยเทคโนโลยีพระจอมเกล้าธนบุรี.หอสมุด',
-      publisherEmail: ['Archive.lib@mail.kmutt.ac.th'],
-      contributor: null,
-      contributorRole: null,
+      publisherEmail: 'Archive.lib@mail.kmutt.ac.th',
+      contributor: [''],
+      contributorRole: [''],
       issuedDate: null,
       coverageSpatial: null,
       coverageTemporalMonth: null,
@@ -212,26 +212,26 @@ const StepForm = () => {
     setInformationForm({ ...informationForm, relation: temp })
   }
 
-  const handlerRemovePublisherEmail = (index) => {
-    const tempTag = [...informationForm.publisherEmail]
+  const handlerRemoveContributor = (index) => {
+    const tempTag = [...informationForm.contributor]
     tempTag.splice(index, 1)
-    setInformationForm({ ...informationForm, publisherEmail: tempTag })
+    setInformationForm({ ...informationForm, contributor: tempTag })
   }
 
-  const handlerAddPublisherEmail = () => {
-    let newData = [...informationForm.publisherEmail]
+  const handlerAddContributor = () => {
+    let newData = [...informationForm.contributor]
     if (newData.length === 0) {
       newData = ['', '']
     } else {
       newData.push('')
     }
-    setInformationForm({ ...informationForm, publisherEmail: newData })
+    setInformationForm({ ...informationForm, contributor: newData })
   }
 
-  const handlerOnChangePublisherEmail = (index, value) => {
-    const temp = [...informationForm.publisherEmail]
+  const handlerOnChangeContributor = (index, value) => {
+    const temp = [...informationForm.contributor]
     temp[index] = value
-    setInformationForm({ ...informationForm, publisherEmail: temp })
+    setInformationForm({ ...informationForm, contributor: temp })
   }
 
   const handleUploadFile = (files) => {
@@ -252,7 +252,7 @@ const StepForm = () => {
       case 0:
         return <SelectFile value={informationForm} handleUploadFile={handleUploadFile} handlerDeleteUploadFile={handlerDeleteUploadFile} />
       case 1:
-        return <StepTwo value={informationForm} handlerAddPublisherEmail={handlerAddPublisherEmail} handlerOnChangePublisherEmail={handlerOnChangePublisherEmail} handlerRemovePublisherEmail={handlerRemovePublisherEmail} />
+        return <StepTwo value={informationForm} handlerAddContributor={handlerAddContributor} handlerOnChangeContributor={handlerOnChangeContributor} handlerRemoveContributor={handlerRemoveContributor} />
       case 2:
         return <StepThree handlerAddRelation={handlerAddRelation} handlerOnChangeRelation={handlerOnChangeRelation} value={informationForm} handlerRemoveRelation={handlerRemoveRelation} />
       case 3:

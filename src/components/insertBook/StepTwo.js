@@ -11,7 +11,7 @@ import { MultiInputFormat } from './MultiInputField'
 
 const StepTwo = (props) => {
   const {
-    value, handlerAddPublisherEmail, handlerOnChangePublisherEmail, handlerRemovePublisherEmail,
+    value, handlerAddContributor, handlerOnChangeContributor, handlerRemoveContributor,
   } = props
   const {
     title,
@@ -34,7 +34,7 @@ const StepTwo = (props) => {
     rightsAccess,
   } = value
 
-  const publisherEmailTemp = publisherEmail.length === 0 ? [''] : publisherEmail
+  const contributorTemp = contributor.length === 0 ? [''] : contributor
 
   const selectRA = [{
     val: 'Public',
@@ -72,8 +72,8 @@ const StepTwo = (props) => {
 
       <h5>Publisher</h5>
       <InputFormat inputDefault={publisher} inputLabel="Publisher" inputName="publisher" />
-      {/* <InputFormat inputDefault={publisherEmail} inputLabel="Publisher Email" inputName="publisherEmail" /> */}
-      <LeftRightBox>
+      <InputFormat inputDefault={publisherEmail} inputLabel="Publisher Email" inputName="publisherEmail" />
+      {/* <LeftRightBox>
         <InputLabel>Publisher Emai</InputLabel>
         <InsertButton type="button" name="addPublisherEmail" onClick={() => handlerAddPublisherEmail()}>+ ADD</InsertButton>
       </LeftRightBox>
@@ -93,10 +93,33 @@ const StepTwo = (props) => {
             </InsertButton>
           </Inline>
         </div>
+      ))} */}
+
+      {/* <InputFormat inputDefault={contributor} inputLabel="Contributor" inputName="contributor" /> */}
+      <LeftRightBox>
+        <h5>Contributor</h5>
+        <InsertButton type="button" name="addContributor" onClick={() => handlerAddContributor()}>+ ADD</InsertButton>
+      </LeftRightBox>
+      <InputLabel>Contributor</InputLabel>
+
+      {contributorTemp.map((key, index) => (
+        <div key={`div-${index * 5}`}>
+          <Inline long>
+            <MultiInputFormat
+              handleOnChange={handlerOnChangeContributor}
+              inputDefault={key}
+              name={key}
+              index={index}
+              key={`Contributor-${index * 5}input`}
+              inputLabel="Contributor"
+            />
+            <InsertButton key={`Contributor-${index * 5}button`} value={key} onClick={() => handlerRemoveContributor(index)} type="button">
+              <CloseIcon />
+            </InsertButton>
+          </Inline>
+        </div>
       ))}
 
-      <h5>Contributor</h5>
-      <InputFormat inputDefault={contributor} inputLabel="Contributor" inputName="contributor" />
       <InputFormat inputDefault={contributorRole} inputLabel="Contributor Role" inputName="contributorRole" />
 
       <h5>Date</h5>
