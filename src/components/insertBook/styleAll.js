@@ -61,4 +61,11 @@ export const LeftRightBox = styled.div`
     justify-content: space-between;
 `
 
+export const LeftCon = styled.div`
+    width: 80%;
+    margin-right:30px;
+`
+
+export const RightCon = styled.div``
+
 export default { }

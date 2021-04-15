@@ -213,25 +213,42 @@ const StepForm = () => {
   }
 
   const handlerRemoveContributor = (index) => {
-    const tempTag = [...informationForm.contributor]
-    tempTag.splice(index, 1)
-    setInformationForm({ ...informationForm, contributor: tempTag })
+    const tempCon = [...informationForm.contributor]
+    const tempRole = [...informationForm.contributorRole]
+
+    tempCon.splice(index, 1)
+    tempRole.splice(index, 1)
+
+    setInformationForm({ ...informationForm, contributor: tempCon, contributorRole: tempRole })
   }
 
   const handlerAddContributor = () => {
     let newData = [...informationForm.contributor]
+    let newRole = [...informationForm.contributorRole]
     if (newData.length === 0) {
       newData = ['', '']
     } else {
       newData.push('')
     }
-    setInformationForm({ ...informationForm, contributor: newData })
+
+    if (newRole.length === 0) {
+      newRole = ['', '']
+    } else {
+      newRole.push('')
+    }
+    setInformationForm({ ...informationForm, contributor: newData, contributorRole: newRole })
   }
 
   const handlerOnChangeContributor = (index, value) => {
     const temp = [...informationForm.contributor]
     temp[index] = value
     setInformationForm({ ...informationForm, contributor: temp })
+  }
+
+  const handlerOnChangeContributorRole = (index, value) => {
+    const temp = [...informationForm.contributorRole]
+    temp[index] = value
+    setInformationForm({ ...informationForm, contributorRole: temp })
   }
 
   const handleUploadFile = (files) => {
@@ -252,7 +269,7 @@ const StepForm = () => {
       case 0:
         return <SelectFile value={informationForm} handleUploadFile={handleUploadFile} handlerDeleteUploadFile={handlerDeleteUploadFile} />
       case 1:
-        return <StepTwo value={informationForm} handlerAddContributor={handlerAddContributor} handlerOnChangeContributor={handlerOnChangeContributor} handlerRemoveContributor={handlerRemoveContributor} />
+        return <StepTwo value={informationForm} handlerAddContributor={handlerAddContributor} handlerOnChangeContributor={handlerOnChangeContributor} handlerOnChangeContributorRole={handlerOnChangeContributorRole} handlerRemoveContributor={handlerRemoveContributor} />
       case 2:
         return <StepThree handlerAddRelation={handlerAddRelation} handlerOnChangeRelation={handlerOnChangeRelation} value={informationForm} handlerRemoveRelation={handlerRemoveRelation} />
       case 3:
