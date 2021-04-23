@@ -1,16 +1,20 @@
-import React, { memo } from 'react'
+import React, { memo, useState } from 'react'
 import PropTypes from 'prop-types'
 
 import { gql, useQuery } from '@apollo/client'
 
 import SearchCard from './searchCard'
 
-import { SearchText, SearchTextFill } from './style'
+import { SearchText } from './style'
+
+import RoundedMatUI from '../util/pagePagination/RoundedMatUI'
 
 const SearchResult = ({ searchToken, yearRange }) => {
+  const [pageState, setPageState] = useState(1)
+
   const SEARCH_DOCUMENT = gql`
-    query searchDocument($searchSet: InputSearch) {
-        searchDocument(searchSet: $searchSet){
+    query searchDocument($searchSet: InputSearch!, $page: Int!) {
+        searchDocument(searchSet: $searchSet, page: $page){
             foundDocument,
             documentRelevance {
                 documentId,
@@ -31,11 +35,11 @@ const SearchResult = ({ searchToken, yearRange }) => {
 
     token.forEach((element) => {
       if (element.prefix === null) search.push(element.value)
-      else if (element.prefix === 'Creator') search.push(element.value)
-      else if (element.prefix === 'Creator Organization Name') search.push(element.value)
-      else if (element.prefix === 'Contributor') search.push(element.value)
-      else if (element.prefix === 'Contributor Role') search.push(element.value)
-      else if (element.prefix === 'Publisher') search.push(element.value)
+      else if (element.prefix === 'Creator') creator.push(element.value)
+      else if (element.prefix === 'Creator Organization Name') creatorOrganizationName.push(element.value)
+      else if (element.prefix === 'Contributor') contributor.push(element.value)
+      else if (element.prefix === 'Contributor Role') contributorRole.push(element.value)
+      else if (element.prefix === 'Publisher') publisher.push(element.value)
     })
 
     return {
@@ -49,8 +53,8 @@ const SearchResult = ({ searchToken, yearRange }) => {
     data: dataSearchDocument,
   } = useQuery(SEARCH_DOCUMENT,
     {
-      variables: { searchSet: parserSearchDocument(searchToken, yearRange) },
-      skip: searchToken.length === 0,
+      variables: { searchSet: parserSearchDocument(searchToken, yearRange), page: pageState },
+    //   skip: searchToken.length === 0,
     })
 
   if (loadSearchDocument) return null
@@ -67,18 +71,27 @@ const SearchResult = ({ searchToken, yearRange }) => {
     window.location.href = `/viewbook?id=${id}`
   }
 
-  const { documentRelevance, foundDocument, errorMessage } = dataSearchDocument.searchDocument
+  const { documentRelevance, foundDocument, totalPage } = dataSearchDocument.searchDocument
+
+  const handlerPrefixSearchResult = (lenghtOfDocument) => {
+    if (lenghtOfDocument === 0) return 'Not Found'
+    if (lenghtOfDocument === 1) return `${lenghtOfDocument} Result found :`
+    return `${lenghtOfDocument} Results found :`
+  }
+
+  const handlerOnPageChange = (event, value) => {
+    setPageState(value)
+  }
 
   return (
     <>
       <SearchText>
-        {foundDocument}
-        {' '}
-        Results found :
+        {handlerPrefixSearchResult(foundDocument)}
         {' '}
         {/* <SearchTextFill>{input}</SearchTextFill> */}
       </SearchText>
       {documentRelevance.map((element) => <SearchCard key={`keyRelevance : ${element.documentId}`} documentId={element.documentId} onClick={handlerOnClickSearchCard} />)}
+      <RoundedMatUI page={pageState} setPage={handlerOnPageChange} totalPage={totalPage} />
     </>
   )
 }
@@ -93,7 +106,7 @@ SearchResult.propTypes = {
     prefix: PropTypes.string,
     value: PropTypes.string,
   })),
-  yearRange: PropTypes.arrayOf(PropTypes.number),
+  yearRange: PropTypes.arrayOf(PropTypes.string),
 }
 
 export default memo(SearchResult)

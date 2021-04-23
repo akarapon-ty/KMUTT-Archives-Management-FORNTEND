@@ -37,7 +37,7 @@ const Router = () => {
   )
 
   return (
-    <BrowserRouter>
+    <BrowserRouter forceRefresh>
       <Suspense fallback={<span>Loading....</span>}>
         <NavigationsItems />
         {render}
