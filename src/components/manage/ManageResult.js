@@ -1,28 +1,62 @@
-import React, { memo } from 'react'
+import React, { memo, useState } from 'react'
 import PropTypes from 'prop-types'
 
 import { gql, useQuery } from '@apollo/client'
 
 import ManageCard from './manageCard'
 
-import { SearchText, SearchTextFill } from './style'
+import { SearchText } from './style'
 
-const ManageResult = ({ input }) => {
+import RoundedMatUI from '../util/pagePagination/RoundedMatUI'
+
+const ManageResult = ({ searchToken, yearRange }) => {
+  const [pageState, setPageState] = useState(1)
+
   const SEARCH_DOCUMENT = gql`
-    query searchDocument($fulltext: String!) {
-        searchDocument(fulltext: $fulltext){
+    query searchDocument($searchSet: InputSearch!, $page: Int!) {
+        searchDocument(searchSet: $searchSet, page: $page){
             foundDocument,
             documentRelevance {
-                idDocument,
-                relevanceScore
-            }
+                documentId,
+                relevanceScore,
+            },
+            errorMessage,
         }
     }
     `
-  const { loading: loadSearchDocument, error: errorSearchDocument, data: dataSearchDocument } = useQuery(SEARCH_DOCUMENT, { variables: { fulltext: input }, skip: input === '' })
+  const parserSearchDocument = (token, year) => {
+    const search = []
+    const contributor = []
+    const contributorRole = []
+    const creator = []
+    const creatorOrganizationName = []
+    const publisher = []
+
+    token.forEach((element) => {
+      if (element.prefix === null) search.push(element.value)
+      else if (element.prefix === 'Creator') creator.push(element.value)
+      else if (element.prefix === 'Creator Organization Name') creatorOrganizationName.push(element.value)
+      else if (element.prefix === 'Contributor') contributor.push(element.value)
+      else if (element.prefix === 'Contributor Role') contributorRole.push(element.value)
+      else if (element.prefix === 'Publisher') publisher.push(element.value)
+    })
+
+    return {
+      search, contributor, contributorRole, creator, creatorOrganizationName, publisher, year,
+    }
+  }
+
+  const {
+    loading: loadSearchDocument,
+    error: errorSearchDocument,
+    data: dataSearchDocument,
+  } = useQuery(SEARCH_DOCUMENT,
+    {
+      variables: { searchSet: parserSearchDocument(searchToken, yearRange), page: pageState },
+      //   skip: searchToken.length === 0,
+    })
 
   if (loadSearchDocument) return null
-
   if (errorSearchDocument) {
     window.console.error(errorSearchDocument.message)
     return null
@@ -31,28 +65,42 @@ const ManageResult = ({ input }) => {
   if (!dataSearchDocument) {
     return null
   }
-  const { documentRelevance, foundDocument } = dataSearchDocument.searchDocument
+  const { documentRelevance, foundDocument, totalPage } = dataSearchDocument.searchDocument
+
+  const handlerPrefixSearchResult = (lenghtOfDocument) => {
+    if (lenghtOfDocument === 0) return 'Not Found'
+    if (lenghtOfDocument === 1) return `${lenghtOfDocument} Result found :`
+    return `${lenghtOfDocument} Results found :`
+  }
+
+  const handlerOnPageChange = (event, value) => {
+    setPageState(value)
+  }
 
   return (
     <>
       <SearchText>
-        {foundDocument}
+        {handlerPrefixSearchResult(foundDocument)}
         {' '}
-        Results found :
-        {' '}
-        <SearchTextFill>{input}</SearchTextFill>
+        {/* <SearchTextFill>{input}</SearchTextFill> */}
       </SearchText>
-      {documentRelevance.map((element) => <ManageCard key={`keyRelevance : ${element.idDocument}`} documentId={element.idDocument} />)}
+      {documentRelevance.map((element) => <ManageCard key={`keyRelevance : ${element.documentId}`} documentId={element.documentId} />)}
+      <RoundedMatUI page={pageState} setPage={handlerOnPageChange} totalPage={totalPage} />
     </>
   )
 }
 
 ManageResult.defaultProps = {
-  input: '',
+  searchToken: [],
+  yearRange: [],
 }
 
 ManageResult.propTypes = {
-  input: PropTypes.string,
+  searchToken: PropTypes.arrayOf(PropTypes.shape({
+    prefix: PropTypes.string,
+    value: PropTypes.string,
+  })),
+  yearRange: PropTypes.arrayOf(PropTypes.string),
 }
 
 export default memo(ManageResult)
