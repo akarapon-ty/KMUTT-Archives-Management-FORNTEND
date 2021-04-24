@@ -116,8 +116,8 @@ const EditBook = () => {
     creatorOrgName: '',
     publisher: '',
     publisherEmail: '',
-    contributor: '',
-    contributorRole: '',
+    contributor: [''],
+    contributorRole: [''],
     issuedDate: '',
     image: '',
   }
@@ -255,11 +255,48 @@ const EditBook = () => {
     tempTag.splice(key, 1)
     setNewInformation({ ...newInformation, tag: tempTag })
   }
+  const handlerRemoveContributor = (index) => {
+    const tempCon = [...newInformation.contributor]
+    const tempRole = [...newInformation.contributorRole]
+
+    tempCon.splice(index, 1)
+    tempRole.splice(index, 1)
+
+    setNewInformation({ ...newInformation, contributor: tempCon, contributorRole: tempRole })
+  }
+  const handlerAddContributor = () => {
+    let newData = [...newInformation.contributor]
+    let newRole = [...newInformation.contributorRole]
+    if (newData.length === 0) {
+      newData = ['', '']
+    } else {
+      newData.push('')
+    }
+
+    if (newRole.length === 0) {
+      newRole = ['', '']
+    } else {
+      newRole.push('')
+    }
+    setNewInformation({ ...newInformation, contributor: newData, contributorRole: newRole })
+  }
+
+  const handlerOnChangeContributor = (index, value) => {
+    const temp = [...newInformation.contributor]
+    temp[index] = value
+    setNewInformation({ ...newInformation, contributor: temp })
+  }
+
+  const handlerOnChangeContributorRole = (index, value) => {
+    const temp = [...newInformation.contributorRole]
+    temp[index] = value
+    setNewInformation({ ...newInformation, contributorRole: temp })
+  }
 
   const handlerActiveStep = (stepIndex) => {
     switch (stepIndex) {
       case 0:
-        return <StepOne value={newInformation} />
+        return <StepOne value={newInformation} handlerAddContributor={handlerAddContributor} handlerOnChangeContributor={handlerOnChangeContributor} handlerOnChangeContributorRole={handlerOnChangeContributorRole} handlerRemoveContributor={handlerRemoveContributor} />
       case 1:
         return <StepTwo handlerAddRelation={handlerAddRelation} value={newInformation} handlerRemoveRelation={handlerRemoveRelation} handleOnChangeRelation={handleOnChangeRelation} />
       default:

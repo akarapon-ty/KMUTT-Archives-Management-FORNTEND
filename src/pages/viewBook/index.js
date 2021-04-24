@@ -49,8 +49,10 @@ const ViewBook = () => {
             creatorOrgName,
             publisher,
             publisherEmail,
-            contributor,
-            contributorRole,
+            contributor{
+              name,
+              role,
+            },
             issuedDate,
             tag,
             image,

@@ -11,14 +11,15 @@ export const UlNavigationitems = styled.ul`
     max-height: 56;
     align-items: center;
     height: 100%;
-
-    @media(min-width: 500px){
+    white-space: nowrap; 
+    @media(min-width: 900px){
         margin: 0px;
         padding: 0px;
         list-style: none;
         display: flex;
         align-items: center;
         height: 100%;
+
     }
 `
 export const Logo = styled.a`

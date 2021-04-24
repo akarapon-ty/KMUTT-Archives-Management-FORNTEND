@@ -8,7 +8,7 @@ import DetailBook from './DetailBook'
 import SearchCard from '../search/searchCard/SearchCard'
 
 import {
-  NavigatePage, PageContain, PageButton, ZoomSelector, PageInput, Inline, Top, ShowButton, ShowMore,
+  NavigatePage, PageContain, PageButton, ZoomSelector, PageInput, Inline, Top, ShowButton, ShowMore, Line,
 } from './style'
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`
@@ -115,10 +115,11 @@ const MultiPage = (props) => {
         {isShow ? (
           <>
             <DetailBook document={document} />
-            <ShowButton onClick={() => handleClickClose()} type="button">Show less detail</ShowButton>
+            <Line />
+            <ShowButton onClick={() => handleClickClose()}>Show less detail</ShowButton>
           </>
         )
-          : <ShowButton onClick={() => handleClickOpen()} type="button">Show more detail</ShowButton>}
+          : <ShowButton onClick={() => handleClickOpen()}>Show more detail</ShowButton>}
       </ShowMore>
 
       <NavigatePage stick={isSticky} ref={ref}>

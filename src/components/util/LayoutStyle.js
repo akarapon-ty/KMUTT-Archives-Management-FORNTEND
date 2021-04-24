@@ -7,7 +7,8 @@ const LayoutGridStyle = styled.div`
     font-family: 'Kanit', sans-serif;
     font-weight:400;
     display:grid;
-    ${(props) => (props.wide ? 'grid-template-columns: auto 80% auto; width:inherit;' : 'grid-template-columns: auto 900px auto;')}
+    min-width:900px;
+    ${(props) => (props.wide ? 'grid-template-columns: auto minmax(900px,80%) auto; width:inherit;' : 'grid-template-columns: auto 900px auto;')}
 
 `
 const GridContentStyle = styled.div`
@@ -17,22 +18,23 @@ const GridContentStyle = styled.div`
 
 export const BgTall = styled.img`
   top:-10px;
-  right:0px;
-  min-width:1920px;
+  left:0px;
+  min-width:920px;
   width: 100%;
   position: absolute;
   z-index:-1;
   height:100%;
+  float:right;
   overflow-y:auto;
 `
 
 export const BgShort = styled.img`
   top: 0px;
-  right: 0px;
+  left: 0px;
   width: 100%;
   height: 250px;
   position: absolute;
-  min-width: 1920px;
+  min-width: 920px;
   z-index: -1;
   overflow-y: auto;
   

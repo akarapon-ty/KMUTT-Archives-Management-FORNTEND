@@ -5,6 +5,7 @@ import { useMutation, gql } from '@apollo/client'
 import { ThemeProvider } from '@material-ui/core/styles'
 import { useHistory } from 'react-router-dom'
 
+import { ContactSupportOutlined } from '@material-ui/icons'
 import {
   StepFormDiv, FormDiv, FormInsert, muiTheme,
 } from './styleStepForm'
@@ -242,6 +243,7 @@ const StepForm = () => {
   const handlerOnChangeContributor = (index, value) => {
     const temp = [...informationForm.contributor]
     temp[index] = value
+
     setInformationForm({ ...informationForm, contributor: temp })
   }
 
@@ -330,7 +332,7 @@ const StepForm = () => {
             DC_description_abstract: tempData.abstract,
             DC_description_note: tempData.note,
             DC_format: 'pdf',
-            DC_format_extent: '',
+            DC_format_extent: tempData.type,
             DC_identifier_URL: tempData.identifierUrl,
             DC_identifier_ISBN: tempData.identifierIsbn,
             DC_source: tempData.source,
@@ -407,6 +409,7 @@ const StepForm = () => {
   const handlerOnSubmit = (data) => {
     const tempData = { ...informationForm, ...data }
     setInformationForm({ ...informationForm, ...data })
+
     if (activeStep === 2 && tempData.file) {
       handlerSubmitInsertDocument(tempData)
       return
@@ -423,7 +426,6 @@ const StepForm = () => {
     }
 
     handlerNextStep()
-    window.console.log(tempData)
   }
 
   const steps = getSteps()

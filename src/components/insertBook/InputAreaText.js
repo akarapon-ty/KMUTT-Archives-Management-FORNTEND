@@ -7,20 +7,13 @@ import { InputArea, InputLabel } from './styleAll'
 export const InputAreaText = (props) => {
   const { inputName, inputLabel, inputDefault } = props
 
-  const StepThreeForm = ({ children }) => {
-    const methods = useFormContext()
-    return children({ ...methods })
-  }
+  const { register } = useFormContext()
 
   return (
-    <StepThreeForm>
-      {({ register }) => (
-        <>
-          <InputLabel>{inputLabel}</InputLabel>
-          <InputArea rows="4" name={inputName} ref={register} defaultValue={inputDefault} placeholder={inputLabel} />
-        </>
-      )}
-    </StepThreeForm>
+    <>
+      <InputLabel>{inputLabel}</InputLabel>
+      <InputArea rows="4" name={inputName} ref={register} defaultValue={inputDefault} placeholder={inputLabel} />
+    </>
 
   )
 }
@@ -28,8 +21,8 @@ export const InputAreaText = (props) => {
 export default { }
 
 InputAreaText.defaultProps = {
-  inputLabel: 'titleAlernative',
-  inputName: 'titleAlernative',
+  inputLabel: 'defaultProp',
+  inputName: 'defaultProp',
   inputDefault: null,
 
 }

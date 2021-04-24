@@ -101,13 +101,13 @@ export const TagText = styled.p`
 `
 export const Detail = styled.div`
     display:flex;
-    padding:20px;
+    padding:20px 20px 10px 20px;
 
 `
-export const ShowButton = styled.button`
+export const ShowButton = styled.div`
     width:100%;
     background: none;
-    display: inline;
+    text-align:center;
     font-size: 16px;
     color: #10A0A2;
     cursor:pointer;
@@ -120,6 +120,17 @@ export const ShowButton = styled.button`
 
 export const Cont = styled.div`
     display:flex;
-
 `
+
+export const ColDirect = styled.div`
+  flex-direction:row;
+  margin-left:20px;
+`
+export const Line = styled.div`
+    width:100%;
+    height:1px;
+    margin:5px 0px 5px 0px;
+    background-color:#E5E5E5;
+`
+
 export default { }

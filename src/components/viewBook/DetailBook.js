@@ -1,7 +1,7 @@
 import React from 'react'
 
 import {
-  Sep, TagText, TagTop, Cont, Detail,
+  Sep, TagText, TagTop, Cont, Detail, ColDirect,
 } from './style'
 
 const DatailBook = (props) => {
@@ -148,17 +148,24 @@ const DatailBook = (props) => {
         <Cont>
           <TagTop>Contributor :</TagTop>
           {' '}
-          <TagText>{document.contributor}</TagText>
-          <br />
-
         </Cont>
-        <Cont>
-          <TagTop>Contributor Role :</TagTop>
-          {' '}
-          <TagText>{document.contributorRole}</TagText>
-          <br />
+        {document.contributor.map((res) => (
+          <ColDirect
+            key={res.name}
+          >
+            <TagText>
+              Name :
+              {' '}
+              {res.name}
+              &emsp;
+              Role :
+              {' '}
+              {res.role}
+            </TagText>
+          </ColDirect>
 
-        </Cont>
+        ))}
+
         <Cont>
           <TagTop>IssuedDate :</TagTop>
           {' '}
