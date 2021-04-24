@@ -303,15 +303,15 @@ const StepForm = () => {
   }
 
   if (insertDocumentError) {
-    window.console.log('mutationDocumentError:', insertDocumentError)
+    window.console.error('mutationDocumentError:', insertDocumentError)
   }
 
   if (insertTermError) {
-    window.console.log('mutationTermError:', insertTermError)
+    window.console.error('mutationTermError:', insertTermError)
   }
 
   if (startTfIdfError) {
-    window.console.log('mutationStartTfError:', startTfIdfError)
+    window.console.error('mutationStartTfError:', startTfIdfError)
   }
 
   const handlerSubmitInsertDocument = (tempData) => {
@@ -358,9 +358,9 @@ const StepForm = () => {
       }).then((result) => {
         history.push(`/insertbook?step=4&id=${result.data.addDocument.documentId}`)
       })
-        .catch((err) => window.console.log(err))
+        .catch((err) => window.console.error(err))
     })
-      .catch((err) => window.console.log(err))
+      .catch((err) => window.console.error(err))
   }
 
   const parseTerms = () => {
@@ -390,7 +390,7 @@ const StepForm = () => {
   const handlerSubmitUpdateTerm = () => {
     const result = parseTerms()
     insertTerm({ variables: { newInformation: result, documentId: docId } })
-      .catch((err) => window.console.log(err))
+      .catch((err) => window.console.error(err))
       .then(() => startTfIdf({ variables: { documentId: docId } }))
       .then(() => setTimeout(() => {
         history.push(`/insertbook?step=6&id=${docId}`)

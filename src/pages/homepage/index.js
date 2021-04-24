@@ -9,7 +9,8 @@ const Homepage = () => {
 
   const handdleOnKeyDownSearch = (event) => {
     if (event.key === 'Enter') {
-      window.location.href = `/search?keyword=${inputSearchState}`
+      if (inputSearchState === '') window.location.href = '/search'
+      else window.location.href = `/search?keyword=${inputSearchState}`
     }
   }
 
