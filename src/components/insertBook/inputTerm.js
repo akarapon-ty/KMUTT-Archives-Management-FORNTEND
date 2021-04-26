@@ -2,7 +2,7 @@ import React from 'react'
 
 import {
   InputTermStyle, LineBetweenLableAndInput, LabelTermDiv, InputTermDiv, LabelTerm,
-} from './styleStepFive'
+} from './css/styleStepFive'
 
 const InputTerm = (props) => {
   const {

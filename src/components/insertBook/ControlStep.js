@@ -2,7 +2,7 @@ import React from 'react'
 
 import {
   ButtonControlStepDiv, LineControlStepDiv, ControlStepDiv,
-} from './styleStepForm'
+} from './css/styleStepForm'
 import NextButton from '../util/button/NextButton'
 import BackButton from '../util/button/BackButton'
 

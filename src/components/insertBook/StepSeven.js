@@ -4,10 +4,10 @@ import { gql, useQuery } from '@apollo/client'
 
 import {
   ImageIcon, DivideBox, Content, Topic, Detail, Tag, TagP, Line, Inline, AddButton,
-} from './styleStepSeven'
+} from './css/styleStepSeven'
 import {
   Space,
-} from './styleAll'
+} from './css/styleAll'
 import { InputFormat } from './InputField'
 
 const StepSeven = (props) => {

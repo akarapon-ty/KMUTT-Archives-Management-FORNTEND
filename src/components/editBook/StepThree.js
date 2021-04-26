@@ -3,10 +3,10 @@ import CloseIcon from '@material-ui/icons/Close'
 
 import {
   ImageIcon, DivideBox, Content, Topic, Detail, Tag, TagP, Line, Inline, AddButton,
-} from '../insertBook/styleStepSeven'
+} from '../insertBook/css/styleStepSeven'
 import {
   Space,
-} from '../insertBook/styleAll'
+} from '../insertBook/css/styleAll'
 import { InputFormat } from '../insertBook/InputField'
 
 const StepThree = (props) => {

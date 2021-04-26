@@ -5,7 +5,7 @@ import PictureAsPdfIcon from '@material-ui/icons/PictureAsPdf'
 
 import {
   DropDiv, MessageDrop, InputUpload, ImgTrash, ImgPdf,
-} from './styleDragAndDrop'
+} from './css/styleDragAndDrop'
 
 const DragAndDrop = (props) => {
   const dropRef = useRef(null)

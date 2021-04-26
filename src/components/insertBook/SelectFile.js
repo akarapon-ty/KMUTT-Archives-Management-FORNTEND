@@ -2,7 +2,7 @@ import React from 'react'
 import { useFormContext } from 'react-hook-form'
 
 import DragAndDrop from './DragAndDrop'
-import { DefaultOcrPage, InputPageStart } from './styleDragAndDrop'
+import { DefaultOcrPage, InputPageStart } from './css/styleDragAndDrop'
 
 const SelectFile = (props) => {
   const { value, handleUploadFile, handlerDeleteUploadFile } = props

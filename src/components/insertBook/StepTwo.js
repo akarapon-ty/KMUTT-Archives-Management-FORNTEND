@@ -3,7 +3,7 @@ import CloseIcon from '@material-ui/icons/Close'
 
 import {
   Space, InsertButton, Inline, LeftRightBox, InputLabel, LeftCon, RightCon,
-} from './styleAll'
+} from './css/styleAll'
 import { InputFormat } from './InputField'
 import { SelectorFormat } from './InputSelector'
 import { InputAreaText } from './InputAreaText'
@@ -13,6 +13,7 @@ const StepTwo = (props) => {
   const {
     value, handlerAddContributor, handlerOnChangeContributor, handlerOnChangeContributorRole, handlerRemoveContributor,
   } = props
+
   const {
     title,
     titleAlernative,

@@ -5,10 +5,10 @@ import NavigateNextIcon from '@material-ui/icons/NavigateNext'
 
 import {
   ContainerPicture, ImagePage, ContainerOptions, ContainerWord, ControlPage, InputPage, PageButton, LabelPage,
-} from './styleStepFive'
+} from './css/styleStepFive'
 import {
   InsertButton,
-} from './styleAll'
+} from './css/styleAll'
 
 import InputTerm from './inputTerm'
 

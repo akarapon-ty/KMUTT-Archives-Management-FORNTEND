@@ -3,7 +3,7 @@ import CloseIcon from '@material-ui/icons/Close'
 
 import {
   Space, InsertButton, Inline, LeftRightBox, InputLabel,
-} from './styleAll'
+} from './css/styleAll'
 import { InputFormat } from './InputField'
 import { SelectorFormat } from './InputSelector'
 import { MultiInputFormat } from './MultiInputField'

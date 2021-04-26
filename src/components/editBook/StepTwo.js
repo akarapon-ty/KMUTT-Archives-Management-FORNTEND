@@ -4,7 +4,7 @@ import CloseIcon from '@material-ui/icons/Close'
 
 import {
   Space, InsertButton, Inline, LeftRightBox,
-} from '../insertBook/styleAll'
+} from '../insertBook/css/styleAll'
 import { InputFormat } from '../insertBook/InputField'
 import { SelectorFormat } from '../insertBook/InputSelector'
 import { MultiInputFormat } from '../insertBook/MultiInputField'

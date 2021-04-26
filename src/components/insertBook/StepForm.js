@@ -5,10 +5,9 @@ import { useMutation, gql } from '@apollo/client'
 import { ThemeProvider } from '@material-ui/core/styles'
 import { useHistory } from 'react-router-dom'
 
-import { ContactSupportOutlined } from '@material-ui/icons'
 import {
   StepFormDiv, FormDiv, FormInsert, muiTheme,
-} from './styleStepForm'
+} from './css/styleStepForm'
 import SelectFile from './SelectFile'
 import StepTwo from './StepTwo'
 import ControlStep from './ControlStep'

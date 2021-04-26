@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { useFormContext } from 'react-hook-form'
 
-import { InputField } from './styleAll'
+import { InputField } from './css/styleAll'
 
 export const MultiInputFormat = (props) => {
   const {

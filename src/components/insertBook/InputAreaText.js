@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { useFormContext } from 'react-hook-form'
 
-import { InputArea, InputLabel } from './styleAll'
+import { InputArea, InputLabel } from './css/styleAll'
 
 export const InputAreaText = (props) => {
   const { inputName, inputLabel, inputDefault } = props
