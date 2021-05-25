@@ -11,49 +11,54 @@ import StepThree from '../../components/editBook/StepThree'
 import ControlStep from '../../components/editBook/ControlStep'
 
 const EditBook = () => {
-  const QUERY_DOCUMENT_BY_ID = gql`
+  const DOCUMENT_QUERY = gql`
   query document($pk: Int!){
-      document(pk: $pk) {
-        statusQuery,
-        document{
-        title,
-        titleAlternative,
-        tableOfContents,
-        abstract,
-        summary,
-        note,
-        format,
-        formatExtent,
-        identifierURL,
-        identifierISBN,
-        source,
-        language,
-        coverageSpatial,
-        coverageTemporal,
-        coverageTemporalYear,
-        rights,
-        rightsAccess,
-        thesisDegreeName,
-        thesisDegreeLevel,
-        thesisDegreeDiscipline,
-        thesisDegreeGrantor,
-        recCreateAt,
-        recCreateBy,
-        recModifiedAt,
-        recModifiedBy,
-        tag,
-        relation,
-        type,
-        creator,
-        creatorOrgName,
-        publisher,
-        publisherEmail,
-        contributor,
-        contributorRole,
-        issuedDate,
-        image
-      }}
-  }`
+    document(pk: $pk){
+      document{
+          version,
+          amountPage,
+          title,
+          titleAlternative,
+          tableOfContents,
+          summary,
+          abstract,
+          note,
+          format,
+          formatExtent,
+          identifierURL,
+          identifierISBN,
+          source,
+          language,
+          coverageSpatial,
+          coverageTemporal,
+          coverageTemporalYear,
+          rights,
+          rightsAccess,
+          thesisDegreeName,
+          thesisDegreeLevel,
+          thesisDegreeDiscipline,
+          thesisDegreeGrantor,
+          recCreateAt,
+          recCreateBy,
+          recModifiedAt,
+          recModifiedBy,
+          relation,
+          type,
+          creator,
+          creatorOrgName,
+          publisher,
+          publisherEmail,
+          contributor{
+            name,
+            role,
+          },
+          issuedDate,
+          tag,
+          image,
+      }
+    }
+  }
+`
 
   const UPDATE_DOCUMENT = gql`
     mutation updateDocument($documentId: Int!, $body: UpdateDocumentInput!){
@@ -126,14 +131,23 @@ const EditBook = () => {
   const [activeStep, setActiveStep] = useState(0)
 
   const setData = (dataQuery) => {
-    const TempQuery = { ...dataQuery, contributorRole: dataQuery.contributorRole.length === 0 ? '' : dataQuery.contributorRole[0] }
+    let tempContributorRole = ['']
+    let tempContributorName = ['']
+    if (typeof (dataQuery.contributor) !== 'undefined') {
+      if (dataQuery.contributor.length >= 1) {
+        tempContributorRole = dataQuery.contributor.map((row) => row.role)
+        tempContributorName = dataQuery.contributor.map((row) => row.name)
+      }
+    }
+
+    const TempQuery = { ...dataQuery, contributorRole: tempContributorRole, contributor: tempContributorName }
     if (TempQuery.relation.length === 0) {
       TempQuery.relation = ['']
     }
     setNewInformation(TempQuery)
   }
 
-  const { loading: documentDataLoading, error: documentDataError } = useQuery(QUERY_DOCUMENT_BY_ID, {
+  const { loading: documentDataLoading, error: documentDataError } = useQuery(DOCUMENT_QUERY, {
     variables: { pk: documentId },
     onCompleted: ({ document }) => setData(document.document),
   })

@@ -27,7 +27,33 @@ const SearchBar = (props) => {
 
   const handleOnSubmit = () => {
     const currInput = inputRef.current.value
-    if (currInput !== '') setStore((prevState) => [...prevState, { prefix, value: currInput }])
+    if (currInput !== '') {
+      if (prefix === null) {
+        const tokens = currInput.split(' ')
+        tokens.forEach((token) => {
+          setStore((prevState) => {
+            const prevTokens = []
+            prevState.forEach((element) => {
+              if (element.prefix === null) prevTokens.push(element.value)
+            })
+
+            if (!prevTokens.includes(token)) return [...prevState, { prefix, value: token }]
+
+            return [...prevState]
+          })
+        })
+      } else {
+        setStore((prevState) => {
+          const prevTokens = []
+          prevState.forEach((element) => {
+            if (element.prefix !== null) prevTokens.push(element.value)
+          })
+          if (!prevTokens.includes(currInput)) return [...prevState, { prefix, value: currInput }]
+
+          return [...prevState]
+        })
+      }
+    }
     inputRef.current.value = null
   }
 

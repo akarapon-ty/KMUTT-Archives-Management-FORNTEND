@@ -1,4 +1,4 @@
-import React, { memo, useState } from 'react'
+import React, { memo, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 
 import { gql, useQuery } from '@apollo/client'
@@ -12,6 +12,10 @@ import RoundedMatUI from '../util/pagePagination/RoundedMatUI'
 const SearchResult = ({ searchToken, yearRange }) => {
   const [pageState, setPageState] = useState(1)
 
+  useEffect(() => {
+    setPageState(1)
+  }, [searchToken])
+
   const SEARCH_DOCUMENT = gql`
     query searchDocument($searchSet: InputSearch!, $page: Int!) {
         searchDocument(searchSet: $searchSet, page: $page){
@@ -21,6 +25,7 @@ const SearchResult = ({ searchToken, yearRange }) => {
                 relevanceScore,
             },
             errorMessage,
+            totalPage,
         }
     }
     `
@@ -54,7 +59,7 @@ const SearchResult = ({ searchToken, yearRange }) => {
   } = useQuery(SEARCH_DOCUMENT,
     {
       variables: { searchSet: parserSearchDocument(searchToken, yearRange), page: pageState },
-    //   skip: searchToken.length === 0,
+      skip: searchToken.length === 0,
     })
 
   if (loadSearchDocument) return null
@@ -72,6 +77,8 @@ const SearchResult = ({ searchToken, yearRange }) => {
   }
 
   const { documentRelevance, foundDocument, totalPage } = dataSearchDocument.searchDocument
+
+  console.log(documentRelevance)
 
   const handlerPrefixSearchResult = (lenghtOfDocument) => {
     if (lenghtOfDocument === 0) return 'Not Found'
