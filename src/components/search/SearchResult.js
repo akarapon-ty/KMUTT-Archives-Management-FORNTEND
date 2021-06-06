@@ -78,8 +78,6 @@ const SearchResult = ({ searchToken, yearRange }) => {
 
   const { documentRelevance, foundDocument, totalPage } = dataSearchDocument.searchDocument
 
-  console.log(documentRelevance)
-
   const handlerPrefixSearchResult = (lenghtOfDocument) => {
     if (lenghtOfDocument === 0) return 'Not Found'
     if (lenghtOfDocument === 1) return `${lenghtOfDocument} Result found :`
